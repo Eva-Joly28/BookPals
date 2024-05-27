@@ -1,0 +1,11 @@
+version: "1.0"
+name: bookpals
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: test123*
+      POSTGRES_DB: fabiola
+      POSTGRES_USER: fabiola
