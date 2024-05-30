@@ -1,13 +1,14 @@
-import { Options, ReflectMetadataProvider } from '@mikro-orm/core';
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { Options, ReflectMetadataProvider } from '@mikro-orm/postgresql';
+import { EntityManager, PostgreSqlDriver } from '@mikro-orm/postgresql';
 import path from 'path';
-import '../core/initializers/env.js';
+import '../core/initializers/env';
 import { Migrator } from '@mikro-orm/migrations';
 import { SeedManager } from '@mikro-orm/seeder';
+import Container from 'typedi';
 
 const options: Options = {
   metadataProvider: ReflectMetadataProvider,
-  entities: ['./src/database/entities'], // path to our JS entities (dist), relative to `baseDir`
+  entities: ['./dist/src/database/entities'], // path to our JS entities (dist), relative to `baseDir`
   driver: PostgreSqlDriver,
   extensions: [Migrator, SeedManager],
   dbName: process.env.PG_DB_NAME,

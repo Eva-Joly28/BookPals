@@ -127,6 +127,9 @@ devDependencies:
   chai:
     specifier: ^4.3.6
     version: 4.4.1
+  common-js:
+    specifier: ^0.3.8
+    version: 0.3.8
   eslint:
     specifier: ^8.11.0
     version: 8.57.0
@@ -1233,6 +1236,10 @@ packages:
   /commander@10.0.1:
     resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
     engines: {node: '>=14'}
+
+  /common-js@0.3.8:
+    resolution: {integrity: sha512-83poCK3wlRnYqWdolJiYrMYvaBFzlDO1RwQVti2ZDBR2K5ifBGksu2cw3ZKFioEqB8FVLUmuu3OXxFUlSBk5UQ==}
+    dev: true
 
   /component-bind@1.0.0:
     resolution: {integrity: sha512-WZveuKPeKAG9qY+FkYDeADzdHyTYdIboXS59ixDeRJL5ZhxpqUnxSOwop4FQjMsiYm3/Or8cegVbpAHNA7pHxw==}

@@ -1,12 +1,13 @@
 import { Entity, Enum, ManyToMany, OneToMany, Property, Unique } from '@mikro-orm/core';
 
-import { BaseEntity } from './BaseEntity.js';
+import { BaseEntity } from './BaseEntity';
 
 import { IsAlpha, IsAlphanumeric, IsEmail, MinLength } from 'class-validator';
-import { Rating } from './Rating';
-import { Comment } from './Comment';
-import { List } from './List';
-import { Roles } from '../../utils/users.roles';
+import { Rating } from './Rating.js';
+import { Comment } from './Comment.js';
+import { List } from './List.js';
+import { Roles } from '../../utils/users.roles.js';
+import { Book } from './Book';
 
 
 @Entity()
@@ -28,17 +29,17 @@ export class User extends BaseEntity {
   @Property({default:Roles.User})
   declare role: Roles;
 
-  @Property()
-  declare booksToRead: string[];
-
-  @Property()
-  declare booksInProgress: string[];
-
-  @Property()
-  declare wishList: string[]; //tableau d'isbn des livres en question
-
   @Property({default:0})
   declare status: number;
+  
+  @ManyToMany(()=>Book,'usersToRead',{owner:true})
+  declare booksToRead: string[];
+
+  @ManyToMany(()=>Book,'usersInProgress',{owner:true})
+  declare booksInProgress: string[];
+
+  @ManyToMany(() => Book,'usersWishists',{owner:true})
+  declare wishList: string[]; 
 
   @OneToMany(() => Rating, rating=> rating.user)
   declare ratings : Rating[];

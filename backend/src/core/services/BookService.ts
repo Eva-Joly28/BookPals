@@ -1,18 +1,26 @@
-import { BookRepositoryPort } from "src/api/ports/out/bookRepositoryPort";
-import { Book } from "src/api/domain/book";
+import { Service } from "typedi";
+import { BookRepositoryPort } from "../ports/out/bookRepositoryPort";
+import { Book } from "src/database/entities/Book";
 
+@Service('bookService')
 export class BookService {
-    constructor(private bookRepository: BookRepositoryPort) {}
+    constructor(
+        private readonly bookRepository:BookRepositoryPort
+    ){}
 
-    async searchBooks(query: string): Promise<Book[]> {
-        return this.bookRepository.getBooksByTitle(query);
+    async getBooksBySearch(search : string) : Promise<Book[]>{
+        return await this.bookRepository.getBooksByTitle(search);
     }
 
-    async searchBookById(id : string): Promise<Book> {
-        return this.bookRepository.getBookDetails(id);
+    async getBookDetails(bookId : string) : Promise<Book | null>{
+        return await this.bookRepository.getBookDetails(bookId);
     }
 
-    async searchBookByGenre(query: string): Promise<Book[]> {
-        return this.bookRepository.getBooksBySubject(query);
+    async getBooksByCategory(subject : string) : Promise<Book[]>{
+        return await this.bookRepository.getBooksBySubject(subject);
+    }
+
+    async getBooksByAuthor(author : string) : Promise<Book[]>{
+        return await this.bookRepository.getBooksByAuthor(author);
     }
 }

@@ -35,6 +35,198 @@
           "length": 6,
           "mappedType": "datetime"
         },
+        "book_id": {
+          "name": "book_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "authors": {
+          "name": "authors",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "array"
+        },
+        "published_date": {
+          "name": "published_date",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "publisher": {
+          "name": "publisher",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(1500)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 1500,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "isbn10": {
+          "name": "isbn10",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "isbn13": {
+          "name": "isbn13",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "page_count": {
+          "name": "page_count",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "default_image": {
+          "name": "default_image",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "cover": {
+          "name": "cover",
+          "type": "varchar(350)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 350,
+          "mappedType": "string"
+        },
+        "categories": {
+          "name": "categories",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "array"
+        },
+        "snippet": {
+          "name": "snippet",
+          "type": "varchar(350)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 350,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "language": {
+          "name": "language",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "book",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "book_id"
+          ],
+          "composite": false,
+          "keyName": "book_book_id_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "book_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
         "password": {
           "name": "password",
           "type": "varchar(255)",
@@ -69,34 +261,8 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "default": "'User'",
           "mappedType": "string"
-        },
-        "books_to_read": {
-          "name": "books_to_read",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
-        "books_in_progress": {
-          "name": "books_in_progress",
-          "type": "text[]",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "array"
-        },
-        "wish_list": {
-          "name": "wish_list",
-          "type": "text[]",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "array"
         },
         "status": {
           "name": "status",
@@ -168,15 +334,6 @@
           "length": 6,
           "mappedType": "datetime"
         },
-        "isbn": {
-          "name": "isbn",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
         "value": {
           "name": "value",
           "type": "int",
@@ -188,6 +345,15 @@
         },
         "user_id": {
           "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "book_id": {
+          "name": "book_id",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -222,6 +388,18 @@
             "id"
           ],
           "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        },
+        "rating_book_id_foreign": {
+          "constraintName": "rating_book_id_foreign",
+          "columnNames": [
+            "book_id"
+          ],
+          "localTableName": "public.rating",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.book",
           "updateRule": "cascade"
         }
       },
@@ -275,15 +453,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
-        },
-        "books": {
-          "name": "books",
-          "type": "text[]",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "array"
         },
         "status": {
           "name": "status",
@@ -346,6 +515,73 @@
     },
     {
       "columns": {
+        "list_id": {
+          "name": "list_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "book_id": {
+          "name": "book_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "list_books",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "list_books_pkey",
+          "columnNames": [
+            "list_id",
+            "book_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "list_books_list_id_foreign": {
+          "constraintName": "list_books_list_id_foreign",
+          "columnNames": [
+            "list_id"
+          ],
+          "localTableName": "public.list_books",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.list",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "list_books_book_id_foreign": {
+          "constraintName": "list_books_book_id_foreign",
+          "columnNames": [
+            "book_id"
+          ],
+          "localTableName": "public.list_books",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.book",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
         "id": {
           "name": "id",
           "type": "varchar(255)",
@@ -375,8 +611,8 @@
           "length": 6,
           "mappedType": "datetime"
         },
-        "isbn": {
-          "name": "isbn",
+        "comment": {
+          "name": "comment",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -384,8 +620,8 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "comment": {
-          "name": "comment",
+        "book_id": {
+          "name": "book_id",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -419,6 +655,18 @@
       ],
       "checks": [],
       "foreignKeys": {
+        "comment_book_id_foreign": {
+          "constraintName": "comment_book_id_foreign",
+          "columnNames": [
+            "book_id"
+          ],
+          "localTableName": "public.comment",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.book",
+          "updateRule": "cascade"
+        },
         "comment_user_id_foreign": {
           "constraintName": "comment_user_id_foreign",
           "columnNames": [
@@ -429,6 +677,140 @@
             "id"
           ],
           "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "book_id": {
+          "name": "book_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "user_books_in_progress",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "user_books_in_progress_pkey",
+          "columnNames": [
+            "user_id",
+            "book_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "user_books_in_progress_user_id_foreign": {
+          "constraintName": "user_books_in_progress_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.user_books_in_progress",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "user_books_in_progress_book_id_foreign": {
+          "constraintName": "user_books_in_progress_book_id_foreign",
+          "columnNames": [
+            "book_id"
+          ],
+          "localTableName": "public.user_books_in_progress",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.book",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "book_id": {
+          "name": "book_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "user_books_to_read",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "user_books_to_read_pkey",
+          "columnNames": [
+            "user_id",
+            "book_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "user_books_to_read_user_id_foreign": {
+          "constraintName": "user_books_to_read_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.user_books_to_read",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "user_books_to_read_book_id_foreign": {
+          "constraintName": "user_books_to_read_book_id_foreign",
+          "columnNames": [
+            "book_id"
+          ],
+          "localTableName": "public.user_books_to_read",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.book",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       },
@@ -495,6 +877,73 @@
             "id"
           ],
           "referencedTableName": "public.list",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "book_id": {
+          "name": "book_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "user_wish_list",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "user_wish_list_pkey",
+          "columnNames": [
+            "user_id",
+            "book_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "user_wish_list_user_id_foreign": {
+          "constraintName": "user_wish_list_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.user_wish_list",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "user_wish_list_book_id_foreign": {
+          "constraintName": "user_wish_list_book_id_foreign",
+          "columnNames": [
+            "book_id"
+          ],
+          "localTableName": "public.user_wish_list",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.book",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }

@@ -4,7 +4,7 @@
     "target": "ES2019",
     "lib": ["ES2020"],
     "strict": true,
-    
+    "module": "CommonJS",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "sourceMap": true,
@@ -20,7 +20,7 @@
     "noFallthroughCasesInSwitch": false,
     "strictPropertyInitialization":false,
     "alwaysStrict": true,
-    "outDir": "dist",
+    "outDir": "./dist",
     "typeRoots": ["node_modules/@types"],
     "resolveJsonModule": true,
     "baseUrl": ".",

@@ -1,12 +1,10 @@
 import { Cascade, Entity, ManyToOne, Property, Unique } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
-import { User } from "./User";
+import { User } from "./User.js";
+import { Book } from "./Book";
 
 @Entity()
 export class Rating extends BaseEntity{
-
-    @Property()
-    declare isbn : string
 
     @Property()
     declare value : number;
@@ -16,4 +14,7 @@ export class Rating extends BaseEntity{
         nullable:false,
     })
     declare user: User;
+
+    @ManyToOne(()=> Book)
+    declare book: Book;
 }
