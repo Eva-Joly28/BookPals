@@ -1,0 +1,38 @@
+{
+  "eslint.validate": ["typescript", "javascript", "yaml", "glimmer-ts"],
+  "editor.formatOnSave": true,
+  "css.validate": false,
+  "[javascript]": {
+    "editor.bracketPairColorization.enabled": true,
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.bracketPairColorization.enabled": true,
+    "editor.formatOnSave": false
+  },
+  "[glimmer-js]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[glimmer-ts]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[handlebars]": {
+    "editor.bracketPairColorization.enabled": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "eslint.format.enable": true,
+  "tailwindCSS.emmetCompletions": true,
+  "editor.minimap.enabled": false,
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "handlebars": "html"
+  }
+}
