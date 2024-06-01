@@ -8,9 +8,15 @@ module.exports = {
     `./tests/**/*.{${extensions.join(',')}}`
   ],
   corePlugins: {},
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
   plugins: [],
   theme: {
     extends: {
+      backgroundImage: {
+        'home': "url('https://static1.srcdn.com/wordpress/wp-content/uploads/2022/03/Belle-in-Beauty-and-the-beast-1991-reading-a-book-to-sheep-animation.jpg')"
+      },
       screens: {
         lxg: '1140px',
         '2xl': '1600px',
@@ -18,10 +24,10 @@ module.exports = {
       },
     },
     colors: {
-      primary: '#CFAF6E',
+      primary: '#f0ebe9',
       secondary: '#2B4999',
       text: '#647377',
-      background: '#7C4E29',
+      background: '#291a1a',
       'background-disabled': '#F6F6F6',
       'text-secondary': '#384043',
       error: '#D72F33',

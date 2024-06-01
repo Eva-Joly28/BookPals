@@ -21,15 +21,15 @@ export default class Application extends Route {
   @service declare intl: IntlService;
   @service declare tpkForm: TpkFormService;
 
-  // async beforeModel() {
+  async beforeModel() {
 
-  //   this.tpkForm.TpkInput = InputsValidationComponent as never;
+    this.tpkForm.TpkInput = InputsValidationComponent as never;
 
-  //   await this.setupMSWForDevelopment();
-  //   this.intl.setLocale(['fr-fr']);
-  //   await this.session.setup();
-  //   await this.currentUser.load();
-  // }
+    await this.setupMSWForDevelopment();
+    this.intl.setLocale(['fr-fr']);
+    await this.session.setup();
+    await this.currentUser.load();
+  }
 
   private async setupMSWForDevelopment() {
     if (config.environment === 'development') {

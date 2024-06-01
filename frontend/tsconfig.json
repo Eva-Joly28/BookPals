@@ -33,5 +33,5 @@
   "glint": {
     "environment": ["ember-loose", "ember-template-imports"]
   },
-  "include": ["app/**/*", "tests/**/*", "types/**/*", "public/setup-worker.js"]
+  "include": ["app/**/*", "tests/**/*", "types/**/*", "public/setup-worker.js", "../card.ts"]
 }
