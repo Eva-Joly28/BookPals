@@ -12,6 +12,11 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     }
 
     private adapter : GoogleBooksRequester = new GoogleBooksRequester();
+    async getPopular(){
+        const qb = this.em.qb(Book).select('*').where('cover is not null and cover != ?', ['']).limit(4);
+        return qb.getResultList();
+    }
+
     async getBooksByTitle(title: string): Promise<Book[]> {
         console.log(title);
         const qb = this.em.qb(Book)

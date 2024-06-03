@@ -1,7 +1,6 @@
-import Model from "@ember-data/model";
-import { attr } from "@ember-data/model/-private/attr";
+import Model, { attr } from "@ember-data/model";
 
-export default class BookModel extends Model{
+export default class BookModel extends Model {
 
     @attr() declare title : string;
     @attr() declare description : string;
@@ -12,4 +11,6 @@ export default class BookModel extends Model{
     @attr() declare categories : string[];
     @attr() declare cover : string;
     @attr() declare default_image : string;
+
+
 }

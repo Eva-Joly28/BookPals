@@ -8,9 +8,6 @@ module.exports = {
     `./tests/**/*.{${extensions.join(',')}}`
   ],
   corePlugins: {},
-  "editor.quickSuggestions": {
-    "strings": "on"
-  },
   plugins: [],
   theme: {
     extends: {
@@ -34,6 +31,10 @@ module.exports = {
       warn: '#ffcc00',
       white: colors.white,
       black: colors.black,
+      blue: colors.blue,
+      green: colors.green,
+      amber: colors.amber,
+      teal: colors.teal,
       transparent: colors.transparent,
       red: colors.red,
       gray: colors.gray,

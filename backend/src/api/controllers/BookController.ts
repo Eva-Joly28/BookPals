@@ -22,7 +22,7 @@ export class BookController implements BookControllerPort {
         return this.bookService.getBooksBySearch(query);
     }
     
-    @Get('/book/:id',{transformResponse:false})
+    @Get('/:id',{transformResponse:false})
     async getOne(@Param('id') id:string) : Promise<Book | null>{
         return this.bookService.getBookDetails(id);
     }
@@ -35,6 +35,11 @@ export class BookController implements BookControllerPort {
     @Get('/author/:author',{transformResponse:false})
     async getByAuthor(@Param('author') author: string): Promise<Book[]> {
         return this.bookService.getBooksByAuthor(author);
+    }
+
+    @Get('/popular',{transformResponse:false})
+    async getPopular(): Promise<Book[]> {
+        return this.bookRepository.getPopular();
     }
 
 }

@@ -1,5 +1,12 @@
 # ember-boilerplate
 
+## EXERCICE
+
+BONJOUR STAGIAIRE.
+Votre travail, ~~si vous l'acceptez~~, est de faire une petite TODOLIST en emberJS.
+Basez-vous sur https://todotify.vercel.app/ pour l'UI.
+La donnée est sauvegardée en localstorage pour le moment.
+
 [![Tests](https://github.com/TRIPTYK/ember-boilerplate/actions/workflows/ci.yml/badge.svg)](https://github.com/TRIPTYK/ember-boilerplate/actions/workflows/ci.yml)
 
 ## You can use this IF
@@ -21,7 +28,7 @@
 - Flash messages (ember-cli-flash)
 - Tests (ember-test-selectors, ember-cli-page-object, playwright)
 - Sessions,Login,Logout,... (ember-simple-auth,ember-simple-auth-token)
-- Ember data next gen (RequestManager based)
+- Base ember adapter, serializer and controller
 - Ember concurrency
 - Test seeding & parallelization (ember-exam)
 - dev & test mocking (msw)
@@ -112,7 +119,13 @@ Testing mocks are split in the `tests` folders.
 - `pnpm lint`
 - `pnpm lint:fix`
 
+### Duplication
+
+- `pnpm test:duplication`
+
+
 ### Building
 
 - `ember build` (development)
 - `ember build --environment production` (production)
+# stripped-boilerplate
