@@ -37,7 +37,7 @@ export class BookController implements BookControllerPort {
         return this.bookService.getBooksByAuthor(author);
     }
 
-    @Get('/popular',{transformResponse:false})
+    @Get('/book/popular',{transformResponse:false})
     async getPopular(): Promise<Book[]> {
         return this.bookRepository.getPopular();
     }
