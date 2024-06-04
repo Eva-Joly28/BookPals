@@ -10,7 +10,7 @@ export default class BookModel extends Model {
     @attr() declare publishers : string[];
     @attr() declare categories : string[];
     @attr() declare cover : string;
-    @attr() declare default_image : string;
+    @attr() declare defaultImage : string;
 
 
 }

@@ -5,10 +5,13 @@ const extensions = ['js', 'ts', 'hbs', 'html','gjs', 'gts'];
 module.exports = {
   content: [
     `./app/**/*.{${extensions.join(',')}}`,
-    `./tests/**/*.{${extensions.join(',')}}`
+    `./tests/**/*.{${extensions.join(',')}}`,
+    "./node_modules/flowbite/**/*.js"
   ],
   corePlugins: {},
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
   theme: {
     extends: {
       backgroundImage: {
@@ -24,7 +27,7 @@ module.exports = {
       primary: '#f0ebe9',
       secondary: '#2B4999',
       text: '#647377',
-      background: '#291a1a',
+      background: '#1c1414',
       'background-disabled': '#F6F6F6',
       'text-secondary': '#384043',
       error: '#D72F33',

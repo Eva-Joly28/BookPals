@@ -162,5 +162,8 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "dependencies": {
+    "flowbite": "^2.3.0"
   }
 }

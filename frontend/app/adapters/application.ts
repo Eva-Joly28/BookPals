@@ -62,6 +62,15 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
 
     return this.buildURL(modelName, id, null, 'findRecord', query);
   }
+
+  urlForQuery<K extends string | number>(query: any, modelName: K): string {
+    if(query.popular){
+       delete query.popular;
+       const url = `${this.host}/${this.namespace}/books/book/popular`;
+       return url
+    }
+    return super.urlForQuery(query,modelName);
+  }
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your adapters.
