@@ -37,7 +37,7 @@ export class Book extends BaseEntity {
     isbn13: string;
 
     @Property()
-    pageCount: string;
+    pageCount: number;
 
     @Property()
     @IsUrl()
@@ -55,6 +55,9 @@ export class Book extends BaseEntity {
 
     @Property()
     language: string;
+
+    @Property({default:0})
+    views: number;
 
     @ManyToMany(()=>User, 'wishList')
     declare usersWishists : User[];

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { apiInfos } from "../config";
 import { Book } from "../database/entities/Book";
+import { Query } from "@mikro-orm/migrations";
 
 export function getInfos(response : AxiosResponse){
     let infos = {
@@ -82,27 +83,33 @@ export async function assign(item:any){
 }
 
 export async function assignBook(items : any[]){ 
-    let books : Book[] =[];
     try{
-    for (const item of items) {
-        if (item.volumeInfo.language === "fr") {
+    let books : Book[] =[];
+
+    const frItems = items.filter(item => item.volumeInfo.language === "fr");
+    const enItems = items.filter(item => item.volumeInfo.language === "en");
+
+    const tasksFr = frItems.map(async item => {
+        const book = await assign(item);
+        const exists = books.some(b => b.bookId === book.bookId);
+        if (!exists) books.push(book);
+    });
+
+    await Promise.all(tasksFr);
+
+    if (books.length < 10) {
+        const tasksEn = enItems.map(async item => {
             const book = await assign(item);
             const exists = books.some(b => b.bookId === book.bookId);
-            if(!exists) {books.push(book);}
-        }
+            if (!exists) books.push(book);
+        });
+        await Promise.all(tasksEn);
     }
-    if(books.length<5){
-        for (const item of items) {
-            if (item.volumeInfo.language === "en") {
-                const book = await assign(item);
-                const exists = books.some(b => b.bookId === book.bookId);
-                if(!exists) {books.push(book);}
-            }
-        }
-    }
+
     return await Promise.all(books);}
     catch(e){
-        throw new Error('books cannot be fetched due to an error')
+        console.log('books cannot be fetched due to an error',e);
+        throw new Error('books cannot be fetched due to an error');
     }
 }
 
@@ -110,37 +117,39 @@ export class GoogleBooksRequester {
 
     async getBooksBySearch(query: string): Promise<Book[]> {
         try{
-            let response = await axios.get(apiInfos.BASE_URL,{
-                params : {q: `intitle:${query} OR inauthor:${query}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
+            const response = await axios.get(apiInfos.BASE_URL,{
+                params : {q: `intitle:${query}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
             });
-            let tab = query.split("+");
-            let books: Book[] = [];
+
+            let books = response.data.items ? await assignBook(response.data.items) : [];
             if(response.data.items && response.data.items.length>=5){
-                books = await assignBook(response.data.items);
                 return books;
             }
             else{
-            tab.length>1? tab.pop() : tab = tab;
-            let newQuery : string = tab.length>1? tab.join("+") : query;
-            (books.length<5 && newQuery===query)? books = await assignBook(response.data.items) :  this.getBooksBySearch(newQuery);
+                const newQuery = query.split("+").slice(0,-1).length>1 ? query.split("+").slice(0,-1).join('+') : query;
+                (books.length<5 && newQuery===query)? books = await assignBook(response.data.items) :  this.getBooksBySearch(newQuery);
+                
+                if (newQuery !== query) {
+                    const newResponse = await axios.get(apiInfos.BASE_URL, {
+                        params: { q: `intitle:${newQuery}`, key: apiInfos.API_KEY, maxResults: 40, printType: "books" }
+                    });
+                    books = [...books,...(await assignBook(newResponse.data.items))];
+                }
+                return books;
             }
-            return books;
         }
         catch(e){
+            console.error("there is a problem with the search request", e);
             throw new Error("there is a problem with the search request")
         }
     }
 
     async getBooksByAuthor(author : string): Promise<Book[]> {
         try{
-            let response = await axios.get(apiInfos.BASE_URL,{
+            const response = await axios.get(apiInfos.BASE_URL,{
                 params : {q: `inauthor:${author}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
             });
-            let books: Book[] = [];
-            if(response.data.items ){
-                books = await assignBook(response.data.items);
-        }
-        return books;
+            return response.data.items ? await assignBook(response.data.items) : [];
         }
         catch(e){
             throw new Error("there is a problem with the author request")
@@ -152,37 +161,39 @@ export class GoogleBooksRequester {
             let response = await axios.get(apiInfos.BASE_URL,{
                 params : {q: `isbn:${isbn}`, key: apiInfos.API_KEY, maxResults: 30, printType:"books"}
             });
-            let books: Book[] = [];
-            if(response.data.items ){
-                books = await assignBook(response.data.items);
-            }
-            return books;
+            return response.data.items ? await assignBook(response.data.items) : [];
         }
         catch(e){
             throw new Error("there is a problem with the isbn request")
         }
     }
 
-    async getBookDetails(id: string): Promise<Book> {
+    async getBookDetails(id: string): Promise<Book |null> {
         try{
             const response = await axios.get(`${apiInfos.BASE_URL}/${id}`,{
                 params : {key: apiInfos.API_KEY}
             });
-            const item = response.data;
-            const book = assign(item);
-            return book;
+            return response.data ? assign(response.data) : null;
         }
         catch(e){
             throw new Error("there is not a book with the given id");
         }
     }
 
-    async getBooksBySubject(subject: string): Promise<Book[]> {
-        const response = await axios.get(apiInfos.BASE_URL,{
-            params : {q: `subject:${subject}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
-        });
-        let books : Book[] = await assignBook(response.data.items);
-        return books;
+    async getBooksBySubject(subject: string, startIndex?:number){
+        try {
+            const params: any = { q: `subject:${subject}`, key: apiInfos.API_KEY, maxResults: 40, printType: "books" };
+            if (startIndex) params.startIndex = startIndex;
+
+            const response = await axios.get(apiInfos.BASE_URL, { params });
+            const books = response.data.items? await assignBook(response.data.items) : [];
+            const count = response.data.totalItems || 0;
+
+            return { books, count };
+        } catch (e) {
+            console.error("there is a problem with the subject request", e);
+            throw new Error("there is a problem with the subject request");
+        }
 
     }
 }

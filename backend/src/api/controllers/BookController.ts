@@ -1,9 +1,12 @@
-import { Get, JsonController, Param, QueryParam } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Patch, Post, QueryParam, QueryParams, Req } from "routing-controllers";
 import { Inject, Service } from "typedi";
 import { BookControllerPort } from "../../core/ports/in/BookControllerPort.js";
-import { BookRepository } from "../repositories/book.repository.js";
-import { Book } from "src/database/entities/Book.js";
+import { BookFilters, BookRepository } from "../repositories/book.repository.js";
+import { Book } from "../../database/entities/Book.js";
 import { BookService } from "../../core/services/BookService.js";
+import { createBookValidator, updateBookValidator } from "../validators/Book.js";
+import { RequiredEntityData } from "@mikro-orm/core";
+import { ResponseSchema } from "routing-controllers-openapi";
 
 @JsonController('/books')
 @Service()
@@ -16,30 +19,34 @@ export class BookController implements BookControllerPort {
     }
     
     @Get('/',{transformResponse:false})
-    async getAll(@QueryParam('title') search:string): Promise<Book[]>{
-        let tab = search.split("+");
-        const query = tab.join(" ")
-        return this.bookService.getBooksBySearch(query);
+    @ResponseSchema(Book)
+    async getAll(@Req() request:any): Promise<Book[]>{
+        console.log(request.query);
+        return this.bookService.getBooksWithFilters(request.query);
     }
     
     @Get('/:id',{transformResponse:false})
+    @ResponseSchema(Book)
     async getOne(@Param('id') id:string) : Promise<Book | null>{
-        return this.bookService.getBookDetails(id);
-    }
-    
-    @Get('/genres',{transformResponse:false})
-    async getBySubject(@QueryParam('subject') subject: string): Promise<Book[]> {
-        return this.bookService.getBooksByCategory(subject);
+        return this.bookService.findBook(id);
     }
 
-    @Get('/author/:author',{transformResponse:false})
-    async getByAuthor(@Param('author') author: string): Promise<Book[]> {
-        return this.bookService.getBooksByAuthor(author);
+    @Post('/',{transformResponse:false})
+    @ResponseSchema(Book)
+    async create(@Body() book:createBookValidator): Promise<Book|undefined> {
+        return this.bookService.createBook(book as RequiredEntityData<Book>);
     }
 
-    @Get('/book/popular',{transformResponse:false})
-    async getPopular(): Promise<Book[]> {
-        return this.bookRepository.getPopular();
+    @Patch('/:id',{transformResponse:false})
+    @ResponseSchema(Book)
+    async update(@Param('id') id:string, @Body() book: updateBookValidator): Promise<Book |null> {
+        return this.bookService.updateBook(id, book as Partial<Book>);
+    }
+
+    @Delete('/:id',{transformResponse:false})
+    @ResponseSchema(Book)
+    async delete(@Param('id') id:string){
+        await this.bookService.deleteBook(id);
     }
 
 }

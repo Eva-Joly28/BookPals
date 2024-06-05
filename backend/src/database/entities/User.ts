@@ -31,15 +31,24 @@ export class User extends BaseEntity {
 
   @Property({default:0})
   declare status: number;
+
+  @Property({default:true})
+  declare isVerified: boolean;
+
+  @Property({default:''})
+  declare verificationToken : string;
+
+  @Property()
+  declare refreshToken : string;
   
   @ManyToMany(()=>Book,'usersToRead',{owner:true})
-  declare booksToRead: string[];
+  declare booksToRead: Book[];
 
   @ManyToMany(()=>Book,'usersInProgress',{owner:true})
-  declare booksInProgress: string[];
+  declare booksInProgress: Book[];
 
   @ManyToMany(() => Book,'usersWishists',{owner:true})
-  declare wishList: string[]; 
+  declare wishList: Book[]; 
 
   @OneToMany(() => Rating, rating=> rating.user)
   declare ratings : Rating[];
@@ -47,7 +56,10 @@ export class User extends BaseEntity {
   @OneToMany(() => Comment, comments=> comments.user)
   declare comments : Comment[];
 
-  @ManyToMany(() => List,'likedBy',{owner:true})
+  @ManyToMany(() => Comment,'likedBy')
+  declare likedComments: Comment[];
+
+  @ManyToMany(() => List,'likedBy')
   declare favoritesLists : List[];
 
   @OneToMany(()=> List, list => list.creator)

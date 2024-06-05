@@ -1,4 +1,4 @@
-import { Cascade, Entity, ManyToOne, Property } from "@mikro-orm/core";
+import { Cascade, Entity, ManyToMany, ManyToOne, Property } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
 import { Max, MaxLength, max } from "class-validator";
 import { User } from "./User.js";
@@ -19,4 +19,7 @@ export class Comment extends BaseEntity {
         nullable:false,
     })
     declare user : User;
+
+    @ManyToMany(() => User, "likedComments",{owner:true})
+    declare likedBy : User[];
 }

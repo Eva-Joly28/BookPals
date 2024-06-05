@@ -1,6 +1,7 @@
 import { Service } from "typedi";
 import { BookRepositoryPort } from "../ports/out/bookRepositoryPort";
 import { Book } from "src/database/entities/Book";
+import { RequiredEntityData } from "@mikro-orm/core";
 
 @Service('bookService')
 export class BookService {
@@ -8,19 +9,24 @@ export class BookService {
         private readonly bookRepository:BookRepositoryPort
     ){}
 
-    async getBooksBySearch(search : string) : Promise<Book[]>{
-        return await this.bookRepository.getBooksByTitle(search);
+    async getBooksWithFilters(query : any) : Promise<Book[]>{
+        return await this.bookRepository.getBooksWithFilters(query);
     }
 
-    async getBookDetails(bookId : string) : Promise<Book | null>{
+    async findBook(bookId:string){
         return await this.bookRepository.getBookDetails(bookId);
     }
 
-    async getBooksByCategory(subject : string) : Promise<Book[]>{
-        return await this.bookRepository.getBooksBySubject(subject);
+    async createBook(book:RequiredEntityData<Book>): Promise<Book |undefined>{
+        return await this.bookRepository.createBook(book);
     }
 
-    async getBooksByAuthor(author : string) : Promise<Book[]>{
-        return await this.bookRepository.getBooksByAuthor(author);
+    async updateBook(id:string, book:Partial<Book>): Promise<Book | null>{
+        return await this.bookRepository.updateBook(id,book)
     }
+
+    async deleteBook(id:string){
+        await this.bookRepository.deleteBook(id);
+    }
+
 }

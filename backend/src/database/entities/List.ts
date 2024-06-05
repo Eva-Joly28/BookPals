@@ -19,7 +19,7 @@ export class List extends BaseEntity{
     @Property()
     declare keyWords: string[]
     
-    @ManyToMany(() => User, "favoritesLists", )
+    @ManyToMany(() => User, "favoritesLists",{owner:true})
     declare likedBy: User[];
 
     @ManyToMany(()=>Book,'lists',{owner:true})

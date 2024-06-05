@@ -166,6 +166,16 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "views": {
+          "name": "views",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "0",
+          "mappedType": "integer"
         }
       },
       "name": "book",
@@ -273,6 +283,35 @@
           "nullable": false,
           "default": "0",
           "mappedType": "integer"
+        },
+        "is_verified": {
+          "name": "is_verified",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "verification_token": {
+          "name": "verification_token",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
         }
       },
       "name": "user",
@@ -524,6 +563,73 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "list_liked_by",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "list_liked_by_pkey",
+          "columnNames": [
+            "list_id",
+            "user_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "list_liked_by_list_id_foreign": {
+          "constraintName": "list_liked_by_list_id_foreign",
+          "columnNames": [
+            "list_id"
+          ],
+          "localTableName": "public.list_liked_by",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.list",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "list_liked_by_user_id_foreign": {
+          "constraintName": "list_liked_by_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.list_liked_by",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "list_id": {
+          "name": "list_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
         "book_id": {
           "name": "book_id",
           "type": "varchar(255)",
@@ -684,6 +790,73 @@
     },
     {
       "columns": {
+        "comment_id": {
+          "name": "comment_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "comment_liked_by",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "comment_liked_by_pkey",
+          "columnNames": [
+            "comment_id",
+            "user_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "comment_liked_by_comment_id_foreign": {
+          "constraintName": "comment_liked_by_comment_id_foreign",
+          "columnNames": [
+            "comment_id"
+          ],
+          "localTableName": "public.comment_liked_by",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.comment",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "comment_liked_by_user_id_foreign": {
+          "constraintName": "comment_liked_by_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.comment_liked_by",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
         "user_id": {
           "name": "user_id",
           "type": "varchar(255)",
@@ -810,73 +983,6 @@
             "id"
           ],
           "referencedTableName": "public.book",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        }
-      },
-      "nativeEnums": {}
-    },
-    {
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
-        "list_id": {
-          "name": "list_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        }
-      },
-      "name": "user_favorites_lists",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "user_favorites_lists_pkey",
-          "columnNames": [
-            "user_id",
-            "list_id"
-          ],
-          "composite": true,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "user_favorites_lists_user_id_foreign": {
-          "constraintName": "user_favorites_lists_user_id_foreign",
-          "columnNames": [
-            "user_id"
-          ],
-          "localTableName": "public.user_favorites_lists",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.user",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        },
-        "user_favorites_lists_list_id_foreign": {
-          "constraintName": "user_favorites_lists_list_id_foreign",
-          "columnNames": [
-            "list_id"
-          ],
-          "localTableName": "public.user_favorites_lists",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.list",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }
