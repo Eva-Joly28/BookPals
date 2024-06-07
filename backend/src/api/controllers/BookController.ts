@@ -1,12 +1,13 @@
-import { Body, Delete, Get, JsonController, Param, Patch, Post, QueryParam, QueryParams, Req } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Patch, Post,Req, Res } from "routing-controllers";
 import { Inject, Service } from "typedi";
 import { BookControllerPort } from "../../core/ports/in/BookControllerPort.js";
-import { BookFilters, BookRepository } from "../repositories/book.repository.js";
+import { BookRepository } from "../repositories/book.repository.js";
 import { Book } from "../../database/entities/Book.js";
 import { BookService } from "../../core/services/BookService.js";
 import { createBookValidator, updateBookValidator } from "../validators/Book.js";
 import { RequiredEntityData } from "@mikro-orm/core";
 import { ResponseSchema } from "routing-controllers-openapi";
+import { request } from "https";
 
 @JsonController('/books')
 @Service()

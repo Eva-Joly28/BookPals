@@ -75,9 +75,11 @@ export async function assign(item:any){
     book.categories= categories;
     book.snippet= item.searchInfo? item.searchInfo.textSnippet: "";
     book.language= item.volumeInfo.language;
+    book.views= 0;
 
     return book;}
     catch(e){
+        console.log(e);
         throw new Error('request to google books api failed');
     }
 }
@@ -108,7 +110,7 @@ export async function assignBook(items : any[]){
 
     return await Promise.all(books);}
     catch(e){
-        console.log('books cannot be fetched due to an error',e);
+        console.log(e);
         throw new Error('books cannot be fetched due to an error');
     }
 }

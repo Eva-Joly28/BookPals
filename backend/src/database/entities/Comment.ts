@@ -11,6 +11,9 @@ export class Comment extends BaseEntity {
     @MaxLength(500)
     declare comment : string;
 
+    @Property()
+    declare likedAt : Date;
+
     @ManyToOne(()=>Book)
     declare book: Book;
 

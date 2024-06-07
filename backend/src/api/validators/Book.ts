@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, isURL } from "class-validator";
+import { IsNotEmpty, IsOptional} from "class-validator";
 
 export class createBookValidator {
     @IsNotEmpty()
@@ -53,28 +53,28 @@ export class updateBookValidator{
     publishedDate: string;
 
     @IsOptional()
-    publisher:string="";
+    publisher: string;
 
     @IsOptional()
     description: string;
 
     @IsOptional()
-    isbn10: string="";
+    isbn10: string;
 
     @IsOptional()
-    isbn13: string="";
+    isbn13: string;
 
     @IsOptional()
     pageCount: number;
 
     @IsOptional()
-    cover: string = "";
+    cover: string;
 
     @IsOptional()
-    defaultImage: string = "";
+    defaultImage: string;
 
     @IsOptional()
-    snippet: string = "";
+    snippet: string;
 
     @IsOptional()
     categories: string[];
@@ -83,5 +83,5 @@ export class updateBookValidator{
     language: "fr"|"en";
 
     @IsOptional()
-    views:number = 0;
+    views:number;
 }

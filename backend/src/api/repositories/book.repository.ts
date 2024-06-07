@@ -49,18 +49,11 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
             }
         }
         
-        return result;
-        
+        return result
     }
 
     async getBookDetails(id: string): Promise<Book | null> {
-        try{
-            let book = await this.findOneOrFail({bookId:id});
-            return book;
-        }
-        catch(e){
-            return this.requester.getBookDetails(id);
-        }
+        return await this.findOneOrFail({bookId:id});
     }
     
     async createBook(book: RequiredEntityData<Book>): Promise<Book | undefined> {
@@ -83,8 +76,9 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     private async fetchBooksFromRequester(filters: any, dbBooks: Book[]): Promise<Book[]> {
         let books: Book[] = [];
 
-        if (filters.title && dbBooks.length < 10) {
-            books = await this.requester.getBooksBySearch(filters.title);
+        if (filters.title && dbBooks.length < 5) {
+            const search = filters.title.replace(' ', '+');
+            books = await this.requester.getBooksBySearch(search);
         } 
         if (filters.category) {
             books = await this.getBooksBySubject(filters.category, dbBooks);
@@ -109,8 +103,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     filterTitle(filters:any,qb:SelectQueryBuilder<Book>){
         if (filters.title) {
             console.log('here title');
-            const search = filters.title.replace('+', ' ');
-            qb.where({ title: { $ilike: `%${search}%` } });
+            qb.where({ title: { $ilike: `%${filters.title}%` } });
         }
     }
 
@@ -166,7 +159,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     }
     
     async getBooksBySubject(subject: string, bdBooks:Book[]): Promise<Book[]> {
-        if(!bdBooks || bdBooks.length<81){
+        if(!bdBooks || bdBooks.length<30){
             let {books,count} = await this.requester.getBooksBySubject(subject);
             if(bdBooks && (count>bdBooks.length)){
                 books.push(...(await this.requester.getBooksBySubject(subject, bdBooks.length + 1)).books);
@@ -183,7 +176,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     }
 
     async getBooksByAuthor(author: string, bdBooks:Book[]): Promise<Book[]>{
-        if(!bdBooks || bdBooks.length<10){
+        if(!bdBooks || bdBooks.length<3){
             bdBooks = await this.requester.getBooksByAuthor(author);
             const newBooks = await Promise.all(bdBooks.map(async book => {
                 if (await this.findOne({ bookId: book.bookId }) === null) {

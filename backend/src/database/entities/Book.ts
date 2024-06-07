@@ -24,10 +24,10 @@ export class Book extends BaseEntity {
     @Property()
     publishedDate: string;
 
-    @Property({default:""})
+    @Property()
     publisher?: string;
 
-    @Property({default:"",length:1500})
+    @Property({length:1500})
     description: string;
 
     @Property()
@@ -50,13 +50,13 @@ export class Book extends BaseEntity {
     @Property()
     categories: string[];
 
-    @Property({default:"", length:350})
+    @Property({length:350})
     snippet?: string;
 
     @Property()
     language: string;
 
-    @Property({default:0})
+    @Property({type:'int8'})
     views: number;
 
     @ManyToMany(()=>User, 'wishList')
