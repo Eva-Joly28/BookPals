@@ -76,6 +76,7 @@
     "@types/node": "^20.11.9",
     "@types/qunit": "~2.19.10",
     "@types/rsvp": "~4.0.9",
+    "@types/sanitize-html": "^2.11.0",
     "@typescript-eslint/eslint-plugin": "~6.19.1",
     "@typescript-eslint/parser": "~6.19.1",
     "autoprefixer": "~10.4.17",
@@ -130,21 +131,27 @@
     "eslint-plugin-unicorn": "~50.0.1",
     "eslint-plugin-unused-imports": "~3.0.0",
     "eslint-plugin-yml": "^1.12.2",
+    "flowbite": "^2.3.0",
     "husky": "~9.0.6",
     "jscpd": "~3.5.10",
     "loader.js": "~4.7.0",
+    "loaders.css": "^0.1.2",
     "msw": "^2.1.5",
     "postcss": "~8.4.33",
     "postcss-import": "~16.0.0",
+    "postcss-nested": "^6.0.1",
     "prettier": "~3.2.4",
     "prettier-plugin-ember-template-tag": "^2.0.0",
     "qunit": "~2.20.0",
     "qunit-dom": "~3.0.0",
+    "sanitize-html": "^2.13.0",
+    "sass": "^1.17.0",
     "stylelint": "^16.2.0",
     "stylelint-config-standard": "^36.0.0",
     "stylelint-prettier": "^5.0.0",
     "tailwindcss": "~3.4.1",
     "tracked-built-ins": "~3.3.0",
+    "tw-elements": "^2.0.0",
     "type-fest": "^4.10.1",
     "typescript": "~5.3.3",
     "webpack": "~5.90.0",
@@ -162,8 +169,5 @@
   },
   "msw": {
     "workerDirectory": "public"
-  },
-  "dependencies": {
-    "flowbite": "^2.3.0"
   }
 }

@@ -1,0 +1,24 @@
+<div class="pt-8 mx-28 my-10">
+  <h2 class="mb-3 pt-20">Catégorie : {{@model.genre}}</h2>
+  <hr />
+  {{#if @model.books.length}}
+    <div class="m-3 p-3 grid grid-cols-4 gap-4">
+      {{#each this.serializedArray as |b|}}
+        <Cards::Base @book={{b}} @addStyle="h-[15em] w-[10em]" />
+      {{/each}}
+    </div>
+    {{#if (gt @model.books.length this.actualCount)}}
+      <button
+        type="button"
+        class="h-9 w-28 bg-gray-400/40 mx-96 p-2 box-border hover:bg-blue-300/40 rounded"
+        {{on "click" this.viewMore}}
+      >
+        <span class="text-center text-yellow-50 text-base">Voir plus</span>
+      </button>
+    {{/if}}
+  {{else}}
+    <div class="w-full h-full">
+      <h3 class="m-auto text-center">Aucun Livre ne coresspond à la catégorie</h3>
+    </div>
+  {{/if}}
+</div>

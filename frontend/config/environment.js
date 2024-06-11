@@ -12,6 +12,7 @@ module.exports = function (environment) {
     host,
     namespace,
     rootURL: '/',
+    src: '../',
     locationType: 'history',
     'changeset-validations': { rawOutput: true },
     'ember-simple-auth-token': {

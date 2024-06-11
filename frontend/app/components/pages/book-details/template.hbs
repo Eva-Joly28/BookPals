@@ -1,0 +1,154 @@
+<section class="pt-20 p-4">
+  <div class="flex flex-row flex-wrap flex-auto">
+    <Cards::Details @book={{@model.book}} />
+    <div class="flex flex-col flex-1 pl-4 pr-4 mt-16">
+      <div class="flex flex-wrap flex-row mt-2 pl-2">
+        <h2 class="text-3xl mb-1">{{@model.book.title}}</h2>
+        <div class="flex flex-wrap">
+          {{#each @model.book.authors as |a|}}
+            {{! template-lint-disable no-invalid-interactive }}
+            <span
+              class="underline authors text-white hover:text-amber-500 cursor-pointer m-2"
+              {{on "click" (fn this.gotoAuthor a)}}
+            >{{a}}</span>
+          {{/each}}
+        </div>
+      </div>
+      <div class="flex relative flex-row mt-2 flex-wrap w-full flex-1">
+        <div class="flex flex-col p-2 m-2 my-10 flex-1">
+          <p class="text-justify description font-thin">{{this.description}}
+            {{! template-lint-disable no-invalid-interactive }}
+            <span class="hover:text-red-300 cursor-pointer" {{on "click" this.toggleDescription}}>
+              {{if this.showMore "...Voir moins" "...Voir plus"}}
+            </span>
+          </p>
+          <div class="flex flex-row justify-between mt-6 pb-6">
+            <p>isbn13: {{@model.book.isbn13}}</p>
+            <p>édition: {{@model.book.publisher}}</p>
+          </div>
+          <div class="mt-4 flex flex-row flex-wrap">
+            {{#each @model.book.categories as |c|}}
+              <span
+                class="bg-yellow-100/80 text-yellow-900 text-xs font-extrabold me-2 ms-2 px-3 py-1 mb-2 rounded border border-yellow-400 hover:bg-yellow-200 cursor-pointer"
+                {{on "click" (fn this.gotoGenre c)}}
+              >{{c}}</span>
+            {{/each}}
+          </div>
+        </div>
+        <div class="flex flex-col p-3">
+          <div
+            class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70 border border-[#614032]/70 rounded"
+          >
+            <div class="flex flex-row items-center justify-between p-4">
+              <div class="p-1 flex-1 m-auto">
+                <svg
+                  class="h-10 w-10 p-1 fill-white/85"
+                  version="1.1"
+                  stroke="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 512 512"
+                  xml:space="preserve"
+                ><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g>
+                    <g>
+                      <g>
+                        <path
+                          d="M256,0C114.608,0,0,114.608,0,256s114.608,256,256,256s256-114.608,256-256S397.392,0,256,0z M256,496 C123.664,496,16,388.336,16,256S123.664,16,256,16s240,107.664,240,240S388.336,496,256,496z"
+                        ></path>
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <polygon
+                          points="362.224,155.76 212.016,322.656 148.72,259.36 137.408,270.672 212.64,345.904 374.128,166.464 "
+                        ></polygon>
+                      </g>
+                    </g>
+                  </g></svg>
+                <span class="text-center pl-1">Lu</span>
+              </div>
+              <div class="p-1 flex-1" title="pile à lire">
+                <svg
+                  class="fill-white/85 h-8 w-10 mb-1"
+                  fill="currentColor"
+                  height="800px"
+                  width="800px"
+                  version="1.1"
+                  id="Capa_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 490.00 490.00"
+                  xml:space="preserve"
+                  stroke="currentColor"
+                  stroke-width="0.0049"
+                >
+
+                  <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+
+                  <g id="SVGRepo_iconCarrier">
+                    <g>
+                      <path
+                        d="M487.483,357.878c2.708-3.074,4.246-16.302-7.831-17.309H74.721C33.521,340.569,0,374.087,0,415.291 C0,456.484,33.521,490,74.721,490h404.931c14.281-1.61,10.498-14.365,7.729-17.42C452.525,434.055,452.565,397.616,487.483,357.878 z M458.156,469.148H74.721c-29.703,0-53.867-24.16-53.867-53.857c0-29.699,24.164-53.87,53.867-53.87h383.72 C434.298,397.606,434.196,433.708,458.156,469.148z"
+                      />
+                      <path
+                        d="M10.348,319.714h404.93c41.2,0,74.722-33.518,74.722-74.711c0-41.202-33.521-74.721-74.722-74.721H188.749v-20.851h290.903 c14.281-1.61,10.498-14.365,7.729-17.42c-34.856-38.526-34.815-74.965,0.102-114.702c2.708-3.074,4.246-16.304-7.831-17.31H74.721 C33.521,0,0,33.519,0,74.721c0,41.194,33.521,74.711,74.721,74.711h13.32v20.851H10.348c-12.077,1.006-10.539,14.234-7.831,17.309 c34.918,39.738,34.958,76.177,0.102,114.703C-0.15,305.349-3.933,318.104,10.348,319.714z M74.721,128.58 c-29.703,0-53.867-24.16-53.867-53.859c0-29.698,24.164-53.868,53.867-53.868h383.72c-24.143,36.184-24.245,72.286-0.285,107.728 H188.749V74.716c0-5.762-4.664-10.426-10.427-10.426H98.468c-5.764,0-10.427,4.664-10.427,10.426v53.864H74.721z M167.895,85.142 v130.28L144.83,197.35c-1.894-1.477-4.165-2.219-6.435-2.219c-2.271,0-4.542,0.742-6.436,2.219l-23.064,18.072V85.142H167.895z M88.041,191.134v45.699c-0.604,9.074,6.298,17.959,16.862,8.206l33.492-26.237l33.491,26.237 c10.972,8.891,17.702,0.523,16.863-8.206v-45.699h226.529c29.703,0,53.867,24.171,53.867,53.869 c0,29.698-24.164,53.859-53.867,53.859H31.844c23.961-35.441,23.858-71.544-0.285-107.729H88.041z"
+                      />
+                    </g>
+                  </g>
+                </svg>
+                <span class="text-center pl-1">PAL</span>
+              </div>
+              <div class="p-1 flex-1">
+                <svg
+                  class="fill-white/85 p-1 h-10 w-12"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 512 512"
+                  xml:space="preserve"
+                  stroke="currentColor"
+                ><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g>
+                    <g>
+                      <g>
+                        <path
+                          d="M393.987,12.936h-43.66V8.085c0-4.465-3.619-8.085-8.085-8.085h-34.497c-4.466,0-8.085,3.62-8.085,8.085v4.851H100.764 c-4.466,0-8.085,3.62-8.085,8.085v310.472c0,4.465,3.619,8.085,8.085,8.085s8.085-3.62,8.085-8.085V29.107h35.575v406.416h-35.575 v-60.908c0-4.465-3.619-8.085-8.085-8.085s-8.085,3.62-8.085,8.085v68.994c0,4.465,3.619,8.085,8.085,8.085h95.405v52.284 c0,7.048,8.813,10.706,13.803,5.717l20.155-20.156l20.155,20.156c4.993,4.991,13.803,1.318,13.803-5.717v-52.284h35.575v4.851 c0,4.465,3.619,8.085,8.085,8.085h34.497c4.466,0,8.085-3.62,8.085-8.085v-4.851h43.66c13.969,0,25.334-11.365,25.334-25.334 V38.27C419.321,24.301,407.956,12.936,393.987,12.936z M247.915,484.459l-12.07-12.071c-1.579-1.578-3.649-2.368-5.718-2.368 s-4.139,0.789-5.718,2.368l-12.07,12.071v-32.766h35.575V484.459z M299.66,435.523H160.594V29.107H299.66V435.523z M403.15,426.359c0,5.053-4.111,9.163-9.163,9.163h-43.66V193.506c0-4.465-3.619-8.085-8.085-8.085s-8.085,3.62-8.085,8.085 v254.953H315.83V16.17h18.326v134.214c0,4.465,3.619,8.085,8.085,8.085s8.085-3.62,8.085-8.085V29.107h43.66 c5.053,0,9.163,4.111,9.163,9.163V426.359z"
+                        ></path>
+                      </g>
+                    </g>
+                  </g></svg>
+                <span class="text-center m-auto">En cours</span>
+              </div>
+            </div>
+            <hr class="bg-white/70" />
+            <div class="m-3 text-center box-text"><Stars /></div>
+            <hr class="bg-white/70" />
+            <div class="m-3 text-center box-text">ajouter à la wishlist</div>
+            <hr class="bg-white/70" />
+            <div class="m-3 text-center box-text">ajouter à une liste</div>
+            <hr class="bg-white/70" />
+            <div class="m-3 text-center box-text">ajouter à la people's picks</div>
+          </div>
+          <Rate />
+        </div>
+      </div>
+      <div class="flex flex-col {{if this.authorBooks.length '' 'hidden'}}">
+        <h2 class="text-lg text-center mb-6">Du même auteur</h2>
+        <div class="flex flex-row justify-center flex-wrap m-2">
+          {{#each this.authorBooks as |book|}}
+            <Cards::Base @book={{book}} @addStyle="max-w-40 h-40" />
+          {{/each}}
+        </div>
+      </div>
+      <div class="flex flex-col {{if this.genreBooks.length '' 'hidden'}}">
+        <h2 class="text-lg text-center mb-6">Vous pourriez aimer : </h2>
+        <div class="flex flex-row justify-center flex-wrap m-6">
+          {{#each this.genresBooks as |book|}}
+            <Cards::Base @book={{book}} @addStyle="max-w-32 h-32" />
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

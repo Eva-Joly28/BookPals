@@ -17,8 +17,8 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
 
   get headers(): Record<string, string> {
     const headers = {
-      Accept: 'application/vnd.api+json',
-      'Content-Type': 'application/vnd.api+json',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: '',
     };
 
@@ -63,14 +63,13 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
     return this.buildURL(modelName, id, null, 'findRecord', query);
   }
 
-  urlForQuery<K extends string | number>(query: any, modelName: K): string {
-    if(query.popular){
-       delete query.popular;
-       const url = `${this.host}/${this.namespace}/books/book/popular`;
-       return url
-    }
-    return super.urlForQuery(query,modelName);
-  }
+  // urlForQuery<K extends string | number>(query: any, modelName: K): string {
+  //   if(query.url){
+  //      const url = `${this.host}/${this.namespace}/books/image-proxy?url=${query.url}`;
+  //      return url
+  //   }
+  //   return super.urlForQuery(query,modelName);
+  // }
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your adapters.

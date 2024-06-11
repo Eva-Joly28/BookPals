@@ -1,0 +1,15 @@
+<div class="flex flex-row">
+  <img
+    src={{return-https @book}}
+    alt={{@book.title}}
+    class="book rounded h-[10em] w-[8em] p-0.5 m-1 hover:ring-1 hover:ring-amber-700"
+  />
+  {{! template-lint-disable no-invalid-interactive }}
+  <div class="description p-1 m-1">
+    <h3
+      class="mb-1 cursor-pointer hover:text-blue-300"
+      {{on "click" (fn this.goToBook @book.id)}}
+    >{{@book.title}}</h3>
+    <p class="font-thin">{{this.description}}</p>
+  </div>
+</div>

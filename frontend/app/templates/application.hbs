@@ -1,9 +1,12 @@
 <HeadLayout />
-<div class="fixed z-10 top-4 right-4">
+<div class="fixed z-[99999] right-4">
   {{#each this.flashMessages.arrangedQueue as |flash|}}
     <FlashMessage @flash={{flash}} />
   {{/each}}
 </div>
 <Header/>
+{{#if this.isLoading}}
+  <h2 class=" text-black">Loading...</h2>
+{{/if}}
 {{outlet}}
 <Footer/>

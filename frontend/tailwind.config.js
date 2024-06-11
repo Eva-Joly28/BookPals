@@ -6,11 +6,11 @@ module.exports = {
   content: [
     `./app/**/*.{${extensions.join(',')}}`,
     `./tests/**/*.{${extensions.join(',')}}`,
-    "./node_modules/flowbite/**/*.js"
+    "./node_modules/flowbite/**/*.js",
   ],
   corePlugins: {},
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
   ],
   theme: {
     extends: {
@@ -22,6 +22,10 @@ module.exports = {
         '2xl': '1600px',
         '3xl': '1680px',
       },
+      fontFamily: {
+        'cooper' : ['Cooper'],
+        'allerta': ['Allerta'],
+      }
     },
     colors: {
       primary: '#f0ebe9',

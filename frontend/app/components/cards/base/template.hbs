@@ -1,4 +1,20 @@
-<div class="m-3" title={{@book.title}}>
-    <img src={{@book.defaultImage}} alt={{@book.title}}  class="object-cover rounded-md
-     {{@addStyle}} hover:ring-2 hover:ring-green-500/70" >
+{{! template-lint-disable no-invalid-interactive }}
+<div
+  {{on "click" (fn this.goToBook @book.id)}}
+  data-tooltip-target={{@book.id}}
+  class="m-3 has-tooltip"
+>
+  <img
+    src={{return-https @book}}
+    alt={{@book.title}}
+    class="object-cover rounded-md {{@addStyle}} hover:ring-2 hover:ring-amber-700"
+  />
+  <div
+    role="tooltip"
+    id={{@book.id}}
+    class="px-3 -mt-8 py-2 text-sm font-medium text-white transition-opacity duration-300 rounded-lg shadow-sm opacity-0 tooltip bg-gray-500"
+  >
+    {{@book.title}}
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
 </div>

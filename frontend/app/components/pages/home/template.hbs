@@ -1,49 +1,73 @@
 <div class="bg-background min-w-96 min-h-96">
-    <div class="background_image bg-blend-multiply" >
+  <div class="background_image bg-blend-multiply">
+  </div>
+  <div class="linear-fade z-0"></div>
+  <div class="absolute m-auto left-0 right-0 -mt-12 mb-12 p-5">
+    <h2 class="text-center font-['Vogue']">Bienvenue sur bookPals</h2>
+    <p class="text-center text-base h-10 mb-96 font-[Allerta]">Votre communauté favorite de lecteurs</p>
+  </div>
+  <section class="mt-30 p-20 flex flex-col items-center">
+    <h3 class="mt-20">Sur BookPals, vous pouvez...</h3>
+    <div class="flex flex-wrap items-center justify-center">
+      <div
+        class="flex bg-green-300/40 text-sm hover:bg-blue-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md"
+      >
+        <img src="/assets/icons/add.svg" class="h-2/6 w-2/6" alt="eye" />
+        <p class="m-2">Ajouter des livres à votre pile à lire pour suivre votre flow de lecture</p>
+      </div>
+      <div
+        class="flex bg-green-300/40 text-sm hover:bg-green-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md"
+      >
+        <img src="/assets/icons/icon-check.svg" class="h-2/6 w-2/6" alt="eye" />
+        <p class="m-2">Recenser les livres que vous avez lus et le faire savoir à la communauté</p>
+      </div>
+      <div
+        class="flex bg-green-300/40 text-sm hover:bg-green-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md"
+      >
+        <img src="/assets/icons/comments.svg" class="h-2/6 w-2/6" alt="eye" />
+        <p class="m-2">Ajouter des commentaires concernant et des notes sur les livres que vous avez
+          aimés (ou pas)</p>
+      </div>
+      <div
+        class="flex bg-green-300/40 text-sm hover:bg-amber-400/40 text-blue-50 h-36 w-72 p-6 m-1 rounded-md"
+      >
+        <img src="/assets/icons/list.svg" class="h-2/6 w-2/6" alt="eye" />
+        <p class="m-2">Créer des listes selon vos envies pour y ranger vos livres préférés par
+          thèmes</p>
+      </div>
+      <div
+        class="flex bg-green-300/40 text-sm hover:bg-green-400/50 text-blue-50 h-36 w-72 p-6 m-1 rounded-md"
+      >
+        <img src="/assets/icons/members.svg" class="h-2/6 w-2/6" alt="eye" />
+        <p class="m-2">Suivre vos amis pour être au courant de leur activité de lecture sur bookPals</p>
+      </div>
+      <div
+        class="flex bg-green-300/40 text-sm hover:bg-amber-800 text-blue-50 h-36 w-72 p-6 m-1 rounded-md"
+      >
+        <img src="/assets/icons/favorites-list.svg" class="h-2/6 w-2/6" alt="eye" />
+        <p class="m-2">Partager vos meilleures recommandations dans LA liste dont le thème change
+          tous les mois</p>
+      </div>
     </div>
-    <div class="linear-fade z-0"></div>
-    <div class="absolute m-auto left-0 right-0 -mt-12 mb-12
-     p-5">
-        <h2 class="text-center">Bienvenue sur bookPals</h2>
-        <p class="text-center text-base h-10 mb-96">Votre communauté favorite de lecteurs</p>
+  </section>
+
+  <section class="flex flex-col flex-wrap justify-center m-6">
+    <h3 class="text-center">En ce moment...</h3>
+    <div class="flex flex-row justify-center flex-wrap m-6">
+      {{#each this.topBooks as |book|}}
+        <Cards::Base @book={{book}} @addStyle="max-w-52 h-52" />
+      {{/each}}
     </div>
-    <section class="mt-30 p-20">
-        <h3 class="mt-20">Sur BookPals, vous pouvez...</h3>
-        <div class="flex flex-wrap">
-            <div class="flex bg-green-300/40 text-sm hover:bg-blue-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md">
-                <img src="/assets/icons/add.svg" class="h-2/6 w-2/6" alt="eye">
-                <p class="m-2">Ajouter des livres à votre pile à lire pour suivre votre flow de lecture</p>
-            </div>
-            <div class="flex bg-green-300/40 text-sm hover:bg-green-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md">
-                <img src="/assets/icons/icon-check.svg" class="h-2/6 w-2/6" alt="eye">
-                <p class="m-2">Recenser les livres que vous avez lus et le faire savoir à la communauté</p>
-            </div>
-            <div class="flex bg-green-300/40 text-sm hover:bg-green-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md">
-                <img src="/assets/icons/comments.svg" class="h-2/6 w-2/6" alt="eye">
-                <p class="m-2">Ajouter des commentaires concernant et des notes sur les livres que vous avez aimés (ou pas)</p>
-            </div>
-            <div class="flex bg-green-300/40 text-sm hover:bg-green-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md">
-                <img src="/assets/icons/list.svg" class="h-2/6 w-2/6" alt="eye">
-                <p class="m-2">Créer des listes selon vos envies pour y ranger vos livres préférés par thèmes</p>
-            </div>
-            <div class="flex bg-green-300/40 text-sm hover:bg-green-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md">
-                <img src="/assets/icons/members.svg" class="h-2/6 w-2/6 " alt="eye">
-                <p class="m-2">Suivre vos amis pour être au courant de leur activité de lecture sur bookPals</p>
-            </div>
-            <div class="flex bg-green-300/40 text-sm hover:bg-green-400 text-blue-50 h-36 w-72 p-6 m-1 rounded-md">
-                <img src="/assets/icons/favorites-list.svg" class="h-2/6 w-2/6" alt="eye">
-                <p class="m-2">Partager vos meilleures recommandations dans LA liste dont le thème change tous les mois</p>
-            </div>
-        </div>
-    </section>
+  </section>
+  <section class="flex flex-col flex-wrap justify-center m-6">
+    <h3 class="text-center">En ce moment...</h3>
+    <div class="flex flex-row justify-center flex-wrap m-6">
+      {{#each this.topBooks as |book|}}
+        <Cards::Base @book={{book}} @addStyle="max-w-52 h-52" />
+      {{/each}}
+    </div>
+  </section>
+  <section id="toplists">
 
-    <h3 class="m-auto left-0 right-0 text-center mt-28 mb-4">En ce moment...</h3>
-    <section id="topbooks" class="flex flex-row flex-wrap justify-center m-6">
-        {{#each  this.topBooks as |book|}}
-          <Cards::Base @book={{book}} @addStyle="w-auto h-52" />
-        {{/each}}
-    </section>
-    <section id="toplists">
-
-    </section>
+  </section>
 </div>

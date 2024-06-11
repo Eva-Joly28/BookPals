@@ -18,9 +18,11 @@
       ],
       "*": [
         "types/*"
-      ]
+      ],
+      "src": ["./*"]
     }
   },
+  "typeRoots": ["./node_modules/@types", "./types"],
   "glint": {
     "environment": [
       "ember-loose",

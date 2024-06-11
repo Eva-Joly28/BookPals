@@ -5,12 +5,13 @@ import config from 'ember-boilerplate/config/environment';
 export default class Router extends EmberRouter {
   location = config.locationType;
   rootURL = config.rootURL;
+  src = config.src;
 }
 
 Router.map(function () {
-  this.route('books', {path: '/livres'}, function () {
-    this.route('book', {path: '/:book_title'});
-  });
+  this.route('404', {path:'/*path'});
+  this.route('search', {path: 'resultats/:search'});
+  this.route('book-details', {path: 'livres/:book_id'});
   this.route('users', {path:'utilisateurs'}, function () {
     this.route('user', {path:'/:username'});
   });
@@ -29,7 +30,7 @@ Router.map(function () {
     this.route('list', {path: '/:list_name'})
   });
   this.route('authors', {path:'/author/:author'});
-  this.route('genres', {path: 'genres/:genre'});
+  this.route('genres', {path: 'genre/:genre'});
   this.route('forgot-password');
   this.route('reset-password', {path: '/reset-password/:token'});
 });

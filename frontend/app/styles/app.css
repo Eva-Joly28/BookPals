@@ -7,6 +7,7 @@
 @import url("table.css");
 @import url("button.css");
 
+
 @font-face {
   font-family: "Almendra";
   src: url("/assets/fonts/Almendra.ttf");
@@ -26,6 +27,16 @@
   src: url("/assets/fonts/Louis_George_Cafe.woff");
 }
 
+@font-face {
+  font-family: "Cooper";
+  src: url("/assets/fonts/CooperHewitt-Thin.otf");
+}
+
+@font-face {
+  font-family: "Glenn";
+  src: url("/assets/fonts/glenn.otf");
+}
+
 /*** GENERAL  ****/
 button:focus-visible,
 a:focus-visible,
@@ -34,8 +45,18 @@ textarea:focus-visible {
   @apply outline-none ring-2 ring-primary rounded;
 }
 
+* { margin:0; padding:0; }
+html { 
+	font-size:100%; 
+	margin:0;
+	padding:0;
+}
+
 body{
-  @apply bg-background
+  margin: 0;
+  padding: 0;
+  top:0;
+  @apply bg-gradient-to-b from-[#362120] to-[#1c1414]
 }
 
 h1 {
@@ -44,24 +65,65 @@ h1 {
 
 p {
   color: antiquewhite;
-  font-family: Allerta;
+  font-family:"Glenn",'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  @apply text-sm ;
 }
 
+
 h2 {
-  font-family: Vogue, Geneva, Tahoma, sans-serif;
+  font-family: "Cooper", Vogue, Geneva, Tahoma, sans-serif;
   font-size: larger;
   letter-spacing: 0.2em;
-  @apply text-primary text-4xl font-bold;
+  @apply text-background-disabled text-4xl font-bold;
 }
 
 h3 {
-  @apply text-red-200 font-medium text-base;
-  font-family: 'Courier New', Courier, monospace;
+  @apply text-red-200 font-bold text-base;
+  font-family: Cooper;
 }
 
 h4 {
+  font-family: "Cooper","Trebuchet MS", 'Lucida Grande';
   @apply text-text text-lg mb-4 font-bold pb-4 border-b border-text/30;
 }
+
+hr {
+  @apply h-px bg-gray-700 border-0
+}
+
+.disappear{
+  @apply hidden;
+}
+
+.book{
+  max-height: 8em;
+  max-width: 6em;
+}
+
+.tooltip {
+  @apply absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
+
+#input-search{
+  @apply block bg-opacity-90 w-3/5 p-2 ml-10 ps-3 text-sm text-white/70 border border-gray-200/80 rounded-2xl focus:rounded-2xl focus:bg-background/60 focus:border-gray-600 focus:border-2 bg-gray-600/40;
+
+}
+
+.box-text{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-transform: capitalize;
+  @apply hover:text-gray-200 hover:text-base cursor-pointer;
+}
+
+span{
+  font-family: Cooper;
+  font-weight: 800;
+}
+
 
 .background_image {
   @apply bg-[url('https://static1.srcdn.com/wordpress/wp-content/uploads/2022/03/Belle-in-Beauty-and-the-beast-1991-reading-a-book-to-sheep-animation.jpg')] min-w-full min-h-[95vh] bg-center bg-no-repeat bg-cover;
@@ -76,7 +138,7 @@ h4 {
 .nav-page {
   @apply p-1 m-2 hover:text-white hover:opacity-100 hover:rounded-md font-black text-gray-50 opacity-85;
   font-size: 95%;
-  font-family:
+  font-family:Glenn,
     Trebuchet MS,
     "Lucida Sans",
     "Lucida Sans Regular",
@@ -85,6 +147,7 @@ h4 {
     Verdana,
     sans-serif;
   text-transform: uppercase;
+  font-weight:100;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -94,7 +157,7 @@ h4 {
   }
 }
 
-@media (max-width: 300px) {
+@media (max-width: 400px) {
   .nav-page {
     font-size: 70%;
   }
@@ -104,6 +167,13 @@ h4 {
   .linear-fade::before{
     top:0
   }
+  .disappear{
+    @apply block;
+  }
+  .nav-responsive{
+    background-color: #1c1414;
+  }
+
 }
 
 

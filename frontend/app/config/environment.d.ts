@@ -13,5 +13,6 @@ declare const config: {
   podModulePrefix: string;
   locationType: string;
   rootURL: string;
+  src:string;
   APP: Record<string, unknown>;
 };
