@@ -81,7 +81,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
             books = await this.requester.getBooksBySearch(search);
         } 
         if (filters.category) {
-            // books = await this.getBooksBySubject(filters.category, dbBooks);
+            books = await this.getBooksBySubject(filters.category, dbBooks);
         }
         if (filters.author) {
             books = await this.getBooksByAuthor(filters.author, dbBooks);
