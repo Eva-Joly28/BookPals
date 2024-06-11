@@ -39,7 +39,10 @@ export class User extends BaseEntity {
   declare verificationToken : string;
 
   @Property()
-  declare refreshToken : string;
+  declare refreshToken?:string;
+
+  @Property({default:''})
+  declare profilePicture?:string;
   
   @ManyToMany(()=>Book,'usersToRead',{owner:true})
   declare booksToRead: Book[];

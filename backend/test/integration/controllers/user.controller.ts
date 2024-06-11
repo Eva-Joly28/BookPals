@@ -4,6 +4,7 @@ import request from 'supertest';
 import { User } from '../../../src/database/entities/User';
 import { DI } from '../../../src/index';
 import '../../../src/core/initializers/env';
+import { setTimeout } from 'timers';
 
 describe('Users', () => {
   describe('list', () => {
@@ -24,7 +25,7 @@ describe('Users', () => {
   describe('get', () => {
     it('should get user flo', () =>
       request(DI.server)
-        .get(process.env.API_ROUTE_PREFIX + '/users/2')
+        .get(process.env.API_ROUTE_PREFIX + '/users/user2')
         .expect('Content-Type', /json/)
         .expect(200)
         .then((res) => {
@@ -38,89 +39,33 @@ describe('Users', () => {
         .expect(404));
   });
 
-  describe('post', () => {
-    it('should add user anton', () =>
-      request(DI.server)
-        .post(process.env.API_ROUTE_PREFIX + '/users')
-        .send({ login: 'anton', password: 'test', email: 'anton@test.com' })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then(async () => {
-          const userAdded = await DI.orm.em
-            .fork()
-            .getRepository<User>('User')
-            .findOne({ username: 'anton' });
-          expect(userAdded).to.be.not.be.undefined;
-          expect(userAdded).to.be.not.be.null;
-        }));
 
-    it('should not add user with invalid mail', () =>
+  describe('patch', () => {
+    it('should not modify user with invalid mail', () =>
       request(DI.server)
-        .post(process.env.API_ROUTE_PREFIX + '/users')
-        .send({ login: 'seb', password: 'test', email: 'seb@test' })
+        .put(process.env.API_ROUTE_PREFIX + '/users/2')
+        .send({ email: 'flo@test' })
         .expect(400)
         .then(async () => {
-          const userNotAdded = await DI.orm.em
+          const userNotModified = await DI.orm.em
             .fork()
             .getRepository<User>('User')
-            .findOne({ username: 'seb' });
-          expect(userNotAdded).to.be.null;
+            .findOne({ id: "user2" });
+          expect(userNotModified?.email).to.be.equal('flo@test.com');
         }));
-
-    it('should not add user with empty mail', () =>
+    it('should not modify user with empty mail', () =>
       request(DI.server)
-        .post(process.env.API_ROUTE_PREFIX + '/users')
-        .send({ login: 'seb', password: 'test', email: '' })
+        .put(process.env.API_ROUTE_PREFIX + '/users/user2')
+        .send({ email: '' })
         .expect(400)
         .then(async () => {
-          const userNotAdded = await DI.orm.em
+          const userNotModified = await DI.orm.em
             .fork()
             .getRepository<User>('User')
-            .findOne({ username: 'seb' });
-          expect(userNotAdded).to.be.null;
+            .findOne({ id: "user2" });
+          expect(userNotModified?.email).to.be.equal('flo@test.com');
         }));
 
-    it('should not add user with invalid login', () =>
-      request(DI.server)
-        .post(process.env.API_ROUTE_PREFIX + '/users')
-        .send({ login: 'ben,', password: 'test', email: 'ben@test.com' })
-        .expect(400)
-        .then(async () => {
-          const userNotAdded = await DI.orm.em
-            .fork()
-            .getRepository<User>('User')
-            .findOne({ username: 'ben' });
-          expect(userNotAdded).to.be.null;
-        }));
-
-    it('should not add user with empty login', () =>
-      request(DI.server)
-        .post(process.env.API_ROUTE_PREFIX + '/users')
-        .send({ login: '', password: 'test', email: 'ben@test.com' })
-        .expect(400)
-        .then(async () => {
-          const userNotAdded = await DI.orm.em
-            .fork()
-            .getRepository<User>('User')
-            .findOne({ username: '' });
-          expect(userNotAdded).to.be.null;
-        }));
-
-    it('should not add user with empty password', () =>
-      request(DI.server)
-        .post(process.env.API_ROUTE_PREFIX + '/users')
-        .send({ login: 'ben', password: '', email: 'ben@test.com' })
-        .expect(400)
-        .then(async () => {
-          const userNotAdded = await DI.orm.em
-            .fork()
-            .getRepository<User>('User')
-            .findOne({ username: 'ben' });
-          expect(userNotAdded).to.be.null;
-        }));
-  });
-
-  describe('put', () => {
     it('should modify user flo mail', () =>
       request(DI.server)
         .put(process.env.API_ROUTE_PREFIX + '/users/2')
@@ -133,50 +78,7 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ id: "user2" });
           expect(userModified?.email).to.be.equal('floflo@test.com');
-        }));
-    it('should not modify user with invalid mail', () =>
-      request(DI.server)
-        .put(process.env.API_ROUTE_PREFIX + '/users/2')
-        .send({ email: 'flo@test' })
-        .expect(400)
-        .then(async () => {
-          const userNotModified = await DI.orm.em
-            .fork()
-            .getRepository<User>('User')
-            .findOne({ id: "user2" });
-          expect(userNotModified?.email).to.be.equal('floflo@test.com');
-        }));
-    it('should not modify user with empty mail', () =>
-      request(DI.server)
-        .put(process.env.API_ROUTE_PREFIX + '/users/2')
-        .send({ email: '' })
-        .expect(400)
-        .then(async () => {
-          const userNotModified = await DI.orm.em
-            .fork()
-            .getRepository<User>('User')
-            .findOne({ id: "user2" });
-          expect(userNotModified?.email).to.be.equal('floflo@test.com');
-        }));
+    }));
   });
-  describe('delete', () => {
-    it('should delete user test', () =>
-      request(DI.server)
-        .delete(process.env.API_ROUTE_PREFIX + '/users/1')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then(async () => {
-          const userDeleted = await DI.orm.em
-            .fork()
-            .getRepository<User>('User')
-            .findOne({ id: "user1" });
-          expect(userDeleted).to.be.null;
-        }));
-
-    it('should not delete an user', () =>
-      request(DI.server)
-        .delete(process.env.API_ROUTE_PREFIX + '/users/42')
-        .expect('Content-Type', /json/)
-        .expect(404));
-  });
+  
 });

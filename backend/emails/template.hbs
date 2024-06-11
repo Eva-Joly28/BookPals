@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Reinitialisation de mot de passe</title>
+  <style>
+    .container {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 35px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+    img{
+      margin: auto;
+      height: 60%;
+      width: 60%;
+    }
+
+    .phrase{
+      font-style: italic;
+      margin-top: 40px;
+    }
+
+    .phrase span{
+      font-weight: bold;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 7px 20px;
+      margin: 10px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="./bookpals-logo.png" alt="bookpals">
+    <h1>Nouveau mot de passe</h1>
+    <p>Hello, ici Bookpals</p>
+    <p>Vous avez fait une demande pour réinitialiser votre mot de passe, veuillez cliquer sur le bouton ci-dessous</p>
+    <p><a href="http://localhost:4200/reset-password/{{resetToken}}" class="button">réinitialiser mon mot de passe</a></p>
+    <p>Si vous n'êtes pas à l'origine de cette demande, veuillez ignorer ce mail</p>
+    <p>Merci,</p>
+    <p class="phrase"><span>Bookpals, </span>votre communauté préférée de lecture</p>
+  </div>
+</body>
+</html>

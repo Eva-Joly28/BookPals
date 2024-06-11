@@ -84,4 +84,7 @@ export class updateBookValidator{
 
     @IsOptional()
     views:number;
+
+    @IsOptional()
+    rate: number;
 }

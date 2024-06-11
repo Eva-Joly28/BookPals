@@ -16,6 +16,6 @@ export class Encrypt{
     }
 
     static async generateToken(payload: any){
-        return jwt.sign(payload, JWT_SECRET, {expiresIn: '1d'})
+        return jwt.sign(payload, JWT_SECRET, {expiresIn: '1h'})
     }
 }

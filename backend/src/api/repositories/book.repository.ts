@@ -28,9 +28,9 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     async getBooksWithFilters(filters:any) : Promise<Book[]>{
         const qb = this.em.qb(Book).select('*');
  
-        this.setupFilters(filters,qb);
+        await this.setupFilters(filters,qb);
         if(filters.limit){
-            qb.orderBy({language:'desc'}).limit(parseInt(filters.limit));
+            qb.orderBy({language:'desc',[filters.orderBy]:filters.order||'asc'}).limit(parseInt(filters.limit));
         }
 
         const dbBooks = filters.limit? await qb.getResultList() : await qb.orderBy({language:'desc'}).getResultList();
@@ -53,7 +53,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     }
 
     async getBookDetails(id: string): Promise<Book | null> {
-        return await this.findOneOrFail({bookId:id});
+        return await this.findOneOrFail({id});
     }
     
     async createBook(book: RequiredEntityData<Book>): Promise<Book | undefined> {
@@ -81,7 +81,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
             books = await this.requester.getBooksBySearch(search);
         } 
         if (filters.category) {
-            books = await this.getBooksBySubject(filters.category, dbBooks);
+            // books = await this.getBooksBySubject(filters.category, dbBooks);
         }
         if (filters.author) {
             books = await this.getBooksByAuthor(filters.author, dbBooks);
@@ -92,31 +92,36 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
         return books;
     }
 
-    setupFilters(filters:any,qb:SelectQueryBuilder<Book>){
-        this.filterTitle(filters,qb);
+    async setupFilters(filters:any,qb:SelectQueryBuilder<Book>){
+        await this.filterTitle(filters,qb);
         this.filterCategory(filters,qb);
         this.filterAuthor(filters,qb);
         this.filterIsbn(filters,qb);
         this.filterOrderBy(filters,qb);
     }
 
-    filterTitle(filters:any,qb:SelectQueryBuilder<Book>){
+    async filterTitle(filters:any,qb:SelectQueryBuilder<Book>){
         if (filters.title) {
             console.log('here title');
-            qb.where({ title: { $ilike: `%${filters.title}%` } });
+            if((await this.findAll({where:{title:{$ilike:`${filters.title}`}}})).length<2){
+                let search = filters.title.split(" ").slice(0,-1).join(" ")
+                console.log(search)
+                qb.where({ title: { $ilike: `%${search}%` } });
+            }
+            else{qb.where({ title: { $ilike: `%${filters.title}%` } });}
         }
     }
 
     filterCategory(filters:any,qb:SelectQueryBuilder<Book>){
         if (filters.category) {
-            qb.where({ categories: { $contains: [filters.category] } });
+            qb.where('(?) ILIKE ANY(categories)', filters.category);
         }
     }
 
     filterAuthor(filters:any,qb:SelectQueryBuilder<Book>){
         if (filters.author) {
             console.log('here authors');
-            qb.where({ authors: { $contains: [filters.author] } });
+            qb.where('(?) ILIKE ANY(authors)', filters.author);
         }
     }
 
@@ -162,7 +167,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
         if(!bdBooks || bdBooks.length<30){
             let {books,count} = await this.requester.getBooksBySubject(subject);
             if(bdBooks && (count>bdBooks.length)){
-                books.push(...(await this.requester.getBooksBySubject(subject, bdBooks.length + 1)).books);
+                books.push(...(await this.requester.getBooksBySubject(subject, bdBooks.length + 1))?.books || []);
             }
             const newBooks = await Promise.all(books.map(async book => {
                 if (await this.findOne({ bookId: book.bookId }) === null) {
@@ -176,7 +181,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     }
 
     async getBooksByAuthor(author: string, bdBooks:Book[]): Promise<Book[]>{
-        if(!bdBooks || bdBooks.length<3){
+        if(!bdBooks || bdBooks.length<7){
             bdBooks = await this.requester.getBooksByAuthor(author);
             const newBooks = await Promise.all(bdBooks.map(async book => {
                 if (await this.findOne({ bookId: book.bookId }) === null) {

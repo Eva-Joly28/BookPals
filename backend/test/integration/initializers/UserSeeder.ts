@@ -14,7 +14,7 @@ export class UserSeeder extends Seeder {
     em.persistAndFlush(user1);
     const user2 = new User();
     wrap(user2).assign({
-      id: "user1",
+      id: "user2",
       username: 'flo',
       password: '12345678',
       email: 'flo@test.com',
@@ -22,7 +22,7 @@ export class UserSeeder extends Seeder {
     em.persistAndFlush(user2);
     const user3 = new User();
     wrap(user3).assign({
-      id: "user1",
+      id: "user3",
       username: 'yataa',
       password: '12345678',
       email: 'yataa@test.com',
@@ -30,7 +30,7 @@ export class UserSeeder extends Seeder {
     em.persistAndFlush(user3);
     const user4 = new User();
     wrap(user4).assign({
-      id: "user1",
+      id: "user4",
       username: 'gaby',
       password: '12345678',
       email: 'gaby@test.com',

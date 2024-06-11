@@ -13,6 +13,7 @@ export class MonitorMiddleware implements ExpressMiddlewareInterface {
   use(request: any, response: any, next?: (err?: any) => any): any {
     if (process.env.MONITOR_ROUTE && next) {
       this.handler(request, response, next);
+      next();
     }
   }
 }

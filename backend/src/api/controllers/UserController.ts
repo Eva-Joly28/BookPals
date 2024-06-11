@@ -3,73 +3,58 @@ import {
   JsonController,
   Param,
   Get,
-  Post,
-  Put,
-  Delete,
-  NotFoundError,
   Body,
   OnNull,
   Patch,
+  Req,
 } from 'routing-controllers';
 import { User } from '../../database/entities/User';
 import { UserPost, UserPatch } from '../validators/User';
-import { Service } from 'typedi';
-import { ResponseSchema } from 'routing-controllers-openapi';
-import { AppService } from '../../core/services/AppService';
-import { AnyString } from '@mikro-orm/core/typings';
+import { Inject, Service } from 'typedi';
+import { UserRepository } from '../repositories/user.repository';
+import { UserService } from '../../core/services/UserService';
+import { UserControllerPort } from '../../core/ports/in/UserControllerPort';
 
 @JsonController('/users')
 @Service()
-export class UserController {
-  constructor(public appService: AppService) {}
-  @Get('/', { transformResponse: false })
-  @ResponseSchema(User)
-  async getAll(): Promise<User[]> {
-    const em = this.appService.getEntityManager();
-    const result = await (
-      await em.getRepository<User>('User').findAll()
-    );
-    return result;
+export class UserController implements UserControllerPort {
+  constructor(
+    @Inject('userRepo') private readonly userRepository: UserRepository,
+    @Inject('userService') private userService: UserService
+) {
+    this.userService = new UserService(userRepository)
   }
 
-  @Get('/:id', { transformResponse: false })
-  @OnNull(404)
-  @ResponseSchema(User)
+  @Get('/', {transformResponse:false})
+  async getWithFilters(@Req() request: any): Promise<User[]> {
+    const {filters} = request.params;
+    let users = await this.userService.getUsersWithFilters(filters);
+    return this.filterFields(users,['password']);
+  }
+
+  @Get('/:id',{transformResponse:false})
   async getOne(@Param('id') id: string): Promise<User | null> {
-    const em = this.appService.getEntityManager();
-    return await em.getRepository<User>('User').findOne({ id });
+    let user = await this.userService.getUser(id);
+    return this.filterFields([user],['password'])[0];
   }
 
-  @Post('/', { transformResponse: false })
-  @ResponseSchema(User)
-  async post(@Body() user: UserPost): Promise<User> {
-    const em = this.appService.getEntityManager();
-    const userBdd = new User();
-    wrap(userBdd).assign(user);
-    await em.persistAndFlush(userBdd);
-    return userBdd;
+  @Patch('/:id', {transformResponse:false})
+  async update(@Param('id') id: string, @Body() body:UserPatch): Promise<User | null> {
+    
+    let user = await this.userService.updateUser(id, body);
+    return this.filterFields([user], ['password'])[0];
   }
 
-  @Patch('/:id', { transformResponse: false })
-  @ResponseSchema(User)
-  async put(@Param('id') id: string, @Body() user: UserPatch): Promise<User> {
-    const em = this.appService.getEntityManager();
-    const result = await em
-      .getRepository<User>('User')
-      .findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
-    wrap(result).assign(user);
-    await em.persistAndFlush(result);
-    return result;
+
+
+
+
+  filterFields(entities: any[], excludeFields: string[]): any[] {
+    return entities.map(entity => {
+      const filteredEntity = { ...entity };
+      excludeFields.forEach(field => delete filteredEntity[field]);
+      return filteredEntity;
+    });
   }
 
-  @Delete('/:id', { transformResponse: false })
-  @ResponseSchema(User)
-  async remove(@Param('id') id: string) {
-    const em = this.appService.getEntityManager();
-    const result = await em
-      .getRepository<User>('User')
-      .findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
-    em.removeAndFlush(result);
-    return result;
-  }
 }

@@ -1,7 +1,6 @@
 import { IsAlphanumeric, IsArray, IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
 
 export class UserPost {
-  @IsAlphanumeric()
   @IsNotEmpty()
   username: string;
 
@@ -11,6 +10,8 @@ export class UserPost {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  refreshToken: string = '';
 }
 
 export class UserPatch {
@@ -19,7 +20,12 @@ export class UserPatch {
   email: string;
 
   @IsOptional()
-  @IsEmail()
+  password: string;
+
+  @IsOptional()
+  profilePicture: string;
+
+  @IsOptional()
   username: string;
 
   @IsOptional()

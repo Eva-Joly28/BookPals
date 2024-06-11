@@ -1,6 +1,7 @@
 import { init, DI } from '../../../src/index';
 import { before } from 'mocha';
 import { UserSeeder } from './UserSeeder';
+import { doesNotMatch } from 'assert';
 
 before(async () => {
   await init;
@@ -9,4 +10,5 @@ before(async () => {
   await generator.dropSchema({ wrap: false });
   await generator.createSchema({ wrap: false });
   await seeder.seed(UserSeeder);
+  
 });

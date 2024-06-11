@@ -78,7 +78,6 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "default": "''",
           "mappedType": "string"
         },
         "description": {
@@ -89,7 +88,6 @@
           "primary": false,
           "nullable": false,
           "length": 1500,
-          "default": "''",
           "mappedType": "string"
         },
         "isbn10": {
@@ -112,12 +110,12 @@
         },
         "page_count": {
           "name": "page_count",
-          "type": "varchar(255)",
+          "type": "int",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "integer"
         },
         "default_image": {
           "name": "default_image",
@@ -155,7 +153,6 @@
           "primary": false,
           "nullable": false,
           "length": 350,
-          "default": "''",
           "mappedType": "string"
         },
         "language": {
@@ -169,12 +166,20 @@
         },
         "views": {
           "name": "views",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "rate": {
+          "name": "rate",
           "type": "int",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "default": "0",
           "mappedType": "integer"
         }
       },
@@ -311,6 +316,15 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "mappedType": "string"
+        },
+        "profile_picture": {
+          "name": "profile_picture",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
           "mappedType": "string"
         }
       },
@@ -725,6 +739,16 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "liked_at": {
+          "name": "liked_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
         },
         "book_id": {
           "name": "book_id",

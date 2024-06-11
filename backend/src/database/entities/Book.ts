@@ -59,6 +59,9 @@ export class Book extends BaseEntity {
     @Property({type:'int8'})
     views: number;
 
+    @Property({default:0})
+    rate: number;
+
     @ManyToMany(()=>User, 'wishList')
     declare usersWishists : User[];
 
