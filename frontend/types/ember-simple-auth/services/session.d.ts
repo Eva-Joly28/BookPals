@@ -11,6 +11,7 @@ declare module 'ember-simple-auth/services/session' {
       authenticated: {
         accessToken: string;
         refreshToken: string;
+        id : string;
       };
     };
     store: Store;

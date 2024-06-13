@@ -1,0 +1,32 @@
+<div class="items-center justify-between hidden duration-1000 w-full md:flex md:w-auto md:order-1" id="navbar-search">
+    <ul class="flex flex-row p-4 md:p-0 cursor-pointerfont-medium bg-transparent w-full nav-responsive text-center md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 max-md:bg-background">
+        {{#if this.session.isAuthenticated}}
+          <li>
+            <Header::User/>
+          </li>
+          {{else}}
+            <li>
+            {{!-- template-lint-disable no-invalid-interactive --}}
+            <p class="py-4 mt-2 px-3 nav-page md:bg-transparent md:p-0 cursor-pointer" aria-current="page" {{on 'click' @openLogin}}>Connexion</p>
+            <hr class="disappear">
+            </li>
+            <li>
+                {{!-- template-lint-disable no-invalid-interactive --}}
+                <p class="block py-4 px-3 nav-page md:bg-transparent md:p-0 cursor-pointer" aria-current="page" {{on 'click' @openModal}}>Inscription</p>
+                <hr class="disappear">
+            </li>
+        {{/if}}
+        <li>
+            <p class="mt-4 py-4 px-3 nav-page md:bg-transparent md:p-0 cursor-pointer">People's picks</p>
+            <hr class="disappear ">
+        </li>
+        <li>
+            <p class="block py-4 px-3 nav-page md:bg-transparent md:p-0 cursor-pointer">Listes</p>
+            <hr class="disappear">
+        </li>
+        <li>
+            <p class="block py-4 px-3 nav-page md:bg-transparent md:p-0 cursor-pointer">Utilisateurs</p>
+            <hr class="disappear">
+        </li>
+    </ul>
+</div>

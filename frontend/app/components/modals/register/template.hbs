@@ -1,0 +1,33 @@
+<div
+  class="flex justify-center modal-base
+    {{if @isOpen 'w-full h-screen fixed top-0 left-0 bg-black/85 overflow-hidden' 'relative'}}"
+>
+<Alert @visibility={{this.visibility}} @alertText={{this.alertText}}/>
+  <TpkModal
+    class="
+      top-1/2 left-1/2 right-10 absolute transform -translate-x-1/2 -translate-y-1/2
+      m-auto rounded-md shadow-md w-[670px] z-50"
+    @title="Rejoignez Bookpals"
+    @confirmQuestion={{@confirmQuestion}}
+    @isOpen={{@isOpen}}
+    @onClose={{@onClose}}
+    as |M|
+  >
+    <M.Content class="max-h-[80vh] max-w-[1170px] rounded text-justify m-5">
+      <button
+        data-test-button="close"
+        type="button"
+        {{on "click" M.onClose}}
+        class="absolute top-0 right-0 mr-3 mt-3"
+      >
+        <img alt="close" src="/assets/icons/cross.svg" class="w-8" />
+      </button>
+      <div class="flex justify-between m-4">
+        <h3 class="text-center text-lg font-extrabold">
+          {{M.title}}
+        </h3>
+      </div>
+      <Forms::Register @onClose={{M.onClose}}  @users={{@users}} @setAlert={{this.setAlert}}/>
+    </M.Content>
+  </TpkModal>
+</div>

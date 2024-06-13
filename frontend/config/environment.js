@@ -5,6 +5,13 @@ module.exports = function (environment) {
   const namespace = 'api/v1';
 
   let ENV = {
+    flashMessageDefaults: {
+      timeout : 5000,
+      extendedTimeout: 0,
+      proprity: 200,
+      sticky: true,
+      showProgress: true,
+    },
     modulePrefix: 'ember-boilerplate',
     applicationName: 'Ember boilerplate',
     podModulePrefix: '',

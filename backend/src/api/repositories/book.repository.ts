@@ -32,8 +32,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
         if(filters.limit){
             qb.orderBy({language:'desc',[filters.orderBy]:filters.order||'asc'}).limit(parseInt(filters.limit));
         }
-
-        const dbBooks = filters.limit? await qb.getResultList() : await qb.orderBy({language:'desc'}).getResultList();
+        const dbBooks = filters.limit? await qb.execute("all") : await qb.orderBy({language:'desc'}).execute("all");
         console.log(dbBooks.length);
         const externalBooks = await this.fetchBooksFromRequester(filters, dbBooks);
 
@@ -53,17 +52,17 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     }
 
     async getBookDetails(id: string): Promise<Book | null> {
-        return await this.findOneOrFail({id});
+        return await this.findOneOrFail({id},{populate:['*']});
     }
     
-    async createBook(book: RequiredEntityData<Book>): Promise<Book | undefined> {
+    async createBook(book: RequiredEntityData<Book>) {
         const newBook = new Book();
         wrap(newBook).assign(book);
         await this.em.persistAndFlush(newBook);
-        return newBook;
+        return this.em.populate(newBook, ['comments','usersInProgress','usersReadBooks','usersToRead','usersWishlists','lists','ratings']);
     }
     async updateBook(id: string, book: Partial<Book>): Promise<Book | null> {
-        const result = await this.findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
+        const result = await this.findOneOrFail({ id }, { failHandler: () => new NotFoundError(), populate:['*'] });
         wrap(result).assign(book);
         await this.em.persistAndFlush(result);
         return result;
@@ -104,7 +103,8 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
         if (filters.title) {
             console.log('here title');
             if((await this.findAll({where:{title:{$ilike:`${filters.title}`}}})).length<2){
-                let search = filters.title.split(" ").slice(0,-1).join(" ")
+                let tab = filters.title.split(" ");
+                let search = tab.length>1? tab.slice(0,-1).join(" ") : filters.title;
                 console.log(search)
                 qb.where({ title: { $ilike: `%${search}%` } });
             }

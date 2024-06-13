@@ -34,6 +34,10 @@ export class UserPatch {
 
   @IsOptional()
   @IsArray()
+  readBooks: string[];
+
+  @IsOptional()
+  @IsArray()
   booksToRead: string[];
 
   @IsOptional()

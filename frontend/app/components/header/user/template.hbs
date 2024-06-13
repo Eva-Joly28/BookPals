@@ -1,0 +1,16 @@
+<div class="inline-block my-2 w-40 bg-transparent hover:bg-background/80 user-nav rounded-sm">
+    <div class="flex flex-row top-4 cursor-pointer absolute user-image">
+        <div class=" rounded-full h-10 w-10 bg-[url('/assets/icons/user.svg')] bg-cover bg-center m-2 bg-amber-900"></div>
+        <p class="pt-3 text-lg capitalize">{{this.user.username}}<span class=" text-xl text-amber-100 rotate-180 "> &#8250;</span></p>
+        <hr class=" text-amber-950">
+    </div>
+    <div class="user-options hidden p-0">
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">accueil</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">profil</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">livres</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">réseau</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">Listes</p>
+        {{!-- template-lint-disable no-invalid-interactive --}}
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80" {{on 'click' this.logOut}}>Déconnexion</p>
+    </div>
+</div>

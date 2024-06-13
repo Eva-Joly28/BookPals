@@ -24,7 +24,7 @@
 }
 
 .alert-success {
-  @apply bg-primary;
+  @apply bg-green-600;
 }
 
 .alert-warning {

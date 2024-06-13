@@ -1,0 +1,73 @@
+<Forms::YupForm
+class="flex m-3 "
+@changeset={{this.changeset}}
+@validationSchema={{this.validationSchema}}
+@onSubmit={{this.submit}}
+@reactive={{true}}
+>
+    <div class="flex flex-col bg-[#362120] rounded justify-start items-start py-6 pl-10 pr-20 m-auto p-4">
+        
+        <TpkValidationInput
+        @classless={{false}}
+        @label="email"
+        @validationField="email"
+        @mandatory={{true}}
+        @changeset={{this.changeset}}
+        class="my- w-96"
+        data-input-email
+        as |I|>
+            <I.Label/>
+            <I.Input/>
+        </TpkValidationInput>
+
+        <TpkValidationInput
+        @label="pseudo"
+        @validationField="username"
+        @mandatory={{true}}
+        @changeset={{this.changeset}}
+        @onChange={{this.onChangeUsername}}
+        class="my-5"
+        as |I|>
+            <div class="flex flex-row justify-between">
+                <div>
+                    <I.Label/>
+                    <I.Input placeholder="min. 2 lettres"/>
+                </div>
+                <div class="flex mt-5 ml-10 flex-row duration-100 {{this.visible}}">
+                    <img class=" h-4 w-4 mt-2" src="/assets/icons/{{this.availability}}.svg" alt="username availibity">
+                    <span class="mt-1 text-center px-3 text-amber-700 font-extrabold">{{this.availability}}</span>
+                </div>
+
+            </div>
+
+        </TpkValidationInput>
+
+
+        <TpkValidationInput
+        @label="mot de passe"
+        @validationField="password"
+        @type="password"
+        @changeset={{this.changeset}}
+        class="my-5"
+         @mandatory={{true}}
+        as |I|>
+            <I.Label/>
+            <I.Input placeholder="min. 8 caractères"/>
+        </TpkValidationInput>
+
+        <TpkValidationInput
+        class="my-5"
+        @label="confirmation mot de passe"
+        @validationField="confirmPassword"
+        @type="password"
+        @mandatory={{true}}
+        @changeset={{this.changeset}}
+        as |I|>
+            <I.Label/>
+            <I.Input/>
+        </TpkValidationInput>
+
+        <button class="px-12 i self-center rounded-md py-2 bg-teal-400/30 ml-20 mt-6 " type="submit" value="Submit" {{on 'click' this.submit}}>S'inscrire</button>
+    </div>
+
+</Forms::YupForm>

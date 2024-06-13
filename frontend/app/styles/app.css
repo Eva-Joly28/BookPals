@@ -95,6 +95,14 @@ hr {
   @apply hidden;
 }
 
+.user-nav:hover .user-options {
+  @apply  absolute block bg-background/80 w-32 top-[70px];
+}
+
+.user-nav:hover .user-image{
+  @apply bg-background/80 w-32
+}
+
 .book{
   max-height: 8em;
   max-width: 6em;
@@ -105,7 +113,7 @@ hr {
 }
 
 .has-tooltip:hover .tooltip {
-  @apply visible z-50;
+  @apply visible;
 }
 
 #input-search{

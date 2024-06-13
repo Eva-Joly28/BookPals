@@ -1,10 +1,10 @@
 import * as Yup from 'yup';
 
 const passwordRecoveryValidation = Yup.object().shape({
-  password: Yup.string().required('validations.password.required'),
+  password: Yup.string().required('Entrez le nouveau mot de passe'),
   confirmPassword: Yup.string()
-    .required('validations.confirm_password.required')
-    .oneOf([Yup.ref('password')], 'validations.confirm_password.not_matching'),
+    .required('veuillez confirmer le mot de passe')
+    .oneOf([Yup.ref('password')], 'les mots de passe doivent correspondre'),
 });
 
 // jscpd:ignore-end

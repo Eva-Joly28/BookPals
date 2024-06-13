@@ -1,12 +1,13 @@
 <HeadLayout />
-<div class="fixed z-[99999] right-4">
-  {{#each this.flashMessages.arrangedQueue as |flash|}}
-    <FlashMessage @flash={{flash}} />
+<div class="fixed z-50 top-4 right-4">
+  {{#each this.queue as |flash|}}
+    <FlashMessage @flash={{flash}} @messageStyle="foundation"/>
   {{/each}}
 </div>
-<Header/>
+<Header @model={{this.model}}/>
 {{#if this.isLoading}}
   <h2 class=" text-black">Loading...</h2>
 {{/if}}
 {{outlet}}
+<div id="tpk-modal"></div>
 <Footer/>

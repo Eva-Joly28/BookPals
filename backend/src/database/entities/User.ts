@@ -1,4 +1,4 @@
-import { Entity, Enum, ManyToMany, OneToMany, Property, Unique } from '@mikro-orm/core';
+import { Cascade, Entity, Enum, ManyToMany, OneToMany, Property, Unique } from '@mikro-orm/core';
 
 import { BaseEntity } from './BaseEntity';
 
@@ -23,6 +23,7 @@ export class User extends BaseEntity {
   email: string;
 
   @Property()
+  @Unique()
   @IsAlphanumeric()
   declare username: string;
 
@@ -41,16 +42,19 @@ export class User extends BaseEntity {
   @Property()
   declare refreshToken?:string;
 
-  @Property({default:''})
-  declare profilePicture?:string;
+  @Property({nullable:true})
+  declare profilePicture:string;
   
-  @ManyToMany(()=>Book,'usersToRead',{owner:true})
+  @ManyToMany(()=>Book,'usersToRead',{owner:true, cascade:[Cascade.ALL]})
   declare booksToRead: Book[];
 
-  @ManyToMany(()=>Book,'usersInProgress',{owner:true})
+  @ManyToMany(()=>Book,'usersInProgress',{owner:true, cascade:[Cascade.ALL]})
   declare booksInProgress: Book[];
 
-  @ManyToMany(() => Book,'usersWishists',{owner:true})
+  @ManyToMany(()=>Book,'usersReadBooks',{owner:true, cascade:[Cascade.ALL]})
+  declare readBooks: Book[];
+
+  @ManyToMany(() => Book,'usersWishlists',{owner:true, cascade:[Cascade.ALL]})
   declare wishList: Book[]; 
 
   @OneToMany(() => Rating, rating=> rating.user)

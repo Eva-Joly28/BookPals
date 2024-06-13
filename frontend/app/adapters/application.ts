@@ -1,12 +1,18 @@
+/* eslint-disable ember/use-ember-data-rfc-395-imports */
 import { service } from '@ember/service';
-import JSONAPIAdapter from '@ember-data/adapter/json-api';
+import JSONAdapter from '@ember-data/adapter/json-api';
+import RESTAdapter from '@ember-data/adapter/rest';
+
 
 import config from '../config/environment';
 
 import type SessionService from 'ember-boilerplate/services/session';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
+import type DS from 'ember-data';
+import type { ModelSchema } from 'ember-data';
+import type RSVP from 'rsvp';
 
-export default class ApplicationAdapter extends JSONAPIAdapter {
+export default class ApplicationAdapter extends JSONAdapter {
   @service declare session: SessionService;
   @service declare flashMessages: FlashMessageService;
 
@@ -50,6 +56,14 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
     }
 
     return super.handleResponse(status, headers, payload, requestData);
+  }
+
+  updateRecord<K extends string | number>(store: DS.Store, type: ModelSchema<K>, snapshot: DS.Snapshot<K>): RSVP.Promise<any> {
+
+    let url = this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord');
+    let data = this.serialize(snapshot, { includeId: true });
+
+    return this.ajax(url, 'PATCH', { data: data });
   }
 
   urlForQueryRecord(

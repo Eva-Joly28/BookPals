@@ -14,6 +14,7 @@ import { Inject, Service } from 'typedi';
 import { UserRepository } from '../repositories/user.repository';
 import { UserService } from '../../core/services/UserService';
 import { UserControllerPort } from '../../core/ports/in/UserControllerPort';
+import JsonApiSerializer from '../../utils/jsonapi-serializer';
 
 @JsonController('/users')
 @Service()
@@ -26,25 +27,27 @@ export class UserController implements UserControllerPort {
   }
 
   @Get('/', {transformResponse:false})
-  async getWithFilters(@Req() request: any): Promise<User[]> {
+  async getWithFilters(@Req() request: any){
     const {filters} = request.params;
     let users = await this.userService.getUsersWithFilters(filters);
-    return this.filterFields(users,['password']);
+    let filteredUsers = this.filterFields(users,['password']);
+    return JsonApiSerializer.serializeUsers(filteredUsers);
   }
 
   @Get('/:id',{transformResponse:false})
-  async getOne(@Param('id') id: string): Promise<User | null> {
+  async getOne(@Param('id') id: string){
     let user = await this.userService.getUser(id);
-    return this.filterFields([user],['password'])[0];
+    let filtereduser = this.filterFields([user],['password'])[0];
+    return JsonApiSerializer.serializeUser(filtereduser);
   }
 
   @Patch('/:id', {transformResponse:false})
-  async update(@Param('id') id: string, @Body() body:UserPatch): Promise<User | null> {
+  async update(@Param('id') id: string, @Body() body:UserPatch){
     
     let user = await this.userService.updateUser(id, body);
-    return this.filterFields([user], ['password'])[0];
+    let filteredUser = this.filterFields([user], ['password'])[0];
+    return JsonApiSerializer.serializeUser(filteredUser)
   }
-
 
 
 

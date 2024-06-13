@@ -29,11 +29,11 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
                 qb.limit(parseInt(filters.limit));
             }
         }
-        return qb.getResultList()
+        return qb.execute("all");
 
     }
     async findById(id: string): Promise<User | null> {
-        return await this.findOneOrFail({id});
+        return await this.findOneOrFail({id},{populate:['*']});
     }
     async createUser(user: UserPost): Promise<User> {
         const newUser = new User();
@@ -42,11 +42,11 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
         return newUser;
     }
     async deleteUser(id: string): Promise<void> {
-        const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError() });
+        const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError()});
         await this.em.removeAndFlush(result);
     }
     async updateUser(id: string, user: UserPatch): Promise<User> {
-        const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError() });
+        const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError(),  populate:['*'] });
         wrap(result).assign(user);
         await this.em.persistAndFlush(result);
         return result;

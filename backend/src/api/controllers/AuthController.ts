@@ -9,6 +9,8 @@ import { User } from "../../database/entities/User";
 import { sendVerificationEmail } from "../../utils/mailService";
 import { AnyEntity } from "@mikro-orm/core";
 import { UserPatch, UserPost } from "../validators/User";
+import { http } from "winston";
+import { log } from "console";
 
 
 const JWT_SECRET = process.env.JWT_SECRET as any ;
@@ -36,10 +38,42 @@ export class AuthController{
             const token = await Encrypt.generateToken({userId: newUser.id})
             newUser.verificationToken = token;
             await this.userRepository.getEntityManager().flush();
-            return token;
+            return {
+                id : newUser.id,
+                username : newUser.username,
+            }
         } catch (error) {
             console.log(error);
             return undefined
+        }
+    }
+
+    @Post('/login')
+    async login(@Body() body:any, @Res() res:any){
+        console.log(body)
+        const {username, password} = body;
+        const user = await this.userRepository.findOne({username});
+        if(!user || !(await Encrypt.comparePassword(password, user.password))){
+            return res.status(400).send('identifiants incorrects')
+        }
+        const token = await Encrypt.generateToken({userId: user.id})
+        let refreshToken = await Encrypt.generateToken({user});
+        user.verificationToken = token;
+        await this.userRepository.getEntityManager().flush();
+        return {id:user.id,accessToken:token,refreshToken};
+    }
+
+    @Post('/refresh-token')
+    async refreshToken(@Req() req:any, @Res() res:any){
+
+        const { token } = req.body;
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+            const newToken = await Encrypt.generateToken({userId: decoded.userId});
+            res.send({token: newToken });
+        } 
+        catch (error) {
+            res.status(400).send('Invalid token');
         }
     }
 
@@ -69,49 +103,4 @@ export class AuthController{
         return {message: 'password reset successful'}
     }
 
-    @Post('/verify')
-    async verify(@Req() request:any, @Res() res:any){
-        const {token} = request.query;
-        try{
-            const decoded = jwt.verify(token as string, JWT_SECRET) as {email: string};
-            const user = await this.userRepository.findOne({email : decoded.email});
-            if(user){
-                user.isVerified = true;
-                user.verificationToken = '';
-                await this.userRepository.getEntityManager().flush();
-                res.send('L\'adresse mail a été vérifiée');
-            }
-        }
-        catch(error){
-            res.status(400).send('token invalide');
-        }
-
-    }
-
-    @Post('/login')
-    async login(@Req() req:any, @Res() res:any){
-        const {email, password} = req.body;
-        const user = await this.userRepository.findOne({email});
-        if(!user || !(await Encrypt.comparePassword(password, user.password))){
-            return res.status(400).send('identifiants incorrects')
-        }
-        const token = await Encrypt.generateToken({userId: user.id})
-        user.verificationToken = token;
-        await this.userRepository.getEntityManager().flush();
-        return token;
-    }
-
-    @Post('/refresh-token')
-    async refreshToken(@Req() req:any, @Res() res:any){
-
-        const { token } = req.body;
-        try {
-            const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
-            const newToken = await Encrypt.generateToken({userId: decoded.userId});
-            res.send({ token: newToken });
-        } 
-        catch (error) {
-            res.status(400).send('Invalid token');
-        }
-    }
 }

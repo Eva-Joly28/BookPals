@@ -2,7 +2,11 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import type userModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
+import type CurrentUserService from "ember-boilerplate/services/current-user";
+import type Store from "ember-boilerplate/services/store";
+import type SessionService from "ember-simple-auth/services/session";
 
 interface HeaderSignature{
     Args:{
@@ -10,11 +14,15 @@ interface HeaderSignature{
     }
 }
 
-// eslint-disable-next-line ember/require-tagless-components, ember/no-empty-glimmer-component-classes
 export default class HeaderComponent extends Component<HeaderSignature>{
     @service declare router: Router;
+    @service declare store : Store
+    @tracked showLogin = false;
+    @tracked isOpenModal = false;
     @tracked isIndex : boolean = true;
     @tracked searchValue = '';
+    @service declare session : SessionService;
+    @service('current-user') declare currentUser : CurrentUserService;
     declare currentRoute : string|null;
     constructor(owner : unknown, args: HeaderSignature['Args']) {
         super(owner,args);
@@ -24,8 +32,6 @@ export default class HeaderComponent extends Component<HeaderSignature>{
             this.currentRoute = this.router.currentRouteName;
             this.isIndex = this.currentRoute === 'index'? true : false;
         })
-        console.log(this.currentRoute);
-        console.log(this.isIndex);
 
     }
 
@@ -43,9 +49,31 @@ export default class HeaderComponent extends Component<HeaderSignature>{
         }
     }
 
+
     @action
     updateValue(e: InputEvent){
         this.searchValue = e.data ? e.data : '';
         console.log(this.searchValue);
     }
+
+    @action
+    async openModal(){
+        this.isOpenModal = true;
+    }
+
+    @action
+    onCloseModal(){
+        this.isOpenModal = false;
+    }
+
+    @action
+    openLogin(){
+        this.showLogin = true; 
+    }
+
+    @action
+    closeLogin(){
+        this.showLogin = false;
+    }
+
 }

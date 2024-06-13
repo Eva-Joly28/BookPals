@@ -63,13 +63,16 @@ export class Book extends BaseEntity {
     rate: number;
 
     @ManyToMany(()=>User, 'wishList')
-    declare usersWishists : User[];
+    declare usersWishlists : User[];
 
     @ManyToMany(()=>User, 'booksToRead')
     declare usersToRead : User[];
 
     @ManyToMany(()=>User,'booksInProgress')
     declare usersInProgress: User[];
+
+    @ManyToMany(()=>User,'readBooks')
+    declare usersReadBooks: User[];
 
     @ManyToMany(()=>List, 'books')
     declare lists: List[];

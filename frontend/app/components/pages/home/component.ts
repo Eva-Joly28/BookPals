@@ -7,7 +7,7 @@ import type Router from "ember-boilerplate/router";
 
 interface PagesHomeSignature {
     Args: {
-        model : BookModel[];
+        model : {top: BookModel[], choices: BookModel[]};
     }
 }
 
@@ -17,9 +17,13 @@ export default class PagesHomeComponent extends Component<PagesHomeSignature>{
     @service declare router: Router;
 
     get topBooks() {
-        let topBooks = this.args.model.filter(book => book.cover.length).slice(0,5);
+        let topBooks = this.args.model.top.filter(book => book.cover.length).slice(0,5);
         return topBooks;
     } 
+
+    get weekChoices(){
+        return this.args.model.choices.filter(book => book.cover.length).slice(0,10);
+    }
 
     @action
     goToBook(bookId : string){

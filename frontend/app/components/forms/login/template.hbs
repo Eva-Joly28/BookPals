@@ -1,0 +1,36 @@
+<Forms::YupForm
+class="flex flex-row p-0"
+@changeset={{this.changeset}}
+@validationSchema={{this.validationSchema}}
+@onSubmit={{this.submit}}
+>
+<div class="ml-8 flex flex-row justify-between bg-background pl-5 pr-10 pb-1 rounded items-center max-h-40 cursor-pointer">
+    {{!-- template-lint-disable no-invalid-interactive --}}
+    <img src="/assets/icons/cross.svg" alt="cross" class="absolute bottom-10 h-5 w-5 justify-center" {{on 'click' @closeLogin}}>
+    <TpkValidationInput
+    @label="pseudo"
+    @mandatory={{true}}
+    @changeset={{this.changeset}}
+    @validationField="username"
+    class=" ml-8 mr-3"
+    as |I|>
+        <I.Label/>
+        <I.Input/>
+    </TpkValidationInput>
+
+    <TpkValidationInput
+    @label="mot de passe"
+    @validationField="password"
+    @changeset={{this.changeset}}
+    @type="password"
+    class="m-3 focus:border-none"
+    as |I|>
+        <I.Label/>
+        <I.Input/>
+    </TpkValidationInput>
+    <button class="rounded px-3 py-1 bg-teal-500/30 ml-2 mt-5 relative" type="submit" value="Submit">
+        <span class=" text-yellow-50/80">Connexion</span>
+    </button>
+</div>
+
+</Forms::YupForm>

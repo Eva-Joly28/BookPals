@@ -4,17 +4,18 @@
   data-tooltip-target={{@book.id}}
   class="m-3 has-tooltip"
 >
-  <img
-    src={{return-https @book}}
-    alt={{@book.title}}
-    class="object-cover rounded-md {{@addStyle}} hover:ring-2 hover:ring-amber-700"
-  />
-  <div
+<div
     role="tooltip"
     id={{@book.id}}
-    class="px-3 -mt-8 py-2 text-sm font-medium text-white transition-opacity duration-300 rounded-lg shadow-sm opacity-0 tooltip bg-gray-500"
+    class="px-3 py-2 absolute z-10 invisible inline-block text-sm font-medium text-white transition-opacity duration-100 rounded-lg shadow-sm tooltip bg-gray-500"
   >
     {{@book.title}}
     <div class="tooltip-arrow" data-popper-arrow></div>
   </div>
+  <img
+    data-tooltip-target={{@book.id}}
+    src={{return-https @book}}
+    alt={{@book.title}}
+    class="object-cover mt-12 rounded-md {{@addStyle}} hover:ring-2 hover:ring-amber-700"
+  />
 </div>

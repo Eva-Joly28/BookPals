@@ -1,16 +1,15 @@
 import { object, ref, string } from 'yup';
 
-const validationsRegister = object().shape({
-  firstName: string().required('validations.firstName.required'),
-  lastName: string().required('validations.lastName.required'),
-  phone: string().required('validations.phone.required'),
+
+const registerSchema = object().shape({
+  username: string().required('Entrez un nom').min(2, 'pseudo trop court').max(40, 'pseudo trop long'),
   email: string()
-    .email('validations.email.format')
-    .required('validations.email.required'),
-  password: string().required('validations.password.required'),
+    .email('Entrez une adresse mail valide')
+    .required('Entrez une adresse mail'),
+  password: string().required('Entrez un mot de passe').min(8,'minimum 8 caractères'),
   confirmPassword: string()
-    .oneOf([ref('password')], 'validations.confirm_password.not_matching')
-    .required('validations.confirm_password.required'),
+    .oneOf([ref('password')], 'les mots de passe ne correspondent pas')
+    .required('veuillez confirmer le mot de passe'),
 });
 
-export default validationsRegister;
+export default registerSchema;

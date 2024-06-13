@@ -4,13 +4,16 @@ import { htmlSafe } from "@ember/template";
 import Component from "@glimmer/component"
 import { tracked } from "@glimmer/tracking";
 import type BookModel from "ember-boilerplate/models/book";
+import type userModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
+import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
+import type SessionService from "ember-simple-auth/services/session";
 import sanitizeHtml from "sanitize-html";
 
 export interface PagesBookDetailsSignature {
     Args : {
-        model : {book : BookModel, authorsBooks: BookModel[], genreBooks: BookModel[]};
+        model : {book : BookModel, authorsBooks: BookModel[], genreBooks: BookModel[], users: userModel[]};
     }
 }
 
@@ -18,6 +21,9 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     @service declare store : Store;
     @service declare router : Router;
     @tracked showMore = false;
+    @service('current-user') declare currentUser : CurrentUserService;
+    @service declare session : SessionService;
+    @tracked isOpen = false; 
 
     constructor(owner: unknown, args: PagesBookDetailsSignature['Args']){
         super(owner,args);
@@ -25,7 +31,6 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     }
     
     get authorBooks() {
-        console.log(this.args.model.book);
         return this.args.model.authorsBooks.filter(book => book.cover.length).slice(0,6);
     }
 
@@ -33,7 +38,16 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
         return this.args.model.genreBooks.filter(book => book.cover.length).slice(0,8);
     }
 
-    
+    @action
+    onClose(){
+      this.isOpen = false;
+    }
+
+    @action
+    openModal(){
+      this.isOpen = true;
+    }
+
     @action
     gotoBook(id : string){
       this.router.transitionTo('book-details', id);

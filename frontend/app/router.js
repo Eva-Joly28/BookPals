@@ -17,13 +17,13 @@ Router.map(function () {
   });
   this.route('profile',{path: 'profil/:username'}, function () {
     this.route('reviews', {path: '/commentaires'});
-    this.route('ratings', {path: '/notes'});
+    this.route('ratings', {path: '/livres-notés'});
     this.route('friends', {path: '/réseau'});
     this.route('wishlist');
-    this.route('lists');
-    this.route('toread', {path:'/à_lire'});
+    this.route('lists',{path:'/listes'});
+    this.route('toread', {path:'/à-lire'});
     this.route('read', {path: 'lus'});
-    this.route('favorites');
+    this.route('liked',{path:'/aimés'});
 
   })
   this.route('lists', {path: '/listes'}, function () {
