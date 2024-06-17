@@ -1,4 +1,4 @@
-<section class="pt-20 p-4">
+<section class="pt-20 p-4 mx-16">
   <div class="flex flex-row flex-wrap flex-auto">
     <Cards::Details @book={{@model.book}} />
     <div class="flex flex-col flex-1 pl-4 pr-4 mt-16">
@@ -16,7 +16,7 @@
       </div>
       <div class="flex relative flex-row mt-2 flex-wrap w-full flex-1">
         <div class="flex flex-col p-2 m-2 my-10 flex-1">
-          <p class="text-justify description font-thin">{{this.description}}
+          <p class="text-justify description font-thin font-[glenn-light]">{{this.description}}
             {{! template-lint-disable no-invalid-interactive }}
             <span class="hover:text-red-300 cursor-pointer" {{on "click" this.toggleDescription}}>
               {{if this.showMore "...Voir moins" "...Voir plus"}}
@@ -46,6 +46,13 @@
             </div>
           {{/if}}
         <Rate />
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <Comments/>
+        <Comments/>
+        <div class="mt-5 flex flex-row justify-end">
+          <Comments::Add/>
         </div>
       </div>
       <div class="flex flex-col {{if this.authorBooks.length '' 'hidden'}}">

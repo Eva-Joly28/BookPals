@@ -26,6 +26,18 @@ export default class userModel extends Model {
     })
     declare booksInProgress: SyncHasMany<BookModel>
 
+    @hasMany('user', {
+        async:false,
+        inverse: 'followers',
+    })
+    declare following: SyncHasMany<userModel>
+
+    @hasMany('user', {
+        async:false,
+        inverse: 'following',
+    })
+    declare followers: SyncHasMany<userModel>
+
     @hasMany('book', {
         async:false,
         inverse: 'usersWishLists',

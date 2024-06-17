@@ -45,6 +45,7 @@ module.exports = {
       transparent: colors.transparent,
       red: colors.red,
       gray: colors.gray,
+      "blue-gray": colors.sky,
     },
   },
 };

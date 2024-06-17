@@ -1,0 +1,19 @@
+<div>
+    <div class="">
+        <Users::Base @size="h-[10em] w-[10em]" @picture={{if @user.profilePicture @user.profilePicture "[url('/assets/icons/user.svg')]"}}/>
+       {{#if this.session.isAuthenticated}}
+          <div class="absolute rounded-full bg-amber-900 hover:bg-amber-800 h-7 w-7 ml-32 -mt-11">
+            <img src="/assets/icons/plus.svg" alt="whatever icon">
+        </div>
+       {{/if}}
+    </div>
+    <div class="flex flex-row text-center">
+        <h3 class="capitalize text-base">{{@user.username}}</h3>
+        <p>{{this.userComments}}</p>
+    </div>
+    <div class="flex flex-row justify-center flex-wrap m-1">
+        {{#each this.topRead as |t|}}
+          <Cards::Base @book={{t}} @addStyle="h-[3em] w-[2em]"/>
+        {{/each}}
+    </div>
+</div>
