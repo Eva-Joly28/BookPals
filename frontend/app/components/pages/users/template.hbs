@@ -1,0 +1,58 @@
+<div class="flex flex-col mt-8 mb-20 p-2">
+    <h2 class="mt-24 text-center ">Les personnes derrière les livres</h2>
+    <div class="mx-32 mt-16">
+        <span class="justify-start text-[#edddc0] text-lg font-extrabold ">Les plus actifs</span>
+        <hr class="w-full bg-[#816562]">
+    </div>
+    <div class="flex justify-between flex-row mx-28 mt-5 p-2">
+        {{#each this.topUsers as |u|}}
+            <Users::Top @user={{u}}/>
+        {{/each}}
+    </div>
+    <div class="flex flex-rown justify-between m-3 my-28">
+        <div class=" flex-grow ml-10">
+            <Table::Users @users={{this.others}}/>
+        </div>
+        <div class="mt-8 ml-4">
+            {{#if this.session.isAuthenticated}}
+                <div class="m-4 my-20">
+                    <span class="text-white justify-end">abonnés</span>
+                    <hr class="w-full bg-[#816562]">
+                    <div class="flex flex-row">
+                        {{#if (gt 0 this.followers.length)}}
+                            {{#each this.followers as |f|}}
+                                <Users::Base @picture={{if f.profilePicture f.profilePicture '/assets/icons/user.svg'}} @size="h-[1em] w-[1em]"/>
+                            {{/each}}
+                        {{else}}
+                            <span class="p-4 text-[#a19181] font-[glenn] font-thin">Aucun abonné pour le moment</span>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="m-4 my-20">
+                    <span class="text-white">Vous suivez :</span>
+                    <hr class="w-full bg-[#816562]">
+                    <div class="flex flex-row -m-1">
+                        {{#if (gt 0 this.following.length)}}
+                            {{#each this.followers as |f|}}
+                                <Users::Base @picture={{if f.profilePicture f.profilePicture '/assets/icons/user.svg'}} @size="h-[1em] w-[1em]"/>
+                            {{/each}}
+                        {{else}}
+                            <span class="p-4 text-[#a19181] font-[glenn] font-thin">Aucune personne suivie pour le moment</span>
+                        {{/if}}
+                    </div>
+                </div>
+            {{else}}
+                <div class="p-3 text-center text-base font-[cooper] mt-10 max-w-[18em] mx-4 text-white rounded-lg bg-[#816562]">
+                        Connectez ou inscrivez vous pour former votre réseau
+                </div>
+            {{/if}}
+        </div>
+    </div>
+    <button
+        type="button"
+        class="h-9 w-28 bg-gray-400/40 mx-96 p-2 box-border hover:bg-blue-300/40 rounded"
+        {{on "click" this.viewMore}}
+      >
+        <span class="text-center text-yellow-50 text-base">Voir plus</span>
+    </button>
+</div>

@@ -1,0 +1,26 @@
+<div class="relative w-[32rem]">
+  <div class="relative w-full min-w-[200px]">
+    {{!-- template-lint-disable require-input-label --}}
+    <textarea rows="8"
+      class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-amber-600 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-[#d4ab9b] outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-amber-600 placeholder-shown:border-t-amber-600 focus:border-3"
+      placeholder=" "></textarea>
+    <label
+      class="label-comment">
+      Commentez ici
+    </label>
+  </div>
+  <div class="flex w-full justify-between py-1.5">
+    <div class="flex gap-2">
+      {{!-- <button
+        class="px-4 py-2 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-md select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        type="button">
+        Close
+      </button> --}}
+      <button
+        class="select-none rounded-md bg-yellow-100/80 text-yellow-900 py-2 px-4 text-center align-middle text-sm shadow-md shadow-gray-900/10 transition-all hover:shadow-lg font-[glenn] hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+        type="button">
+        Ajouter un commentaire
+      </button>
+    </div>
+  </div>
+</div>

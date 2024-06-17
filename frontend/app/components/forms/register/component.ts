@@ -79,7 +79,7 @@ export default class FormsLoginComponent extends Component<FormsRegisterSignatur
     onChangeUsername(e : string){
         this.inputValue = e;
         this.visible = 'visible'
-        if(this.users.some((user)=> user.username == e)){
+        if(this.users.some((user)=> user.username.toLowerCase() == e.toLowerCase())){
             this.availability = "indisponible";
         }
         else{

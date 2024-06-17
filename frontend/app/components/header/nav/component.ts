@@ -22,6 +22,11 @@ export default class HeaderNavComponent extends Component<HeaderNavSignature> {
     //     return this.currentUser.user;
     // }
 
+    @action
+    gotoUsers(){
+        this.router.transitionTo('users');
+    }
+
     // @action
     // logOut(){
     //     this.session.invalidate;

@@ -25,7 +25,8 @@
             <hr class="disappear">
         </li>
         <li>
-            <p class="block py-4 px-3 nav-page md:bg-transparent md:p-0 cursor-pointer">Utilisateurs</p>
+            {{!-- template-lint-disable no-invalid-interactive --}}
+            <p class="block py-4 px-3 nav-page md:bg-transparent md:p-0 cursor-pointer" {{on 'click' this.gotoUsers}}>Utilisateurs</p>
             <hr class="disappear">
         </li>
     </ul>
