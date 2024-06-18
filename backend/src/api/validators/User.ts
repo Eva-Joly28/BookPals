@@ -44,4 +44,22 @@ export class UserPatch {
   @IsArray()
   wishList: string[];
 
+  @IsOptional()
+  @IsArray()
+  followers: string[];
+
+  @IsOptional()
+  @IsArray()
+  following: string[];
+
+  @IsOptional()
+  @IsArray()
+  ratings: string[];
+
+  @IsOptional()
+  @IsArray()
+  comments: string[];
+
+  
+
 }

@@ -10,7 +10,7 @@ export interface UserFilters{
     email?: string,
     orderBy?: string,
     order?:'asc'|'desc',
-    limit?: number,
+    limit?:{offset?:number, limit:number},
 }
 
 @Service('userRepo')
@@ -26,7 +26,10 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
             this.setupFilters(filters, qb);
 
             if(filters.limit){
-                qb.limit(parseInt(filters.limit));
+                if(filters.limit.offset){
+                    qb.limit(parseInt(filters.limit.limit),parseInt(filters.limit.offset))
+                }
+                qb.limit(parseInt(filters.limit.limit));
             }
         }
         return qb.execute("all");

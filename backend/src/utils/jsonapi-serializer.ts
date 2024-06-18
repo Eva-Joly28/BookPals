@@ -136,9 +136,9 @@ export default class JsonApiSerializer {
                 })) : [],
               },
               likedComments: {
-                data: user.likedComments? user.likedComments.map(comment => ({
-                  type: 'comments',
-                  id: comment.id,
+                data: user.likedComments? user.likedComments.map(commentLike => ({
+                  type: 'comment-like',
+                  id: commentLike.id,
                 })) : [],
               },
               favoritesLists: {
@@ -211,8 +211,7 @@ export default class JsonApiSerializer {
             type: 'comments',
             id: comment.id,
             attributes: {
-              comment: comment.comment,
-              likedAt: comment.likedAt,
+              comment: comment.comment
             },
             relationships: {
               book: {
@@ -228,9 +227,9 @@ export default class JsonApiSerializer {
                 },
               },
               likedBy: {
-                data: comment.likedBy?.map(user => ({
-                  type: 'users',
-                  id: user.id,
+                data: comment.likedBy?.map(commentLike => ({
+                  type: 'comment-like',
+                  id: commentLike.id,
                 })) || [],
               },
             },

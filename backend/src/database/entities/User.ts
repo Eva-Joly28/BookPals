@@ -58,7 +58,7 @@ export class User extends BaseEntity {
   @ManyToMany(() => Book,'usersWishlists',{owner:true, cascade:[Cascade.REMOVE]})
   declare wishList: Book[]; 
 
-  @ManyToMany(() => User,'followers',{owner:true, cascade:[Cascade.REMOVE]})
+  @ManyToMany(() => User,'followers',{owner:true, cascade:[Cascade.ALL]})
   declare following: User[]; 
 
   @ManyToMany(() => User,'following')

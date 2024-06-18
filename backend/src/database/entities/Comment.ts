@@ -4,20 +4,22 @@ import { Max, MaxLength, max } from "class-validator";
 import { User } from "./User.js";
 import { Book } from "./Book";
 import { CommentLike } from "./CommentLike";
+import { CommentRepository } from "../../api/repositories/comment.repository";
 
-@Entity()
+@Entity({ repository: () => CommentRepository })
 export class Comment extends BaseEntity {
 
     @Property({length:1500})
     @MaxLength(1500)
     declare comment : string;
 
-    @ManyToOne(()=>Book)
+    @ManyToOne(()=>Book, {cascade:[Cascade.ALL]})
     declare book: Book;
 
     @ManyToOne({
         entity : 'User',
         nullable:false,
+        cascade:[Cascade.ALL]
     })
     declare user : User;
 

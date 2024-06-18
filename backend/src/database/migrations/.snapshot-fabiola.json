@@ -511,11 +511,12 @@
         },
         "description": {
           "name": "description",
-          "type": "varchar(255)",
+          "type": "varchar(1000)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 1000,
           "mappedType": "string"
         },
         "status": {
@@ -744,22 +745,13 @@
         },
         "comment": {
           "name": "comment",
-          "type": "varchar(255)",
+          "type": "varchar(1500)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 1500,
           "mappedType": "string"
-        },
-        "liked_at": {
-          "name": "liked_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
         },
         "book_id": {
           "name": "book_id",
@@ -825,8 +817,8 @@
     },
     {
       "columns": {
-        "comment_id": {
-          "name": "comment_id",
+        "id": {
+          "name": "id",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -842,16 +834,56 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "comment_id": {
+          "name": "comment_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "liked_at": {
+          "name": "liked_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
         }
       },
-      "name": "comment_liked_by",
+      "name": "comment_like",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "comment_liked_by_pkey",
+          "keyName": "comment_like_pkey",
           "columnNames": [
-            "comment_id",
-            "user_id"
+            "id",
+            "user_id",
+            "comment_id"
           ],
           "composite": true,
           "constraint": true,
@@ -861,30 +893,28 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "comment_liked_by_comment_id_foreign": {
-          "constraintName": "comment_liked_by_comment_id_foreign",
-          "columnNames": [
-            "comment_id"
-          ],
-          "localTableName": "public.comment_liked_by",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.comment",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        },
-        "comment_liked_by_user_id_foreign": {
-          "constraintName": "comment_liked_by_user_id_foreign",
+        "comment_like_user_id_foreign": {
+          "constraintName": "comment_like_user_id_foreign",
           "columnNames": [
             "user_id"
           ],
-          "localTableName": "public.comment_liked_by",
+          "localTableName": "public.comment_like",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "public.user",
-          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "comment_like_comment_id_foreign": {
+          "constraintName": "comment_like_comment_id_foreign",
+          "columnNames": [
+            "comment_id"
+          ],
+          "localTableName": "public.comment_like",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.comment",
           "updateRule": "cascade"
         }
       },

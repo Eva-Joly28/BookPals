@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional} from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional} from "class-validator";
 
 export class createBookValidator {
     @IsNotEmpty()
@@ -87,4 +87,12 @@ export class updateBookValidator{
 
     @IsOptional()
     rate: number;
+
+    @IsOptional()
+    @IsArray()
+    comments: string[];
+
+    @IsOptional()
+    @IsArray()
+    ratings: string[];
 }
