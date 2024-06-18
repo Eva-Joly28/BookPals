@@ -9,8 +9,8 @@ export class List extends BaseEntity{
     @Property()
     declare name: string;
 
-    @Property()
-    @MaxLength(200)
+    @Property({length:1000})
+    @MaxLength(1000)
     declare description?: string;
 
     @Property()
