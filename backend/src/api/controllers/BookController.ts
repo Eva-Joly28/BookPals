@@ -24,29 +24,28 @@ export class BookController implements BookControllerPort {
     @ResponseSchema(Book)
     async getAll(@Req() request:any){
         console.log(request.query);
-        let books = await this.bookService.getBooksWithFilters(request.query);
-        return JsonApiSerializer.serializeBooks(books);
+        return await this.bookService.getBooksWithFilters(request.query);
     }
     
     @Get('/:id',{transformResponse:false})
     @ResponseSchema(Book)
     async getOne(@Param('id') id:string){
-        let book = await this.bookService.findBook(id);
-        return book!==null ? JsonApiSerializer.serializeBook(book) : undefined;
+        return await this.bookService.findBook(id);
+
     }
 
     @Post('/',{transformResponse:false})
     @ResponseSchema(Book)
     async create(@Body() book:createBookValidator) {
         let createdbook = await this.bookService.createBook(book as RequiredEntityData<Book>);
-        return createdbook? JsonApiSerializer.serializeBook(createdbook) : undefined;
+        return createdbook? createdbook : undefined;
     }
 
     @Patch('/:id',{transformResponse:false})
     @ResponseSchema(Book)
     async update(@Param('id') id:string, @Body() book: updateBookValidator){
-        let updatedBook = await this.bookService.updateBook(id, book as Partial<Book>);
-        return updatedBook!== null ? JsonApiSerializer.serializeBook(updatedBook) : undefined;
+        let updatedBook = await this.bookService.updateBook(id, book as unknown as Partial<Book>);
+        return updatedBook!== null ? updatedBook : undefined;
     }
 
     @Delete('/:id',{transformResponse:false})

@@ -11,7 +11,7 @@ export interface BookFilters{
     author?:string,
     isbn?:string,
     language?:'en'|'fr',
-    limit?:number,
+    limit?:{offset?:number, limit:number},
     orderBy?:string,
     order?:'asc'|'desc',
 }
@@ -30,7 +30,10 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
  
         await this.setupFilters(filters,qb);
         if(filters.limit){
-            qb.orderBy({language:'desc',[filters.orderBy]:filters.order||'asc'}).limit(parseInt(filters.limit));
+            if(filters.limit.offset){
+                qb.orderBy({language:'desc',[filters.orderBy]:filters.order||'asc'}).limit(parseInt(filters.limit.limit), parseInt(filters.limit.offset));
+            }
+            qb.orderBy({language:'desc',[filters.orderBy]:filters.order||'asc'}).limit(parseInt(filters.limit.limit));
         }
         const dbBooks = filters.limit? await qb.execute("all") : await qb.orderBy({language:'desc'}).execute("all");
         console.log(dbBooks.length);

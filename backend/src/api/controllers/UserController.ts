@@ -26,19 +26,19 @@ export class UserController implements UserControllerPort {
     this.userService = new UserService(userRepository)
   }
 
-  @Get('/', {transformResponse:false})
+  @Get('/', {transformResponse:true})
   async getWithFilters(@Req() request: any){
     const {filters} = request.params;
     let users = await this.userService.getUsersWithFilters(filters);
     let filteredUsers = this.filterFields(users,['password']);
-    return JsonApiSerializer.serializeUsers(filteredUsers);
+    return filteredUsers;
   }
 
   @Get('/:id',{transformResponse:false})
   async getOne(@Param('id') id: string){
     let user = await this.userService.getUser(id);
     let filtereduser = this.filterFields([user],['password'])[0];
-    return JsonApiSerializer.serializeUser(filtereduser);
+    return filtereduser;
   }
 
   @Patch('/:id', {transformResponse:false})
@@ -46,10 +46,8 @@ export class UserController implements UserControllerPort {
     
     let user = await this.userService.updateUser(id, body);
     let filteredUser = this.filterFields([user], ['password'])[0];
-    return JsonApiSerializer.serializeUser(filteredUser)
+    return filteredUser;
   }
-
-
 
 
   filterFields(entities: any[], excludeFields: string[]): any[] {

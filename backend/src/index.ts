@@ -36,6 +36,8 @@ import { UserRepository } from './api/repositories/user.repository.js';
 
 import swaggerSchema from './core/initializers/swagger.js';
 import helmet from 'helmet';
+import { CommentRepository } from './api/repositories/comment.repository';
+import { RatingRepository } from './api/repositories/rating.repository';
 if (process.env.SWAGGER_ROUTE) {
   app.use(`${process.env.SWAGGER_ROUTE}`, swaggerUi.serve);
   app.get(`${process.env.SWAGGER_ROUTE}`, swaggerUi.setup(swaggerSchema));
@@ -58,4 +60,8 @@ export const init = (async () => {
   DI.server = app;
   Container.set('bookRepo', new BookRepository(DI.orm.em.fork()));
   Container.set('userRepo', new UserRepository(DI.orm.em.fork()));
+  Container.set('commentRepo', new CommentRepository(DI.orm.em.fork()));
+  Container.set('ratingRepo', new RatingRepository(DI.orm.em.fork()));
+
+
 })();
