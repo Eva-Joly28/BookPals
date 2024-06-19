@@ -13,12 +13,12 @@ export class CommentService {
         return await this.commentRepository.getCommentsWithFilters(query);
     }
 
-    async getComment(bookId:string){
-        return await this.commentRepository.getComment(bookId);
+    async getComment(id:string){
+        return await this.commentRepository.getComment(id);
     }
 
-    async createComment(book:RequiredEntityData<Comment>): Promise<Comment |undefined>{
-        return await this.commentRepository.createComment(book);
+    async createComment(comment:RequiredEntityData<Comment>): Promise<Comment |undefined>{
+        return await this.commentRepository.createComment(comment);
     }
 
     async updateComment(id:string, comment:Partial<Comment>): Promise<Comment | null>{

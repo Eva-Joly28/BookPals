@@ -12,6 +12,16 @@ export default class CommentSerializer extends JSONSerializer {
       hash.user = { id: hash.user, type: 'user' };
     }
 
+    if (hash.likedBy) {
+      hash.likedBy = hash.likedBy.map((likeId: string) => ({ id: likeId, type: 'comment-like' }));
+    }
+
     return super.normalize(typeClass, hash);
+  }
+}
+
+declare module 'ember-data/types/registries/serializer' {
+  export default interface SerializerRegistry {
+    comment: CommentSerializer;
   }
 }

@@ -23,6 +23,6 @@ export class Comment extends BaseEntity {
     })
     declare user : User;
 
-    @OneToMany(() => CommentLike, commentLike => commentLike.comment, {cascade:[Cascade.ALL]})
+    @OneToMany(() => CommentLike, commentLike => commentLike.comment, {cascade:[Cascade.REMOVE]})
     declare likedBy : CommentLike[];
 }

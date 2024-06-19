@@ -1,8 +1,5 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 import JSONSerializer from '@ember-data/serializer/json';
-import {Snapshot} from '@ember-data/store';
-import type BookModel from 'ember-boilerplate/models/book';
-import type userModel from 'ember-boilerplate/models/user';
 
 export default class UserSerializer extends JSONSerializer {
   normalize(typeClass: any, hash: any) {
@@ -45,64 +42,4 @@ export default class UserSerializer extends JSONSerializer {
     return super.normalize(typeClass, hash);
   }
 
-//   serialize(snapshot: Snapshot, options: any) {
-//     let json: any = super.serialize(snapshot, options);
-
-//     // Ensure relationships are properly serialized
-//     if (snapshot.hasMany('booksToRead')) {
-//       json.data.relationships.booksToRead = {
-//         data: snapshot.hasMany('booksToRead')!.map((bookSnapshot: Snapshot) => ({ id: bookSnapshot.id, type: 'book' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('readBooks')) {
-//       json.data.relationships.readBooks = {
-//         data: snapshot.hasMany('readBooks')!.map((bookSnapshot: Snapshot) => ({ id: bookSnapshot.id, type: 'book' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('booksInProgress')) {
-//       json.data.relationships.booksInProgress = {
-//         data: snapshot.hasMany('booksInProgress')!.map((bookSnapshot: Snapshot) => ({ id: bookSnapshot.id, type: 'book' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('following')) {
-//       json.data.relationships.following = {
-//         data: snapshot.hasMany('following')!.map((userSnapshot: Snapshot) => ({ id: userSnapshot.id, type: 'user' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('followers')) {
-//       json.data.relationships.followers = {
-//         data: snapshot.hasMany('followers')!.map((userSnapshot: Snapshot) => ({ id: userSnapshot.id, type: 'user' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('wishList')) {
-//       json.data.relationships.wishList = {
-//         data: snapshot.hasMany('wishList')!.map((bookSnapshot: Snapshot) => ({ id: bookSnapshot.id, type: 'book' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('comments')) {
-//       json.data.relationships.comments = {
-//         data: snapshot.hasMany('comments')!.map((commentSnapshot: Snapshot) => ({ id: commentSnapshot.id, type: 'comment' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('likedComments')) {
-//       json.data.relationships.likedComments = {
-//         data: snapshot.hasMany('likedComments')!.map((commentLikeSnapshot: Snapshot) => ({ id: commentLikeSnapshot.id, type: 'comment-like' }))
-//       };
-//     }
-
-//     if (snapshot.hasMany('ratings')) {
-//       json.data.relationships.ratings = {
-//         data: snapshot.hasMany('ratings')!.map((ratingSnapshot: Snapshot) => ({ id: ratingSnapshot.id, type: 'rating' }))
-//       };
-//     }
-
-//     return json;
-//   }
 }

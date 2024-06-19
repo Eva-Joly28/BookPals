@@ -38,6 +38,7 @@ import swaggerSchema from './core/initializers/swagger.js';
 import helmet from 'helmet';
 import { CommentRepository } from './api/repositories/comment.repository';
 import { RatingRepository } from './api/repositories/rating.repository';
+import { CommentLikeRepository } from './api/repositories/comment-like.repository';
 if (process.env.SWAGGER_ROUTE) {
   app.use(`${process.env.SWAGGER_ROUTE}`, swaggerUi.serve);
   app.get(`${process.env.SWAGGER_ROUTE}`, swaggerUi.setup(swaggerSchema));
@@ -62,6 +63,6 @@ export const init = (async () => {
   Container.set('userRepo', new UserRepository(DI.orm.em.fork()));
   Container.set('commentRepo', new CommentRepository(DI.orm.em.fork()));
   Container.set('ratingRepo', new RatingRepository(DI.orm.em.fork()));
-
+  Container.set('commentLikeRepo', new CommentLikeRepository(DI.orm.em.fork()));
 
 })();
