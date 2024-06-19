@@ -2,52 +2,33 @@ import { EntityRepository, RequiredEntityData, SqlEntityRepository, wrap } from 
 import { Body, Delete, Get, JsonController, NotFoundError, Param, Post, Req } from "routing-controllers";
 import { AppService } from "../../core/services/AppService";
 import { CommentLike } from "../../database/entities/CommentLike";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
+import { CommentLikeRepository } from "../repositories/comment-like.repository";
 
 @JsonController('/comment-likes')
 @Service()
 export class CommentLikeController {
-    constructor(public repository : EntityRepository<CommentLike>){
-        this.repository = new AppService().getEntityManager().getRepository<CommentLike>('CommentLike') as EntityRepository<CommentLike>;
-    }
+    constructor(@Inject('commentLikeRepo') private readonly repository: CommentLikeRepository,){}
 
     @Get('/',{transformResponse:false})
     async getMany(@Req() query:any){
-        const {filters} = query.params();
-        let qb = this.repository.createQueryBuilder('CommentLike').select('*');
-        if(filters.user){
-            return await qb.where({user:filters.user}).orderBy({likedAt:'DESC'}).execute('all');
-        }
-        if(filters.comment){
-            return await qb.where({comment:filters.comment}).orderBy({likedAt:'DESC'}).execute('all');
-        }
-
-        return await qb.orderBy({likedAt: 'DESC'}).limit(50);
+        const {filters} = query.params;
+        return await this.repository.getManyWithFilters(filters);
     }
 
     @Get('/:id',{transformResponse:false})
     async getOne(@Param('id') id:string) {
-        let like = this.repository.findOne({id});
-        return like!==null? like : undefined;
+        return await this.repository.getOne(id);
     }
 
     @Post('/',{transformResponse:false})
     async create(@Body() body: RequiredEntityData<CommentLike>){
-        try{
-            let like = new CommentLike();
-            wrap(like).assign(body,{em:this.repository.getEntityManager()});
-            await this.repository.getEntityManager().persistAndFlush(like);
-            return like;
-        }
-        catch(e){
-            return undefined;
-        }
+        return await this.repository.createOne(body);
     }
 
-    @Delete('/')
+    @Delete('/:id')
     async delete(@Param('id') id:string){
-        let result = this.repository.findOne({id});
-        result !== null ? await this.repository.getEntityManager().removeAndFlush(result) : new NotFoundError();
+        await this.repository.deleteOne(id);
     }
 
 }

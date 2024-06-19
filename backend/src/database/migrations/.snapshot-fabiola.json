@@ -422,7 +422,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "string"
         }
       },
@@ -452,6 +452,7 @@
             "id"
           ],
           "referencedTableName": "public.user",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         },
         "rating_book_id_foreign": {
@@ -464,6 +465,7 @@
             "id"
           ],
           "referencedTableName": "public.book",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       },
@@ -759,7 +761,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "string"
         },
         "user_id": {
@@ -798,6 +800,7 @@
             "id"
           ],
           "referencedTableName": "public.book",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         },
         "comment_user_id_foreign": {
@@ -810,6 +813,7 @@
             "id"
           ],
           "referencedTableName": "public.user",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       },
