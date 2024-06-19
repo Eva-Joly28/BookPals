@@ -49,14 +49,22 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <Comments/>
-        <Comments/>
-        <div class="mt-5 flex flex-row justify-end">
-          <Comments::Add/>
-        </div>
+        {{#if this.comments.length}}
+          {{#each this.comments as |c|}}
+            <Comments @comment={{c}}/>
+          {{/each}}
+        {{else}}
+          <hr class="mb-5">
+          <h3 class="m-auto text-center">Aucun commentaire pour le moment</h3>
+        {{/if}}
+        {{#if this.session.isAuthenticated}}
+          <div class="mt-5 flex flex-row justify-center">
+            <Comments::Add/>
+          </div>
+        {{/if}}
       </div>
       <div class="flex flex-col {{if this.authorBooks.length '' 'hidden'}}">
-        <h2 class="text-lg text-center mb-6">Du même auteur</h2>
+        <h2 class="text-lg text-center mt-8">Du même auteur</h2>
         <div class="flex flex-row justify-center flex-wrap m-2">
           {{#each this.authorBooks as |book|}}
             <Cards::Base @book={{book}} @addStyle="max-w-40 h-40" />

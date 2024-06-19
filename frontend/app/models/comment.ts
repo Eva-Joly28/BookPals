@@ -5,8 +5,17 @@ import type commentLikeModel from "./comment-like";
 
 export default class commentModel extends Model {
     @attr() declare comment : string;
-    @belongsTo('book') declare book : BookModel;
-    @belongsTo('user') declare user : userModel;
+    @belongsTo('book',{
+        async:false,
+        inverse:'comments'
+    }) 
+    declare book : BookModel;
+
+    @belongsTo('user',{
+        async:false,
+        inverse:'comments'
+    }) declare user : userModel;
+
     @hasMany('comment-like',{
         async:false,
         inverse:'comment'
