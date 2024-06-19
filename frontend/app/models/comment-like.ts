@@ -4,7 +4,16 @@ import type commentModel from "./comment";
 
 export default class commentLikeModel extends Model {
     @attr() declare likedAt : string;
-    @belongsTo('user') declare user : userModel;
-    @belongsTo('comment') declare comment : commentModel;
+    @belongsTo('user',{
+        async:false,
+        inverse:'likedComments'
+    }) 
+    declare user : userModel;
+
+    @belongsTo('comment',{
+        async:false,
+        inverse:'likedBy'
+    }) 
+    declare comment : commentModel;
 
 }

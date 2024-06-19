@@ -4,6 +4,13 @@ import type BookModel from "./book";
 
 export default class RatingModel extends Model {
     @attr() declare value : number;
-    @belongsTo('user') declare user : userModel;
-    @belongsTo('book') declare book : BookModel;
+    @belongsTo('user',{
+        async:false,
+        inverse:'ratings'
+    }) declare user : userModel;
+
+    @belongsTo('book',{
+        async:false,
+        inverse:'ratings'
+    }) declare book : BookModel;
 }

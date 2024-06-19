@@ -2,6 +2,7 @@ import Model, { attr, hasMany, type SyncHasMany } from "@ember-data/model";
 import type BookModel from "./book";
 import type commentLikeModel from "./comment-like";
 import type RatingModel from "./rating";
+import type commentModel from "./comment";
 
 export default class userModel extends Model {
     @attr() declare username : string;
@@ -45,6 +46,12 @@ export default class userModel extends Model {
         inverse: 'usersWishLists',
     })
     declare wishList: SyncHasMany<BookModel>
+
+    @hasMany('comment', {
+        async:false,
+        inverse: 'user',
+    })
+    declare comments: SyncHasMany<commentModel>
 
     @hasMany('comment-like', {
         async:false,
