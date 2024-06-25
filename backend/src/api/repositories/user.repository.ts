@@ -36,7 +36,13 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
 
     }
     async findById(id: string): Promise<User | null> {
-        return await this.findOneOrFail({id},{populate:['*']});
+        return await this.findOneOrFail({
+            $or: [
+                { id: id },
+                { username: id }
+              ]
+        },
+        {populate:['*']});
     }
     async createUser(user: UserPost): Promise<User> {
         const newUser = new User();
@@ -49,7 +55,12 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
         await this.em.removeAndFlush(result);
     }
     async updateUser(id: string, user: UserPatch): Promise<User> {
-        const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError(),  populate:['*'] });
+        const result = await this.findOneOrFail({
+            $or: [
+                { id: id },
+                { username: id }
+              ]
+        }, {failHandler: () => new NotFoundError(),  populate:['*'] });
         wrap(result).assign(user);
         await this.em.persistAndFlush(result);
         return result;

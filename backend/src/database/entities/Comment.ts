@@ -13,16 +13,15 @@ export class Comment extends BaseEntity {
     @MaxLength(1500)
     declare comment : string;
 
-    @ManyToOne(()=>Book, {cascade:[Cascade.ALL]})
+    @ManyToOne(()=>Book)
     declare book: Book;
 
     @ManyToOne({
         entity : 'User',
         nullable:false,
-        cascade:[Cascade.ALL]
     })
     declare user : User;
 
-    @OneToMany(() => CommentLike, commentLike => commentLike.comment, {cascade:[Cascade.REMOVE]})
+    @OneToMany(() => CommentLike, commentLike => commentLike.comment)
     declare likedBy : CommentLike[];
 }

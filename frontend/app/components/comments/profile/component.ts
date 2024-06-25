@@ -11,13 +11,13 @@ import type commentModel from "ember-boilerplate/models/comment";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
 import type commentLikeModel from "ember-boilerplate/models/comment-like";
 
-export interface CommentsSignature{
+export interface CommentsProfileSignature{
     Args: {
         comment: any;
     }
 }
 
-export default class CommentsComponent extends Component<CommentsSignature>{
+export default class CommentsProfileComponent extends Component<CommentsProfileSignature>{
     @tracked declare likeState : boolean;
     @tracked array = [1,2,3,4];
     @service declare session : SessionService;
@@ -28,15 +28,16 @@ export default class CommentsComponent extends Component<CommentsSignature>{
     @tracked declare likeNumber : number;
     @tracked declare userLike? : commentLikeModel;
 
-    constructor(owner: unknown, args: CommentsSignature['Args']){
+    constructor(owner: unknown, args: CommentsProfileSignature['Args']){
         super(owner,args);
-        console.log(this.args.comment);
         this.likeNumber = this.args.comment.likedBy.length;
         console.log(this.args.comment);
         if(this.session.isAuthenticated){
             this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
                 this.actualComment = comment;
                 this.userLike = this.currentUser.user!.likedComments.find((like)=>like.comment.id==this.actualComment.id)
+                console.log(this.currentUser.user!.id)
+                console.log(this.actualComment.id);
                 if(this.userLike){
                     this.likeState = true;
                 }

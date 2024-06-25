@@ -1,5 +1,6 @@
 import { Book } from "src/database/entities/Book";
 import { Comment } from "src/database/entities/Comment";
+import { CommentLike } from "src/database/entities/CommentLike";
 import { List } from "src/database/entities/List";
 import { Rating } from "src/database/entities/Rating";
 import { User } from "src/database/entities/User";
@@ -272,6 +273,38 @@ export default class JsonApiSerializer {
       static serializeRatings(ratings: Rating[]) {
         return {
           data: ratings.map(rating => this.serializeRating(rating).data),
+        };
+      }
+
+      static serializeCommentLike(commentLike: CommentLike) {
+        return {
+          data: {
+            type: 'comment-like',
+            id: commentLike.id,
+            attributes: {
+              likedAt: commentLike.likedAt,
+            },
+            relationships: {
+              user: {
+                data: {
+                  type: 'users',
+                  id: commentLike.user.id,
+                },
+              },
+              comment: {
+                data: {
+                  type: 'comment',
+                  id: commentLike.comment.id,
+                },
+              },
+            },
+          },
+        };
+      }
+
+      static serializeCommentLikes(commentLikes: CommentLike[]) {
+        return {
+          data: commentLikes.map(like => this.serializeCommentLike(like).data),
         };
       }
 

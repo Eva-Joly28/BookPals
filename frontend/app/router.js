@@ -12,9 +12,8 @@ Router.map(function () {
   this.route('404', {path:'/*path'});
   this.route('search', {path: 'resultats/:search'});
   this.route('book-details', {path: 'livres/:book_id'});
-  this.route('users', {path:'utilisateurs'}, function () {
-    this.route('user', {path:'/:username'});
-  });
+  this.route('users', {path:'utilisateurs'});
+  
   this.route('profile',{path: 'profil/:username'}, function () {
     this.route('reviews', {path: '/commentaires'});
     this.route('ratings', {path: '/livres-notés'});

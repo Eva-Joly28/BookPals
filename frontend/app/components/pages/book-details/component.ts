@@ -49,6 +49,10 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     //   // return bookComments;
     }
 
+    get rating(){
+      return this.args.model.book.ratings.find((r:any)=> r.user.id === this.currentUser.user!.id)
+    }
+
 
     @action
     onClose(){

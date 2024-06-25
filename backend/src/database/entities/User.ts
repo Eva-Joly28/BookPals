@@ -46,19 +46,19 @@ export class User extends BaseEntity {
   @Property({nullable:true})
   declare profilePicture:string;
   
-  @ManyToMany(()=>Book,'usersToRead',{owner:true, cascade:[Cascade.REMOVE]})
+  @ManyToMany(()=>Book,'usersToRead',{owner:true})
   declare booksToRead: Book[];
 
-  @ManyToMany(()=>Book,'usersInProgress',{owner:true, cascade:[Cascade.REMOVE]})
+  @ManyToMany(()=>Book,'usersInProgress',{owner:true})
   declare booksInProgress: Book[];
 
-  @ManyToMany(()=>Book,'usersReadBooks',{owner:true, cascade:[Cascade.REMOVE]})
+  @ManyToMany(()=>Book,'usersReadBooks',{owner:true})
   declare readBooks: Book[];
 
-  @ManyToMany(() => Book,'usersWishlists',{owner:true, cascade:[Cascade.REMOVE]})
+  @ManyToMany(() => Book,'usersWishlists',{owner:true})
   declare wishList: Book[]; 
 
-  @ManyToMany(() => User,'followers',{owner:true, cascade:[Cascade.ALL]})
+  @ManyToMany(() => User,'followers',{owner:true})
   declare following: User[]; 
 
   @ManyToMany(() => User,'following')
@@ -70,7 +70,7 @@ export class User extends BaseEntity {
   @OneToMany(() => Comment, comments=> comments.user)
   declare comments : Comment[];
 
-  @OneToMany(() => CommentLike, commentLike => commentLike.user,{cascade:[Cascade.REMOVE]})
+  @OneToMany(() => CommentLike, commentLike => commentLike.user)
   likedComments: CommentLike[];
 
   @ManyToMany(() => List,'likedBy')

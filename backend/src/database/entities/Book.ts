@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, OneToMany, Property, Unique } from "@mikro-orm/core";
+import { Cascade, Entity, ManyToMany, OneToMany, Property, Unique } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
 import { IsUrl, isISBN } from "class-validator";
 import { User } from "./User";
