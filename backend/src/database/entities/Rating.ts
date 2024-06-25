@@ -12,10 +12,9 @@ export class Rating extends BaseEntity{
     @ManyToOne({
         entity: 'User',
         nullable:false,
-        cascade:[Cascade.ALL],
     })
     declare user: User;
 
-    @ManyToOne(()=> Book,{cascade:[Cascade.ALL]})
+    @ManyToOne(()=> Book)
     declare book: Book;
 }

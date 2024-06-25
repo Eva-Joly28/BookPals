@@ -59,8 +59,23 @@ export class RatingRepository extends EntityRepository<Rating> implements Rating
 
     }
     async deleteRating(id: string): Promise<void> {
-        const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError()});
-        await this.em.removeAndFlush(result);
+        try{
+            const result = await this.findOne({id});
+            if(result && result!== null){
+                await this.em.removeAndFlush(result!);
+                wrap(result.user).assign({
+                    ratings: result.user.ratings.filter((rate)=> rate.id===id)
+                });
+                await this.em.persistAndFlush(result.user);
+                wrap(result.book).assign({
+                    ratings: result.book.ratings.filter((rate)=> rate.id===id)
+                });
+                await this.em.persistAndFlush(result.book);
+            }
+        }
+        catch(e){
+            throw new NotFoundError();
+        }
     }
 
     filterBook(filters: RatingFilters, qb:SelectQueryBuilder<Rating>){

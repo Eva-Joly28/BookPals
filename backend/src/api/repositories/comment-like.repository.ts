@@ -42,9 +42,20 @@ export class CommentLikeRepository extends EntityRepository<CommentLike> {
 
     async deleteOne(id: string){
         try{
-            const result = await this.findOne({id});
+            const result = await this.findOne({id},{populate:['*']});
             console.log(result);
-            await this.em.removeAndFlush(result!);
+            if(result && result!== null){
+                await this.em.removeAndFlush(result!);
+                wrap(result.user).assign({
+                    likedComments: result.user.likedComments.filter((like)=> like.id!==id)
+                });
+                await this.em.persistAndFlush(result.user);
+                wrap(result.comment).assign({
+                    likedBy: result.comment.likedBy.filter((like)=> like.id!==id)
+                });
+                await this.em.persistAndFlush(result.comment);
+
+            }
         }
         catch(e){
             console.log(e);

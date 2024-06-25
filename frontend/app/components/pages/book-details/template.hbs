@@ -37,7 +37,7 @@
         </div>
         <div class="flex flex-col p-3">
           {{#if this.session.isAuthenticated}} 
-            <BookActions @book={{@model.book}}/>
+            <BookActions @book={{@model.book}} @rating={{this.rating}}/>
             {{else}}
             <div class="flex flex-col max-w-64 h-[4em] m-8 bg-[#664436]/70 border border-[#614032]/70 rounded">
               <p class="flex-1 p-1 text-[11px] text-white/70 h-[2em] text-center cursor-pointer hover:text-white" {{on 'click' this.openModal}}>Connectez ou inscrivez-vous pour intéragir</p>

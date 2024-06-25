@@ -1,0 +1,29 @@
+<div class="flex flex-col my-8 mx-20">
+    <div class="flex flex-col my-5">
+        <span class="uppercase text-start py-1">livres favoris</span>
+        <hr class="p-1">
+        <div class="flex flex-row justify-between">
+            {{#each this.bestRatings as |r|}}
+              <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
+            {{/each}}
+        </div>
+    </div>
+    <div class="flex flex-col my-5">
+        <span class="uppercase text-start py-1">activité récente</span>
+        <hr class="p-1">
+        <div class="flex flex-row justify-between">
+            {{#each this.recentRatings as |r|}}
+              <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
+            {{/each}}
+        </div>
+    </div>
+    <div class="flex flex-col my-5">
+        <span class="uppercase text-start py-1">Commentaires récents</span>
+        <hr class="p-1">
+        <div class="flex flex-row justify-between">
+            {{#each @user.comments as |c|}}
+              <Comments::Profile @comment={{c}}/>
+            {{/each}}
+        </div>
+    </div>
+</div>

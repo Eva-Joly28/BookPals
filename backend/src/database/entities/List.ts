@@ -6,7 +6,8 @@ import { Book } from "./Book";
 
 @Entity()
 export class List extends BaseEntity{
-    @Property()
+    @Property({length:1000})
+    @MaxLength(1000)
     declare name: string;
 
     @Property({length:1000})

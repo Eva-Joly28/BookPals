@@ -1,0 +1,42 @@
+<div class="flex flex-col">
+    <div class="flex flex-row justify-around p-4">
+        <div>
+            <Users::Base @picture={{if @model.user.profilePicture @model.user.profilePicture "/assets/icons/user.svg"}}/>
+            <h3>{{@model.user.username}}</h3>
+            <button type="button" class="p-2 {{if this.followUser "bg-green-700 hover:bg-green-600" "bg-gray-700 hover-gray-600"}}">
+                <span>{{if this.followUser "ne plus suivre" "suivre"}}</span>
+            </button>
+        </div>
+        <div>
+            <div class="flex flex-col p-1">
+                <h3 class="text-center">{{@model.user.readBooks.length}}</h3>
+                <span class="uppercase text-center font-thin font-[cooper]">Livres</span>
+            </div>
+            <div class="flex flex-col p-1">
+                <h3 class="text-center">{{@model.user.likedComments.length}}</h3>
+                <span class="uppercase text-center font-thin font-[cooper]">Aimés</span>
+            </div>
+            <div class="flex flex-col p-1">
+                <h3 class="text-center">{{@model.user.readBooks.length}}</h3>
+                <span class="uppercase text-center font-thin font-[cooper]">Livres</span>
+            </div>
+            <div class="flex flex-col">
+                <h3>{{@model.user.followers.length}}</h3>
+                <span class="uppercase text-center font-thin font-[cooper]">Abonnés</span>
+            </div>
+            <div class="flex flex-col">
+                <h3>{{@model.user.following.length}}</h3>
+                <span class="uppercase text-center font-thin font-[cooper]">Suivis</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row justify-center w-full mx-10 bg-transparent border border-amber-700 my-4">
+        <p class="p-2 ml-4">Profil</p>
+        <p class="p-2">Lus</p>
+        <p class="p-2">Pile à lire</p>
+        <p class="p-2">WishList</p>
+        <p class="p-2">En cours</p>
+        <p class="p-2">aimés</p>
+        <p class="p-2 mr-4">Réseau</p>
+    </div>
+</div>

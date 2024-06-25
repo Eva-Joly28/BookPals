@@ -52,8 +52,23 @@ export class CommentRepository extends EntityRepository<Comment> implements Comm
         return newComment;
     }
     async deleteComment(id: string): Promise<void> {
-        const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError()});
-        await this.em.removeAndFlush(result);
+        try{
+            const result = await this.findOne({id});
+            if(result && result!== null){
+                await this.em.removeAndFlush(result!);
+                wrap(result.user).assign({
+                    comments: result.user.comments.filter((comment)=> comment.id===id)
+                });
+                await this.em.persistAndFlush(result.user);
+                wrap(result.book).assign({
+                    comments: result.book.comments.filter((comment)=> comment.id===id)
+                });
+                await this.em.persistAndFlush(result.book);
+            }
+        }
+        catch(e){
+            throw new NotFoundError();
+        }
     }
     async updateComment(id: string, comment: Partial<Comment>): Promise<Comment> {
         const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError(),  populate:['*'] });
