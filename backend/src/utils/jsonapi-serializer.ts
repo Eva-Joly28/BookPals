@@ -6,8 +6,19 @@ import { Rating } from "src/database/entities/Rating";
 import { User } from "src/database/entities/User";
 
 export default class JsonApiSerializer {
-    static serializeBook(book: Book) {
-
+    static serializeBook(book: Book, included = new Set()) {
+      const includedData : any = []
+      if (!included.has(book.id)) {
+        included.add(book.id);
+        includedData.push(...(book.usersWishlists || []).map(user => this.serializeUser(user, included).data));
+        includedData.push(...(book.usersToRead || []).map(user => this.serializeUser(user, included).data));
+        includedData.push(...(book.usersInProgress || []).map(user => this.serializeUser(user, included).data));
+        includedData.push(...(book.usersReadBooks || []).map(user => this.serializeUser(user, included).data));
+        includedData.push(...(book.lists || []).map(list => this.serializeList(list, included).data));
+        includedData.push(...(book.comments || []).map(comment => this.serializeComment(comment, included).data));
+        includedData.push(...(book.ratings || []).map(rating => this.serializeRating(rating, included).data));
+    }
+    
       return {
         data: {
           type: 'books',
@@ -75,16 +86,35 @@ export default class JsonApiSerializer {
             },
           },
         },
+        included : includedData,
       };
     }
   
     static serializeBooks(books: Book[]) {
-      return {
-        data: books.map(book => this.serializeBook(book).data),
-      };
+      const included = new Set();
+        const serializedBooks = books.map(book => this.serializeBook(book, included));
+        const includedData = serializedBooks.flatMap(book => book.included);
+        return {
+            data: serializedBooks.map(book => book.data),
+            included: includedData,
+        };
     }
 
-    static serializeUser(user: User) {
+    static serializeUser(user: User, included = new Set()) {
+      const includedData : any = [];
+      if (!included.has(user.id)) {
+        included.add(user.id);
+        includedData.push(...(user.booksToRead || []).map(book => this.serializeBook(book, included).data));
+        includedData.push(...(user.booksInProgress || []).map(book => this.serializeBook(book, included).data));
+        includedData.push(...(user.readBooks || []).map(book => this.serializeBook(book, included).data));
+        includedData.push(...(user.wishList || []).map(book => this.serializeBook(book, included).data));
+        includedData.push(...(user.ratings || []).map(rating => this.serializeRating(rating, included).data));
+        includedData.push(...(user.comments || []).map(comment => this.serializeComment(comment, included).data));
+        includedData.push(...(user.likedComments || []).map(commentLike => this.serializeCommentLike(commentLike, included).data));
+        includedData.push(...(user.favoritesLists || []).map(list => this.serializeList(list, included).data));
+        includedData.push(...(user.usersLists || []).map(list => this.serializeList(list, included).data));
+    }
+
         return {
           data: {
             type: 'users',
@@ -156,16 +186,33 @@ export default class JsonApiSerializer {
               },
             },
           },
+          included: includedData,
         };
     }
     
     static serializeUsers(users: User[]) {
+      const included = new Set();
+        const serializedUsers = users.map(user => this.serializeUser(user, included));
+        const includedData = serializedUsers.flatMap(user => user.included);
         return {
-            data: users.map(user => this.serializeUser(user).data),
+            data: serializedUsers.map(user => user.data),
+            included: includedData,
         };
     }
     
-    static serializeList(list: List) {
+    static serializeList(list: List, included = new Set()) {
+
+      const includedData = [];
+
+      if (!included.has(list.id)) {
+          included.add(list.id);
+          includedData.push(...(list.likedBy || []).map(user => this.serializeUser(user, included).data));
+          includedData.push(...(list.books || []).map(book => this.serializeBook(book, included).data));
+          if (list.creator) {
+              includedData.push(this.serializeUser(list.creator, included).data);
+          }
+      }
+
         return {
           data: {
             type: 'lists',
@@ -197,6 +244,7 @@ export default class JsonApiSerializer {
               },
             },
           },
+          included : includedData
         };
       }
     
@@ -206,7 +254,16 @@ export default class JsonApiSerializer {
         };
     }
 
-    static serializeComment(comment: Comment) {
+    static serializeComment(comment: Comment, included = new Set()) {
+      const includedData : any = []; 
+
+      if (!included.has(comment.id)) {
+        included.add(comment.id);
+        includedData.push(this.serializeBook(comment.book, included).data);
+        includedData.push(this.serializeUser(comment.user, included).data);
+        includedData.push(...(comment.likedBy || []).map(commentLike => this.serializeCommentLike(commentLike, included).data));
+    }
+
         return {
           data: {
             type: 'comments',
@@ -235,16 +292,29 @@ export default class JsonApiSerializer {
               },
             },
           },
+          included : includedData,
         };
       }
     
     static serializeComments(comments: Comment[]) {
+      const included = new Set();
+        const serializedComments = comments.map(comment => this.serializeComment(comment, included));
+        const includedData = serializedComments.flatMap(comment => comment.included);
         return {
-            data: comments.map(comment => this.serializeComment(comment).data),
+            data: serializedComments.map(comment => comment.data),
+            included: includedData,
         };
     }
 
-    static serializeRating(rating: Rating) {
+    static serializeRating(rating: Rating, included = new Set()) {
+      const includedData : any = [];
+
+      if (!included.has(rating.id)) {
+        included.add(rating.id);
+        includedData.push(this.serializeUser(rating.user, included).data);
+        includedData.push(this.serializeBook(rating.book, included).data);
+    }
+
         return {
           data: {
             type: 'ratings',
@@ -267,16 +337,30 @@ export default class JsonApiSerializer {
               },
             },
           },
+          included : includedData,
         };
       }
     
       static serializeRatings(ratings: Rating[]) {
+        const included = new Set();
+        const serializedRatings = ratings.map(rating => this.serializeRating(rating, included));
+        const includedData = serializedRatings.flatMap(rating => rating.included);
         return {
-          data: ratings.map(rating => this.serializeRating(rating).data),
+            data: serializedRatings.map(rating => rating.data),
+            included: includedData,
         };
       }
 
-      static serializeCommentLike(commentLike: CommentLike) {
+      static serializeCommentLike(commentLike: CommentLike, included = new Set()) {
+
+        const includedData = [];
+
+        if (!included.has(commentLike.id)) {
+            included.add(commentLike.id);
+            includedData.push(this.serializeUser(commentLike.user, included).data);
+            includedData.push(this.serializeComment(commentLike.comment, included).data);
+        }
+
         return {
           data: {
             type: 'comment-like',
@@ -299,12 +383,17 @@ export default class JsonApiSerializer {
               },
             },
           },
+          included : includedData
         };
       }
 
       static serializeCommentLikes(commentLikes: CommentLike[]) {
+        const included = new Set();
+        const serializedCommentLikes = commentLikes.map(like => this.serializeCommentLike(like, included));
+        const includedData = serializedCommentLikes.flatMap(like => like.included);
         return {
-          data: commentLikes.map(like => this.serializeCommentLike(like).data),
+            data: serializedCommentLikes.map(like => like.data),
+            included: includedData,
         };
       }
 

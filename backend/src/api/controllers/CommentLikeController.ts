@@ -4,6 +4,8 @@ import { AppService } from "../../core/services/AppService";
 import { CommentLike } from "../../database/entities/CommentLike";
 import { Inject, Service } from "typedi";
 import { CommentLikeRepository } from "../repositories/comment-like.repository";
+import JsonApiDeserializer from "../../utils/deserializer";
+import JsonApiSerializer from "../../utils/jsonapi-serializer";
 
 @JsonController('/comment-likes')
 @Service()
@@ -13,17 +15,20 @@ export class CommentLikeController {
     @Get('/',{transformResponse:false})
     async getMany(@Req() query:any){
         const {filters} = query.params;
-        return await this.repository.getManyWithFilters(filters);
+        return JsonApiSerializer.serializeCommentLikes(await this.repository.getManyWithFilters(filters) as CommentLike[]);
     }
 
     @Get('/:id',{transformResponse:false})
     async getOne(@Param('id') id:string) {
-        return await this.repository.getOne(id);
+        let result = await this.repository.getOne(id);
+        return result!== null ? JsonApiSerializer.serializeCommentLike(result as CommentLike) : undefined;
     }
 
     @Post('/',{transformResponse:false})
     async create(@Body() body: RequiredEntityData<CommentLike>){
-        return await this.repository.createOne(body);
+        let like = JsonApiDeserializer.deserializeCommentLike(body);
+        let result = await this.repository.createOne(like);
+        return result ? JsonApiSerializer.serializeCommentLike(result) : undefined;
     }
 
     @Delete('/:id')

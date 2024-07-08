@@ -28,6 +28,7 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     @tracked isOpen = false; 
 
     constructor(owner: unknown, args: PagesBookDetailsSignature['Args']){
+      console.log
         super(owner,args);
 
     }
@@ -50,6 +51,7 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     }
 
     get rating(){
+      console.log(this.args.model.book);
       return this.args.model.book.ratings.find((r:any)=> r.user.id === this.currentUser.user!.id)
     }
 

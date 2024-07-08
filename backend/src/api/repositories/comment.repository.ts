@@ -43,12 +43,24 @@ export class CommentRepository extends EntityRepository<Comment> implements Comm
 
     }
     async getComment(id: string): Promise<Comment | null> {
-        return await this.findOneOrFail({id},{populate:['*']});
+        return await this.findOneOrFail({id},{populate:['*'], refresh:true});
     }
     async createComment(comment: RequiredEntityData<Comment>): Promise<Comment> {
         const newComment = new Comment();
         wrap(newComment).assign(comment,{em:this.em});
         await this.em.persistAndFlush(newComment);
+        if(!newComment.book.comments.find((comment)=>comment.id===newComment.id)){
+            wrap(newComment.book).assign({
+                comments : [...newComment.book.comments, newComment]
+            })
+            this.em.persistAndFlush(newComment.book);
+        }
+        if(!newComment.user.comments.find((comment)=>comment.id===newComment.id)){
+            wrap(newComment.user).assign({
+                comments : [...newComment.user.comments, newComment]
+            })
+            this.em.persistAndFlush(newComment.user);
+        }
         return newComment;
     }
     async deleteComment(id: string): Promise<void> {

@@ -7,8 +7,10 @@ import { BookService } from "../../core/services/BookService.js";
 import { createBookValidator, updateBookValidator } from "../validators/Book.js";
 import { RequiredEntityData } from "@mikro-orm/core";
 import { ResponseSchema } from "routing-controllers-openapi";
+import JsonApiDeserializer from "../../utils/deserializer";
 import { request } from "https";
 import JsonApiSerializer from "../../utils/jsonapi-serializer.js";
+import { validateOrReject } from "class-validator";
 
 @JsonController('/books')
 @Service()
@@ -24,28 +26,34 @@ export class BookController implements BookControllerPort {
     @ResponseSchema(Book)
     async getAll(@Req() request:any){
         console.log(request.query);
-        return await this.bookService.getBooksWithFilters(request.query);
+        let results = await this.bookService.getBooksWithFilters(request.query);
+        return JsonApiSerializer.serializeBooks(results);
     }
     
     @Get('/:id',{transformResponse:false})
     @ResponseSchema(Book)
     async getOne(@Param('id') id:string){
-        return await this.bookService.findBook(id);
+       let result = await this.bookService.findBook(id);
+       return result!=null? JsonApiSerializer.serializeBook(result) : undefined;
 
     }
 
     @Post('/',{transformResponse:false})
     @ResponseSchema(Book)
-    async create(@Body() book:createBookValidator) {
-        let createdbook = await this.bookService.createBook(book as RequiredEntityData<Book>);
+    async create(@Body() book:any) {
+        let deserializedBook = JsonApiDeserializer.deserializeBook(book);
+        await validateOrReject(Object.assign(new createBookValidator(), deserializedBook));
+        let createdbook = await this.bookService.createBook(deserializedBook as RequiredEntityData<Book>);
         return createdbook? createdbook : undefined;
     }
 
     @Patch('/:id',{transformResponse:false})
     @ResponseSchema(Book)
-    async update(@Param('id') id:string, @Body() book: updateBookValidator){
-        let updatedBook = await this.bookService.updateBook(id, book as unknown as Partial<Book>);
-        return updatedBook!== null ? updatedBook : undefined;
+    async update(@Param('id') id:string, @Body() book: any){
+        let deserializedBook = JsonApiDeserializer.deserializeBook(book) as updateBookValidator;
+        await validateOrReject(Object.assign(new updateBookValidator(), deserializedBook));
+        let updatedBook = await this.bookService.updateBook(id, deserializedBook as unknown as Partial<Book>);
+        return updatedBook!== null ? JsonApiSerializer.serializeBook(updatedBook) : undefined;
     }
 
     @Delete('/:id',{transformResponse:false})

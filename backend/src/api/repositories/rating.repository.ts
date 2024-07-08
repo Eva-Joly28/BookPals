@@ -4,6 +4,7 @@ import { NotFoundError } from "routing-controllers";
 import { CommentRepositoryPort } from "src/core/ports/out/commentRepositoryPort";
 import { Rating } from "../../database/entities/Rating";
 import { RatingRepositoryPort } from "src/core/ports/out/ratingRepositoryPort";
+import { networkInterfaces } from "os";
 
 export interface RatingFilters{
     book?:string,
@@ -43,9 +44,37 @@ export class RatingRepository extends EntityRepository<Rating> implements Rating
         return this.findOne({id},{populate:['*']});
     }
     async createRating(rating: RequiredEntityData<Rating>): Promise<Rating | undefined> {
+        let existingRate = await this.findOne({book:rating.book, user:rating.user})
+        if(existingRate!==null){
+            // if(!existingRate.book.ratings.find((rate)=> rate.id === existingRate.id)){
+            //     wrap(existingRate.book).assign({
+            //         ratings : [...existingRate.book.ratings, existingRate]
+            //     })
+            //     this.em.persistAndFlush(existingRate.book);
+            // }
+            // if(!existingRate.user.ratings.find((rate)=> rate.id === existingRate.id)){
+            //     wrap(existingRate.book).assign({
+            //         ratings : [...existingRate.book.ratings, existingRate]
+            //     })
+            //     this.em.persistAndFlush(existingRate.book);
+            // }
+            return existingRate;
+        }
         const newRating = new Rating();
         wrap(newRating).assign(rating,{em:this.em});
         await this.em.persistAndFlush(newRating);
+        if(!newRating.book.ratings.find((rate)=> rate.id === newRating.id)){
+            wrap(newRating.book).assign({
+                ratings : [...newRating.book.ratings, newRating]
+            })
+            this.em.persistAndFlush(newRating.book);
+        }
+        if(!newRating.user.ratings.find((rate)=> rate.id === newRating.id)){
+            wrap(newRating.user).assign({
+                ratings : [...newRating.user.ratings, newRating]
+            })
+            this.em.persistAndFlush(newRating.user);
+        }
         return newRating;
     }
     async updateRating(id: string, rating: Partial<Rating>): Promise<Rating | null> {
