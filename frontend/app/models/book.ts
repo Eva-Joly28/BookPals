@@ -46,7 +46,7 @@ export default class BookModel extends Model {
     declare usersWishLists: SyncHasMany<userModel>
 
     @hasMany('comment', {
-        async:true,
+        async:false,
         inverse: 'book',
     })
     declare comments: SyncHasMany<commentModel>

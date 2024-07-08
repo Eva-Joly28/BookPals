@@ -5,7 +5,6 @@ import type Store from "./store";
 import { inject as service } from '@ember/service';
 import type SessionService from "./session";
 import config from "ember-boilerplate/config/environment";
-import UserSerializer from "ember-boilerplate/serializers/user";
 
 export default class CurrentUserService extends Service {
   @service declare session: SessionService;
@@ -21,15 +20,15 @@ export default class CurrentUserService extends Service {
   async load() {
     this.id = this.session.data.authenticated.id;
     if(this.id) {
-        let response = await fetch(`${config.host}/${config.namespace}/users/${this.id}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-      })
+      //   let response = await fetch(`${config.host}/${config.namespace}/users/${this.id}`, {
+      //     method: 'GET',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //     },
+      // })
     
-      this.user = await response.json() as unknown as UserModel;
-      // this.user = await this.store.findRecord('user',this.id,{include : 'booksToRead,booksInProgress,readBooks,wishList,comments,likedComments,ratings,following,followers'})
+      // this.user = await response.json() as unknown as UserModel;
+      this.user = await this.store.findRecord('user',this.id,{include : 'booksToRead,booksInProgress,readBooks,wishList,comments,likedComments,ratings,following,followers'});
       console.log(this.user);
       // eslint-disable-next-line ember/classic-decorator-no-classic-methods
       this.set('user', this.user);

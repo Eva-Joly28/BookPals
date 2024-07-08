@@ -1,6 +1,8 @@
 /* eslint-disable ember/use-ember-data-rfc-395-imports */
 import { service } from '@ember/service';
 import JSONAdapter from '@ember-data/adapter/json-api';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
+
 import RESTAdapter from '@ember-data/adapter/rest';
 
 
@@ -12,7 +14,7 @@ import type DS from 'ember-data';
 import type { ModelSchema } from 'ember-data';
 import type RSVP from 'rsvp';
 
-export default class ApplicationAdapter extends JSONAdapter {
+export default class ApplicationAdapter extends JSONAPIAdapter {
   @service declare session: SessionService;
   @service declare flashMessages: FlashMessageService;
 

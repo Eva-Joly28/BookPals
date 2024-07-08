@@ -12,16 +12,15 @@ export default class BookDetails extends Route {
 
     async model(params : any){
         try {
-            // const book = await this.store.queryRecord('book',{id:params.book_id,include: 'comments,ratings,usersToRead,readBooks,booksInProgress,wishList,likedBy'}) as unknown as BookModel;
-            let response = await fetch(`${config.host}/${config.namespace}/books/${params.book_id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
+            const book = await this.store.queryRecord('book',{id:params.book_id,include: 'comments,ratings,usersToRead,readBooks,booksInProgress,wishList,likedBy'}) as unknown as BookModel;
+            // let response = await fetch(`${config.host}/${config.namespace}/books/${params.book_id}`, {
+            //     method: 'GET',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            // })
             
-            const book = await response.json() as unknown as BookModel;
-            console.log(params.book_id);
+            // const book = await response.json() as unknown as BookModel;
             const users = await this.store.findAll('user') as unknown as userModel[];
             let authorsBooks : BookModel[] = [];
             let genreBooks : BookModel[] = [];

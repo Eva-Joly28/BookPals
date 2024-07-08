@@ -42,7 +42,7 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
                 { username: id }
               ]
         },
-        {populate:['*']});
+        {populate:['*'], refresh:true});
     }
     async createUser(user: UserPost): Promise<User> {
         const newUser = new User();
