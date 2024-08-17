@@ -28,7 +28,7 @@ export default class CurrentUserService extends Service {
       // })
     
       // this.user = await response.json() as unknown as UserModel;
-      this.user = await this.store.findRecord('user',this.id,{include : 'booksToRead,booksInProgress,readBooks,wishList,comments,likedComments,ratings,following,followers'});
+      this.user = await this.store.findRecord('user',this.id);
       console.log(this.user);
       // eslint-disable-next-line ember/classic-decorator-no-classic-methods
       this.set('user', this.user);

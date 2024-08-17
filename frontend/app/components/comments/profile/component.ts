@@ -9,7 +9,9 @@ import type SessionService from "ember-simple-auth/services/session";
 import { format } from 'date-fns';
 import type commentModel from "ember-boilerplate/models/comment";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
-import type commentLikeModel from "ember-boilerplate/models/comment-like";
+import commentLikeModel from "ember-boilerplate/models/comment-like";
+import type RatingModel from "ember-boilerplate/models/rating";
+import type { Invoke } from "@glint/template/-private/integration";
 
 export interface CommentsProfileSignature{
     Args: {
@@ -19,7 +21,7 @@ export interface CommentsProfileSignature{
 
 export default class CommentsProfileComponent extends Component<CommentsProfileSignature>{
     @tracked declare likeState : boolean;
-    @tracked array = [1,2,3,4];
+    @tracked array : number[] = [];
     @service declare session : SessionService;
     @service declare router : Router;
     @service declare store : Store;
@@ -30,6 +32,13 @@ export default class CommentsProfileComponent extends Component<CommentsProfileS
 
     constructor(owner: unknown, args: CommentsProfileSignature['Args']){
         super(owner,args);
+        let bookRate = this.args.comment.user.ratings.find((rate:RatingModel)=> rate.book.id === this.args.comment.book.id);
+        if(bookRate){
+            let tab = [];
+            for (let i = 1; i <=bookRate.value ; i++) {
+                this.array.push(i);  
+            }
+        }
         this.likeNumber = this.args.comment.likedBy.length;
         console.log(this.args.comment);
         if(this.session.isAuthenticated){

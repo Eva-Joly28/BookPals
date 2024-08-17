@@ -5,7 +5,7 @@ class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70
     <div class="p-1 flex-1 m-auto">
     {{!-- template-lint-disable no-invalid-interactive --}}
     <svg
-        class="h-10 w-10 p-1 {{if this.isRead "fill-green-500" "fill-white/85"}} cursor-pointer focus:fill-green-500"
+        class="h-9 w-9 p-1 {{if this.isRead "fill-green-500" "fill-white/85"}} cursor-pointer focus:fill-green-500"
         {{on 'click' this.toggleRead}}
         version="1.1"
         stroke="currentColor"
@@ -29,12 +29,12 @@ class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70
             </g>
         </g>
         </g></svg>
-    <span class="text-center pl-1 hover:text-white">Lu</span>
+    <span class="text-center pl-1.5 text-sm hover:text-white">Lu</span>
     </div>
-    <div class="p-1 flex-1" title="pile à lire">
+    <div class="p-1 flex-1 mt-1.5" title="pile à lire">
     {{!-- template-lint-disable no-invalid-interactive --}}
     <svg
-        class="{{if this.isInPal "fill-green-500" "fill-white/85"}} focus:fill-green-500 cursor-pointer h-8 w-10 mb-1"
+        class="{{if this.isInPal "fill-green-500" "fill-white/85"}} focus:fill-green-500 cursor-pointer h-6 w-8 mb-1"
         {{on 'click' this.togglePal}}
         fill="currentColor"
         height="800px"
@@ -64,11 +64,11 @@ class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70
         </g>
         </g>
     </svg>
-    <span class="text-center pl-1 hover:text-white cursor-pointer">PAL</span>
+    <span class="text-center text-sm pl-1 hover:text-white cursor-pointer">PAL</span>
     </div>
     <div class="p-1 flex-1">
     <svg
-        class="fill-white/85 p-1 h-10 w-12"
+        class="fill-white/85 p-1 h-9 w-11"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -84,7 +84,7 @@ class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70
             </g>
         </g>
         </g></svg>
-    <span class="text-center m-auto hover:text-white cursor-pointer">En cours</span>
+    <span class="text-center m-auto hover:text-white cursor-pointer text-sm">En cours</span>
     </div>
 </div>
 <hr class="bg-white/70" />

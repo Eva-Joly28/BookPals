@@ -1,29 +1,44 @@
-<div class="flex flex-col my-8 mx-20">
-    <div class="flex flex-col my-5">
-        <span class="uppercase text-start py-1">livres favoris</span>
-        <hr class="p-1">
-        <div class="flex flex-row justify-between">
-            {{#each this.bestRatings as |r|}}
-              <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
-            {{/each}}
+<div class="flex flex-col justify-center my-10 mx-20">
+    <Profile @user={{@user}}/>
+    <div class="mx-16">
+        <div class="flex flex-col my-3">
+            <span class="capitalize text-start text-lg py-1 text-white font-extrabold">livres favoris</span>
+            <hr class="text-amber-900 bg-amber-950 h-[0.1em]">
+            {{#if this.bestRatings.length}}
+                <div class="flex flex-row justify-between">
+                {{#each this.bestRatings as |r|}}
+                <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
+                {{/each}}
+            </div>
+            {{else}}
+                <h3 class="text-center my-10 text-lg">Aucun livre favori pour le moment</h3>
+            {{/if}}
         </div>
-    </div>
-    <div class="flex flex-col my-5">
-        <span class="uppercase text-start py-1">activité récente</span>
-        <hr class="p-1">
-        <div class="flex flex-row justify-between">
-            {{#each this.recentRatings as |r|}}
-              <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
-            {{/each}}
+        <div class="flex flex-col my-5">
+            <span class="uppercase text-start text-lg py-1 text-white font-extrabold">activité récente</span>
+            <hr class="text-amber-900 bg-amber-950 h-[0.1em]">
+            {{#if this.recentRatings.length}}
+                <div class="flex flex-row justify-between">
+                {{#each this.recentRatings as |r|}}
+                <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
+                {{/each}}
+            </div>
+            {{else}}
+                <h3 class="text-center my-10 text-lg">Aucun livre consulté récemment.</h3>
+            {{/if}}
         </div>
-    </div>
-    <div class="flex flex-col my-5">
-        <span class="uppercase text-start py-1">Commentaires récents</span>
-        <hr class="p-1">
-        <div class="flex flex-row justify-between">
-            {{#each @user.comments as |c|}}
-              <Comments::Profile @comment={{c}}/>
-            {{/each}}
+        <div class="flex flex-col my-5">
+            <span class="uppercase text-start text-lg py-1 text-white font-extrabold">Commentaires récents</span>
+            <hr class="text-amber-900 bg-amber-950 h-[0.1em]">
+            {{#if @user.comments.length}}
+                <div class="flex flex-col justify-between">
+                {{#each @user.comments as |c|}}
+                <Comments::Profile @comment={{c}}/>
+                {{/each}}
+            </div>
+            {{else}}
+                <h3 class="text-center my-10 text-lg">Aucun commentaire pour le moment</h3>
+            {{/if}}
         </div>
     </div>
 </div>

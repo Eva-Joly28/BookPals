@@ -1,3 +1,4 @@
+import { wrap } from "@mikro-orm/core";
 import { Book } from "src/database/entities/Book";
 import { Comment } from "src/database/entities/Comment";
 import { CommentLike } from "src/database/entities/CommentLike";
@@ -256,12 +257,11 @@ export default class JsonApiSerializer {
 
     static serializeComment(comment: Comment, included = new Set()) {
       const includedData : any = []; 
-
       if (!included.has(comment.id)) {
         included.add(comment.id);
-        includedData.push(this.serializeBook(comment.book, included).data);
-        includedData.push(this.serializeUser(comment.user, included).data);
-        includedData.push(...(comment.likedBy || []).map(commentLike => this.serializeCommentLike(commentLike, included).data));
+        wrap(comment.book).init().then(includedData.push(this.serializeBook(comment.book, included).data));
+        (comment.likedBy || []).map(commentLike => {wrap(commentLike).init().then(includedData.push(this.serializeCommentLike(commentLike, included).data))})
+        
     }
 
         return {
@@ -353,12 +353,12 @@ export default class JsonApiSerializer {
 
       static serializeCommentLike(commentLike: CommentLike, included = new Set()) {
 
-        const includedData = [];
+        const includedData : any = [];
 
         if (!included.has(commentLike.id)) {
             included.add(commentLike.id);
-            includedData.push(this.serializeUser(commentLike.user, included).data);
-            includedData.push(this.serializeComment(commentLike.comment, included).data);
+            wrap(commentLike.user).init().then(includedData.push(this.serializeUser(commentLike.user, included).data))
+            wrap(commentLike.comment).init().then(includedData.push(this.serializeComment(commentLike.comment, included).data))
         }
 
         return {

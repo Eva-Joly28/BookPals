@@ -1,0 +1,13 @@
+<div class=" mx-32 my-36">
+    <ProfileNav::Details @user={{@user}}/>
+    <div class="flex flex-row border-b border-amber-800">
+        <span class="py-1 px-4 text-[#c19395] hover:border-b hover:text-white border-white cursor-pointer">Abonnés</span>
+        <span class="py-1 px-4 text-[#c19395] hover:border-b hover: border-white cursor-pointer">Suivis</span>
+    </div>
+    {{#if @user.followers.length}}
+        <Table::Follows @users={{@user.followers}}/>
+    {{else}}
+        <p class="p-10 my-10 border text-center border-amber-900/30">Vous n'êtes suivi par aucun utilisateur</p>
+    {{/if}}
+
+</div>

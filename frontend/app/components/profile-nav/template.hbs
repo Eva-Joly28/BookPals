@@ -1,0 +1,16 @@
+<div class="flex flex-row justify-between max-w-max m-auto bg-transparent border-[0.05px] border-amber-900/30 my-5">
+        <div class="flex flex-row p-1">
+            {{yield}}
+        </div>
+        <div class="mx-10 justify-center flex flex-row">
+            {{!-- template-lint-disable no-invalid-interactive --}}
+            <p class="p-4 cursor-pointer ml-4 {{if this.isReadActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToRead}}>Lus</p>
+            <p class="p-4 cursor-pointer {{if this.isToReadActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goTotoRead}}>Pile à lire</p>
+            <p class="p-4 cursor-pointer {{if this.isWishListActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToWishlist}}>WishList</p>
+            <p class="p-4 cursor-pointer {{if this.isInProgressActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToInProgress}}>En cours</p>
+            <p class="p-4 cursor-pointer {{if this.isListsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Listes</p>
+            <p class="p-4 cursor-pointer {{if this.isLikedActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Aimés</p>
+            <p class="p-4 cursor-pointer {{if this.isReviewsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Commentaires</p>
+            <p class="p-4 cursor-pointer {{if this.isFriendsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}} mr-4" {{on 'click' this.goToNetwork}}>Réseau</p>
+        </div>
+</div>

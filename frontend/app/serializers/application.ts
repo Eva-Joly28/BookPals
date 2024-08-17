@@ -19,6 +19,21 @@ export default class Application extends JSONAPISerializer {
     }
   }
 
+  serialize(snapshot : Snapshot, options : any) {
+    let json : any = super.serialize(snapshot, options);
+
+    // Filtrer les relations pour n'inclure que celles qui ont été modifiées
+    if (json.data && json.data.relationships) {
+      Object.keys(json.data.relationships).forEach((key) => {
+        if (!snapshot.changedAttributes()[key]) {
+          delete json.data.relationships[key];
+        }
+      });
+    }
+
+    return json;
+  }
+
   keyForAttribute(key: string) {
     return key;
   }

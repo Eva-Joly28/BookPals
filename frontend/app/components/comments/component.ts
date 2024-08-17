@@ -11,6 +11,7 @@ import type commentModel from "ember-boilerplate/models/comment";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
 import type commentLikeModel from "ember-boilerplate/models/comment-like";
 import type userModel from "ember-boilerplate/models/user";
+import type { Invoke } from "@glint/template/-private/integration";
 
 export interface CommentsSignature{
     Args: {
@@ -31,18 +32,27 @@ export default class CommentsComponent extends Component<CommentsSignature>{
 
     constructor(owner: unknown, args: CommentsSignature['Args']){
         super(owner,args);
-        this.likeNumber = this.args.comment.likedBy.length;
-        if(this.session.isAuthenticated){
-            this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
-                 this.actualComment = comment;});
+        this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
+            this.actualComment = comment;
+            // comment.likedBy.map((like:any)=>{this.store.unloadRecord(like)})
+            // this.store.unloadRecord(comment.likedBy);
+            comment.reload().then((reloadedComment:any)=> {
+                this.likeNumber = reloadedComment.likedBy.length;
+            })});
+            if(this.session.isAuthenticated){
+                this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
+                    this.actualComment = comment;
+                });
             this.store.findRecord('user',this.currentUser.user!.username).then((user)=>{
-                this.userLike = user.likedComments.find((like : commentLikeModel) => hasManyToArray(this.actualComment.likedBy).some(l => l.id === like.id));
-                if(this.userLike){
+                this.userLike = user.likedComments.find((like : commentLikeModel) => (like.comment.id === this.actualComment.id));
+                if(user.likedComments.some((like: commentLikeModel) =>{console.log(like.comment.id); like.comment.id === this.actualComment.id}
+                )){
                     this.likeState = true;
                 }
                 else{
                     this.likeState = false;
                 }
+                console.log()
             });
             // this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
             //     this.actualComment = comment;
@@ -68,7 +78,6 @@ export default class CommentsComponent extends Component<CommentsSignature>{
     async toggleLike(){
         this.likeState = !this.likeState;
         if(this.likeState){
-            this.likeNumber += 1;
             let user = await this.store.findRecord('user',this.currentUser.user!.id);
             let newLike = this.store.createRecord('comment-like',{
                 user: user,
@@ -77,12 +86,14 @@ export default class CommentsComponent extends Component<CommentsSignature>{
             })
             await newLike.save();
             this.userLike = newLike;
+            this.actualComment.get('likedBy').reload().then((updatedLikes)=> {
+                this.likeNumber = updatedLikes.length;
+            })
         }
         else{
-            this.store.findRecord('comment-like',this.userLike!.id).then((like)=>{
-                like.destroyRecord();
-            });
-            this.likeNumber -= 1
+            let like = this.store.peekRecord('comment-like', this.userLike!.id);
+            like.destroyRecord();
+            this.likeNumber = this.likeNumber==0? 0 : this.likeNumber-1;
         }
     }
-}
+} 
