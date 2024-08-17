@@ -43,7 +43,9 @@ export class CommentRepository extends EntityRepository<Comment> implements Comm
 
     }
     async getComment(id: string): Promise<Comment | null> {
-        return await this.findOneOrFail({id},{populate:['*'], refresh:true});
+        let comment = await this.em.findOneOrFail(Comment, {id},{populate:['*'], refresh:true});
+        console.log('likedBy taille : ',comment.likedBy.length);
+        return comment;
     }
     async createComment(comment: RequiredEntityData<Comment>): Promise<Comment> {
         const newComment = new Comment();

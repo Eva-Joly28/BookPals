@@ -1,24 +1,27 @@
-<div class="pt-8 mx-32 my-8">
-  <span class="uppercase text-start p-1">Livres en cours</span>
-  <hr />
-  {{#if @user.booksInProgress.length}}
-    <div class="m-3 p-3 grid grid-cols-6 gap-4">
-      {{#each this.serializedArray as |b|}}
-        <Cards::Base @book={{b}} @addStyle="h-[8em] w-[5em]" />
-      {{/each}}
+<div class="my-32">
+    <ProfileNav::Details @user={{@user}}/>
+    <div class="pt-8 mx-32 my-10">
+      <span class="text-start p-1 text-yellow-50">{{@user.booksInProgress.length}} Livres en cours</span>
+      <hr class="text-amber-900 bg-amber-950 h-[0.1em]"/>
+      {{#if @user.booksInProgress.length}}
+        <div class="m-3 p-3 grid grid-cols-6 gap-4">
+          {{#each this.serializedArray as |b|}}
+            <Cards::Base @book={{b}} @addStyle="h-[8em] w-[5em]" />
+          {{/each}}
+        </div>
+        {{#if (gt @user.booksInProgress.length this.actualCount)}}
+          <button
+            type="button"
+            class="h-9 w-28 bg-green-800/90 mx-96 p-2 box-border hover:bg-green-800/50 rounded"
+            {{on "click" this.viewMore}}
+          >
+            <span class="text-center text-yellow-50 text-base">Voir plus</span>
+          </button>
+        {{/if}}
+      {{else}}
+        <div class="w-full h-full">
+          <h3 class="m-20 text-center">Aucun Livre dans cette collection pour le moment</h3>
+        </div>
+      {{/if}}
     </div>
-    {{#if (gt @user.booksInProgress.length this.actualCount)}}
-      <button
-        type="button"
-        class="h-9 w-28 bg-green-800/90 mx-96 p-2 box-border hover:bg-green-800/50 rounded"
-        {{on "click" this.viewMore}}
-      >
-        <span class="text-center text-yellow-50 text-base">Voir plus</span>
-      </button>
-    {{/if}}
-  {{else}}
-    <div class="w-full h-full">
-      <h3 class="m-auto text-center">Aucun Livre dans cette collection pour le moment</h3>
-    </div>
-  {{/if}}
 </div>

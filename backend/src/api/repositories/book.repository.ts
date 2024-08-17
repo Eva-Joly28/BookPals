@@ -57,7 +57,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     async getBookDetails(id: string){
         // let qb = this.em.qb(Book).select('*')
         // return (await qb.where({bookId : id}).execute('all'))[0];
-        return await this.findOneOrFail({id},{populate:['*']});
+        return await this.findOneOrFail({id},{populate:['*'], refresh:true});
     }
     
     async createBook(book: RequiredEntityData<Book>) {

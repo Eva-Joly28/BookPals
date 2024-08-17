@@ -60,7 +60,7 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
                 { id: id },
                 { username: id }
               ]
-        }, {failHandler: () => new NotFoundError(),  populate:['*'] });
+        }, {failHandler: () => new NotFoundError(),  populate:['*'], refresh:true });
         wrap(result).assign(user);
         await this.em.persistAndFlush(result);
         return result;

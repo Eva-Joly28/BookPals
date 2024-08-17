@@ -15,14 +15,16 @@ Router.map(function () {
   this.route('users', {path:'utilisateurs'});
   
   this.route('profile',{path: 'profil/:username'}, function () {
+    this.route('index', {path: '/'});
     this.route('reviews', {path: '/commentaires'});
-    this.route('ratings', {path: '/livres-notés'});
-    this.route('friends', {path: '/réseau'});
+    this.route('ratings', {path: '/livres-notes'});
+    this.route('friends', {path: '/reseau'});
     this.route('wishlist');
     this.route('lists',{path:'/listes'});
-    this.route('toread', {path:'/à-lire'});
-    this.route('read', {path: 'lus'});
-    this.route('liked',{path:'/aimés'});
+    this.route('to-read', {path:'/pile-a-lire'});
+    this.route('read', {path: '/lus'});
+    this.route('in-progress', {path: '/en-cours'});
+    this.route('liked',{path:'/aimes'});
 
   })
   this.route('lists', {path: '/listes'}, function () {

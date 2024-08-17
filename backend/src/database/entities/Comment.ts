@@ -9,8 +9,8 @@ import { CommentRepository } from "../../api/repositories/comment.repository";
 @Entity({ repository: () => CommentRepository })
 export class Comment extends BaseEntity {
 
-    @Property({length:1500})
-    @MaxLength(1500)
+    @Property({length:2500})
+    @MaxLength(2200)
     declare comment : string;
 
     @ManyToOne(()=>Book)

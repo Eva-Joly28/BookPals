@@ -1,6 +1,8 @@
-<div>
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div {{on 'click' this.goToUser }}>
     <div class="">
-        <Users::Base @size="h-[10em] w-[10em]" @picture={{if @user.profilePicture @user.profilePicture "[url('/assets/icons/user.svg')]"}}/>
+        <Users::Base @size="h-[10em] w-[10em]" @picture={{if @user.profilePicture @user.profilePicture "[url('/assets/icons/user.svg')]"}}
+        {{on 'click' this.goToUser}}/>
        {{#if this.session.isAuthenticated}}
           <div class="absolute rounded-full bg-amber-900 hover:bg-amber-800 h-7 w-7 ml-32 -mt-11">
             <img src="/assets/icons/plus.svg" alt="whatever icon">
@@ -8,8 +10,12 @@
        {{/if}}
     </div>
     <div class="flex flex-row text-center">
-        <h3 class="capitalize text-base">{{@user.username}}</h3>
-        <p>{{this.userComments}}</p>
+        {{!-- template-lint-disable no-invalid-interactive --}}
+        <h3 class="capitalize text-base" {{on 'click' this.goToUser}}>{{@user.username}}</h3>
+        <p>
+            <span {{on 'click' this.goToReadBooks}}>{{this.userRead}} livres</span>
+            <span {{on 'click' this.goToReviews}}>{{this.userComments}} avis</span>
+        </p>
     </div>
     <div class="flex flex-row justify-center flex-wrap m-1">
         {{#each this.topRead as |t|}}

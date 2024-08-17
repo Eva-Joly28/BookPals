@@ -6,7 +6,8 @@ import type SessionService from "ember-simple-auth/services/session";
 
 export interface ProfileSignature {
     Args: {
-        model:{user : userModel}
+        // model:{user : userModel}
+        user : userModel
     }
 }
 
@@ -16,6 +17,6 @@ export default class ProfileComponent extends Component<ProfileSignature>{
 
 
     get followUser(){
-        return this.currentUser.user!.following.find((u)=>u.id===this.args.model.user.id) ? true : false;
+        return this.currentUser.user!.following.find((u)=>u.id===this.args.user.id) ? true : false;
     }
 }

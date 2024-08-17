@@ -1,0 +1,8 @@
+<div>
+    <Cards::Base @book={{@book}} @addStyle="h-[8em] w-[5em]"/>
+    <div class="flex flex-row p-2 m-1">
+        {{#each this.ratingArray}}
+            <Stars::Icons/>
+        {{/each}}
+    </div>
+</div>

@@ -60,13 +60,13 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
     return super.handleResponse(status, headers, payload, requestData);
   }
 
-  updateRecord<K extends string | number>(store: DS.Store, type: ModelSchema<K>, snapshot: DS.Snapshot<K>): RSVP.Promise<any> {
+  // updateRecord<K extends string | number>(store: DS.Store, type: ModelSchema<K>, snapshot: DS.Snapshot<K>): RSVP.Promise<any> {
 
-    let url = this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord');
-    let data = this.serialize(snapshot, { includeId: true });
+  //   let url = this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord');
+  //   let data = this.serialize(snapshot, { includeId: true });
 
-    return this.ajax(url, 'PATCH', { data: data });
-  }
+  //   return this.ajax(url, 'PATCH', { data: data });
+  // }
 
   urlForQueryRecord(
     query: Record<string, unknown>,

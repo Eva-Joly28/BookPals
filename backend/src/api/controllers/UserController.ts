@@ -47,7 +47,8 @@ export class UserController implements UserControllerPort {
   async update(@Param('id') id: string, @Body() body:any){
     let deserializedUser = JsonApiDeserializer.deserializeUser(body);
     await validateOrReject(Object.assign(new UserPatch(), deserializedUser))
-    let user = await this.userService.updateUser(id, body);
+    let user = await this.userService.updateUser(id, deserializedUser);
+    console.log(user.booksToRead);
     let filteredUser = this.filterFields([user], ['password'])[0];
     return JsonApiSerializer.serializeUser(filteredUser);
   }
