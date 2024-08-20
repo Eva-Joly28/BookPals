@@ -7,11 +7,13 @@ import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
 import type SessionService from "ember-simple-auth/services/session";
 import { format } from 'date-fns';
-import type commentModel from "ember-boilerplate/models/comment";
+import commentModel from "ember-boilerplate/models/comment";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
 import commentLikeModel from "ember-boilerplate/models/comment-like";
 import type RatingModel from "ember-boilerplate/models/rating";
 import type { Invoke } from "@glint/template/-private/integration";
+import type BookModel from "ember-boilerplate/models/book";
+import type userModel from "ember-boilerplate/models/user";
 
 export interface CommentsProfileSignature{
     Args: {
@@ -28,6 +30,8 @@ export default class CommentsProfileComponent extends Component<CommentsProfileS
     @tracked declare actualComment : commentModel;
     @service declare currentUser : CurrentUserService;
     @tracked declare likeNumber : number;
+    @tracked declare commentBook : BookModel;
+    @tracked declare commentUser : userModel;
     @tracked declare userLike? : commentLikeModel;
 
     constructor(owner: unknown, args: CommentsProfileSignature['Args']){
@@ -40,13 +44,11 @@ export default class CommentsProfileComponent extends Component<CommentsProfileS
             }
         }
         this.likeNumber = this.args.comment.likedBy.length;
-        console.log(this.args.comment);
+    
         if(this.session.isAuthenticated){
             this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
                 this.actualComment = comment;
                 this.userLike = this.currentUser.user!.likedComments.find((like)=>like.comment.id==this.actualComment.id)
-                console.log(this.currentUser.user!.id)
-                console.log(this.actualComment.id);
                 if(this.userLike){
                     this.likeState = true;
                 }

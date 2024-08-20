@@ -22,14 +22,22 @@ export default class Application extends JSONAPISerializer {
   serialize(snapshot : Snapshot, options : any) {
     let json : any = super.serialize(snapshot, options);
 
-    // Filtrer les relations pour n'inclure que celles qui ont été modifiées
-    if (json.data && json.data.relationships) {
-      Object.keys(json.data.relationships).forEach((key) => {
-        if (!snapshot.changedAttributes()[key]) {
-          delete json.data.relationships[key];
-        }
-      });
-    }
+    // // Filtrer les relations pour n'inclure que celles qui ont été modifiées
+    // if (json.data && json.data.relationships) {
+    //   Object.keys(json.data.relationships).forEach((key) => {
+    //     if (snapshot.hasMany(key)) {
+    //       let currentIds = snapshot.hasMany(key)!.map(record => record.id);
+    //       let originalIds = snapshot.record.hasMany(key).ids();
+
+    //       if (currentIds.join(',') === originalIds.join(',')) {
+    //         delete json.data.relationships[key];
+    //       }
+    //     } else if (!snapshot.changedAttributes()[key]) {
+    //       delete json.data.relationships[key];
+    //     }
+    //   });
+    // }
+
 
     return json;
   }

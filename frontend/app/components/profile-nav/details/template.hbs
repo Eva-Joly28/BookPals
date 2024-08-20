@@ -1,7 +1,7 @@
 <ProfileNav @user={{@user}}>
       {{!-- template-lint-disable no-invalid-interactive --}}
       <div class="flex flex-row" {{on 'click' this.goToProfile}}>
-        <Users::Base @size="h-9 w-9" @picture={{if @user.profilePicture @user.profilePicture "[url('/assets/icons/user.svg')]"}}/>
+        <Users::Base @size="h-9 w-9" @picture={{if @user.profilePicture @user.profilePicture "[url('/assets/icons/user.svg')]"}} @clickEvent={{this.goToProfile}}/>
         {{!-- template-lint-disable no-invalid-interactive --}}
         <h3 class="px-1 py-3 hover:text-amber-800 cursor-pointer" {{on 'click' this.goToProfile}}>{{@user.username}}</h3>
       </div>

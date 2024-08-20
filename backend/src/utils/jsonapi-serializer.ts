@@ -179,6 +179,18 @@ export default class JsonApiSerializer {
                   id: list.id,
                 })) : [],
               },
+              followers: {
+                data: user.followers? user.followers.map(user => ({
+                  type: 'users',
+                  id: user.id,
+                })) : [],
+              },
+              following: {
+                data: user.following? user.following.map(user => ({
+                  type: 'users',
+                  id: user.id,
+                })) : [],
+              },
               usersLists: {
                 data: user.usersLists? user.usersLists.map(list => ({
                   type: 'lists',

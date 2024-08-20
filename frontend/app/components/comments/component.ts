@@ -96,4 +96,10 @@ export default class CommentsComponent extends Component<CommentsSignature>{
             this.likeNumber = this.likeNumber==0? 0 : this.likeNumber-1;
         }
     }
+
+    @action
+    goToUser(user: any){
+        this.router.transitionTo('profile',user.id);
+    
+    }
 } 

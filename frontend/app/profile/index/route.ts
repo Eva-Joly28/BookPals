@@ -12,7 +12,14 @@ export default class ProfileIndex extends Route{
         try{
             const parentParams = this.paramsFor('profile');
             const username = parentParams['username'] as string;
-            return await this.store.findRecord('user',username) as unknown as userModel;
+            let user = await this.store.findRecord('user',username) as unknown as userModel;
+            let comments = await user.comments.reload();
+            let ratings = await user.ratings.reload();
+            return {
+                user,
+                comments,
+                ratings
+            }
         }
         catch(e){
             console.log(e);

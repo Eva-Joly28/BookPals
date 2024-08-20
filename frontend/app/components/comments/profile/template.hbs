@@ -1,10 +1,10 @@
 <div class="flex flex-row my-2">
-    <div class="min-w-[3em]">
-        <Cards::Base @addStyle="h-[3.5em] w-[1.5em]" @book={{@comment.book}}/>
+    <div class="min-w-[3em] cursor-pointer">
+        <Cards::Base @addStyle="h-[8em] w-[5em]" @book={{@comment.book}}/>
     </div>
-    <div class="flex flex-col mx-4 mt-1">
+    <div class="flex flex-col mx-6 mt-10">
         <div class="flex flex-row">
-            <span class="capitalize mx-2 my-2 text-gray-100 font-[glenn] font-thin text-sm">{{@comment.user.username}}</span>
+            <span class="capitalize my-2 text-gray-100 font-[glenn] font-thin text-lg cursor-pointer hover:text-amber-600">{{@comment.book.title}}</span>
             <div class="flex flex-row p-2 m-1">
                 {{#each this.array}}
                   <Stars::Icons/>
