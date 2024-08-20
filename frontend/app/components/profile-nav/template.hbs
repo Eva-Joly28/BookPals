@@ -10,7 +10,7 @@
             <p class="p-4 cursor-pointer {{if this.isInProgressActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToInProgress}}>En cours</p>
             <p class="p-4 cursor-pointer {{if this.isListsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Listes</p>
             <p class="p-4 cursor-pointer {{if this.isLikedActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Aimés</p>
-            <p class="p-4 cursor-pointer {{if this.isReviewsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Commentaires</p>
+            <p class="p-4 cursor-pointer {{if this.isReviewsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToReviews}}>Commentaires</p>
             <p class="p-4 cursor-pointer {{if this.isFriendsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}} mr-4" {{on 'click' this.goToNetwork}}>Réseau</p>
         </div>
 </div>

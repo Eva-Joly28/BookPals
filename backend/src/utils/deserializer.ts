@@ -65,6 +65,12 @@ export default class JsonApiDeserializer {
       if (relationships.favoritesLists) {
         user.favoritesLists = relationships.favoritesLists.data.map((item: any) => item.id);
       }
+      if (relationships.followers) {
+        user.followers = relationships.followers.data.map((item: any) => item.id);
+      }
+      if (relationships.following) {
+        user.following = relationships.following.data.map((item: any) => item.id);
+      }
       if (relationships.usersLists) {
         user.usersLists = relationships.usersLists.data.map((item: any) => item.id);
       }  

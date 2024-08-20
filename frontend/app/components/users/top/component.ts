@@ -35,10 +35,18 @@ export default class UsersTopComponent extends Component<UsersTopSignature>{
 
     @action
     async followUser(){
-        let loggedUser : userModel = await this.store.findRecord('book',this.currentUser.user!.id);
-        // loggedUser.followers = [...loggedUser.followers, this.args.user];
-        loggedUser.followers.pushObject(this.args.user);
-        loggedUser.save();
+        // let loggedUser : userModel = await this.store.findRecord('user',this.currentUser.user!.id);
+        // // loggedUser.followers = [...loggedUser.followers, this.args.user];
+        // loggedUser.followers.pushObject(this.args.user);
+        // loggedUser.save();
+        this.store.findRecord('user', this.currentUser.user!.id).then(async (user)=>{
+            // await user.following.reload();
+            // let userToAdd = await this.store.findRecord('user', this.args.user.id);
+            // await userToAdd.reload();
+            user.get('following').push(this.args.user);
+            user.save();
+            // await user.reload();
+        })
     }
 
     @action

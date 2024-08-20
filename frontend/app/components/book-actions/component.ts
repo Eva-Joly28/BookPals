@@ -105,12 +105,17 @@ export default class BookActionsComponent extends Component<BookActionsSignature
                 // await user.save();
                 // await this.reloadUser();
                 this.store.findRecord('user', this.currentUser.user!.id).then(async (user)=>{
-                        await this.reloadUser();
+                        // await this.reloadUser();
                         await user.booksToRead.reload();
                         await book.reload();
-                        user.booksToRead = [...user.booksToRead, book]
+                        // console.log(book);
+                        // await book.usersToRead.reload();
+                        user.booksToRead.push(book);
+                        console.log(user.booksToRead);
+                        // await user.booksToRead.reload();
                         user.save();
-                    
+                        await this.reloadUser();
+
                 })
             }
         // console.log(this.currentUser.user?.booksToRead);

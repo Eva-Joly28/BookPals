@@ -21,7 +21,7 @@
                     <div class="flex flex-row">
                         {{#if (gt 0 this.followers.length)}}
                             {{#each this.followers as |f|}}
-                                <Users::Base @picture={{if f.profilePicture f.profilePicture '/assets/icons/user.svg'}} @size="h-[1em] w-[1em]"/>
+                                <Users::Base @picture={{if f.profilePicture f.profilePicture '/assets/icons/user.svg'}} @size="h-[1em] w-[1em]" @clickEvent={{fn this.goToUser f}}/>
                             {{/each}}
                         {{else}}
                             <span class="p-4 text-[#a19181] font-[glenn] font-thin">Aucun abonné pour le moment</span>
@@ -34,7 +34,7 @@
                     <div class="flex flex-row -m-1">
                         {{#if (gt 0 this.following.length)}}
                             {{#each this.followers as |f|}}
-                                <Users::Base @picture={{if f.profilePicture f.profilePicture '/assets/icons/user.svg'}} @size="h-[1em] w-[1em]"/>
+                                <Users::Base @picture={{if f.profilePicture f.profilePicture '/assets/icons/user.svg'}} @size="h-[1em] w-[1em]" @clickEvent={{fn this.goToUser f}}/>
                             {{/each}}
                         {{else}}
                             <span class="p-4 text-[#a19181] font-[glenn] font-thin">Aucune personne suivie pour le moment</span>
