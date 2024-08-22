@@ -4,7 +4,7 @@ import type userModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type Store from "ember-boilerplate/services/store";
 
-export default class ProfileFriends extends Route{
+export default class ProfileFollowers extends Route{
     @service declare store : Store;
 
     @service declare router : Router;

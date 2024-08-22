@@ -63,7 +63,7 @@ export class User extends BaseEntity {
 
   @ManyToMany(() => User,'following')
   declare followers: User[]; 
-
+  
   @OneToMany(() => Rating, rating=> rating.user)
   declare ratings : Rating[];
 

@@ -18,7 +18,8 @@ Router.map(function () {
     this.route('index', {path: '/'});
     this.route('reviews', {path: '/commentaires'});
     this.route('ratings', {path: '/livres-notes'});
-    this.route('friends', {path: '/reseau'});
+    this.route('followers', {path: '/abonnes'});
+    this.route('following', {path: '/suivis'});
     this.route('wishlist');
     this.route('lists',{path:'/listes'});
     this.route('to-read', {path:'/pile-a-lire'});

@@ -36,7 +36,6 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
             qb.orderBy({language:'desc',[filters.orderBy]:filters.order||'asc'}).limit(parseInt(filters.limit.limit));
         }
         const dbBooks = filters.limit? await qb.execute("all") : await qb.orderBy({language:'desc'}).execute("all");
-        console.log(dbBooks.length);
         const externalBooks = await this.fetchBooksFromRequester(filters, dbBooks);
 
         const bookIds = new Set<string>(dbBooks.map(book => book.bookId));
@@ -55,8 +54,6 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     }
 
     async getBookDetails(id: string){
-        // let qb = this.em.qb(Book).select('*')
-        // return (await qb.where({bookId : id}).execute('all'))[0];
         return await this.findOneOrFail({id},{populate:['*'], refresh:true});
     }
     
@@ -66,12 +63,14 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
         await this.em.persistAndFlush(newBook);
         return this.em.populate(newBook, ['comments','usersInProgress','usersReadBooks','usersToRead','usersWishlists','lists','ratings']);
     }
+
     async updateBook(id: string, book: Partial<Book>): Promise<Book | null> {
         const result = await this.findOneOrFail({ id }, { failHandler: () => new NotFoundError(), populate:['*'] });
         wrap(result).assign(book);
         await this.em.persistAndFlush(result);
         return result;
     }
+
     async deleteBook(id: string): Promise<void> {
         const result = await this.findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
         await this.em.removeAndFlush(result);
@@ -125,7 +124,6 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
 
     filterAuthor(filters:any,qb:SelectQueryBuilder<Book>){
         if (filters.author) {
-            console.log('here authors');
             qb.where('(?) ILIKE ANY(authors)', filters.author);
         }
     }
@@ -159,11 +157,8 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
             for (const book of books) {
                 if (await this.findOne({ bookId: book.bookId }) === null) {
                     books=[...books,book]
-                    // const instance = this.create(book);
-                    // this.em.persist(instance);
                 }
             }
-            // await this.em.flush();
         }
         return books;
     }

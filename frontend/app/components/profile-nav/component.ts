@@ -87,6 +87,6 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
 
     @action
     goToNetwork(){
-        this.router.transitionTo('profile.friends', this.args.user.username);
+        this.router.transitionTo('profile.followers', this.args.user.username);
     }
 }

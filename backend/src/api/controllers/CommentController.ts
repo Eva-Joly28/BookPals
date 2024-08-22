@@ -28,7 +28,8 @@ export class CommentController implements CommentControllerPort {
 
     @Post('/',{transformResponse:false})
     async create(@Body() comment: any): Promise<any> {
-        let deserializedComment = JsonApiDeserializer.deserializeComment(comment);await validateOrReject(Object.assign(new commentPost(),deserializedComment))
+        let deserializedComment = JsonApiDeserializer.deserializeComment(comment);
+        await validateOrReject(Object.assign(new commentPost(),deserializedComment))
         return this.commentService.createComment(deserializedComment as RequiredEntityData<Comment>)
     }
 
@@ -42,7 +43,7 @@ export class CommentController implements CommentControllerPort {
     async update(@Param('id') id: string, @Body() comment: commentPatch){
         let deserializedComment = JsonApiDeserializer.deserializeComment(comment);
         await validateOrReject(Object.assign(new commentPatch(),deserializedComment))
-        let result = await this.commentService.updateComment(id, comment);
+        let result = await this.commentService.updateComment(id, deserializedComment);
         return result!== null ? JsonApiSerializer.serializeComment(result) : undefined;
     }
 
