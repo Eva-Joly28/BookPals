@@ -4,12 +4,12 @@
         <tbody>
             {{#each @users as |u|}}
               <tr class="bg-transparent border-b border-amber-700/70">
-                <th scope="row" class=" px-12 py-4 font-medium text-gray-900 whitespace-nowrap m-4">
+                <th scope="row" class=" py-4 font-medium text-gray-900 whitespace-nowrap m-4">
                     <div class="flex flex-row">
                         <Users::Base @picture={{if u.profilePicture u.profilePicture "[url('/assets/icons/user.svg')]"}} @size="h-[2em] w-[2em]" @clickEvent={{fn this.goToUser u}}/>
                         <div class="m-1.5">
                             <h3>{{u.username}}</h3>
-                            <p>{{@infosSnippet}}</p>
+                            <p>{{u.followers.length 'abonnés, ' u.following.length 'suivis'}}</p>
                         </div>
                     </div>
                 </th>

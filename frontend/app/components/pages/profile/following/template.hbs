@@ -1,0 +1,14 @@
+<div class=" mx-32 my-36">
+    <ProfileNav::Details @user={{@user}}/>
+    <div class="flex flex-row border-b border-amber-800">
+        {{!-- template-lint-disable no-invalid-interactive --}}
+        <span class="py-1 px-4 text-[#bfd49e] hover:border-b border-[#bfd49e] cursor-pointer" {{on 'click' this.goToFollowers}}>Abonnés</span>
+        <span class="py-1 px-4 text-[white] border-b hover: border-white cursor-pointer">Suivis</span>
+    </div>
+    {{#if @user.following.length}}
+        <Table::Follows @users={{@user.following}}/>
+    {{else}}
+        <p class="p-10 my-10 border text-center border-amber-900/30">Aucun utilisateur suivi</p>
+    {{/if}}
+
+</div>

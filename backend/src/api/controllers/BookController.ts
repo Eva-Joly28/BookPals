@@ -25,7 +25,6 @@ export class BookController implements BookControllerPort {
     @Get('/',{transformResponse:false})
     @ResponseSchema(Book)
     async getAll(@Req() request:any){
-        console.log(request.query);
         let results = await this.bookService.getBooksWithFilters(request.query);
         return JsonApiSerializer.serializeBooks(results);
     }

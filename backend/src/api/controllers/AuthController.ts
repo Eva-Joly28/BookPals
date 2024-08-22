@@ -50,7 +50,6 @@ export class AuthController{
 
     @Post('/login')
     async login(@Body() body:any, @Res() res:any){
-        console.log(body)
         const {username, password} = body;
         const user = await this.userRepository.findOne({username});
         if(!user || !(await Encrypt.comparePassword(password, user.password))){

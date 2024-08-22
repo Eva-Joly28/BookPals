@@ -6,10 +6,10 @@
             <hr class="text-amber-900 bg-amber-950 h-[0.1em]">
             {{#if this.bestRatings.length}}
                 <div class="flex flex-row justify-between">
-                {{#each this.bestRatings as |r|}}
-                <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
-                {{/each}}
-            </div>
+                    {{#each this.bestRatings as |r|}}
+                    <Cards::Base @book={{r.book}} @addStyle="h-[16em] w-[11em]"/>
+                    {{/each}}
+                </div>
             {{else}}
                 <h3 class="text-center my-10 text-lg">Aucun livre favori pour le moment</h3>
             {{/if}}

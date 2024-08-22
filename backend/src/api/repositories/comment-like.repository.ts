@@ -41,23 +41,7 @@ export class CommentLikeRepository extends EntityRepository<CommentLike> {
             await this.em.persistAndFlush(newLike);
             const comment = await this.em.findOne(Comment, like.comment, {populate:['*'], refresh:true});
             const user = await this.em.findOne(User, like.user, { populate: ['*'], refresh:true});
-            // if(comment!==null && !comment.likedBy.find((like)=>like.id===newLike.id)){
-            //     comment.likedBy = [...comment.likedBy, newLike];
-            //     wrap(comment).assign({
-            //         likedBy: comment.likedBy
-            //     });
-            //     await this.em.refresh(comment);
-            //     await this.em.persistAndFlush(newLike.comment);
-
-            // }
-            // if(user!==null && !user.likedComments.find((like)=>like.id===newLike.id)){
-            //     user.likedComments = [...user.likedComments, newLike]
-            //     wrap(user).assign({
-            //         likedComments: user.likedComments
-            //     });
-            //     await this.em.refresh(user);
-            //     await this.em.persistAndFlush(newLike.user);
-            // }
+            
             return newLike;
         }
         catch(e){
@@ -69,7 +53,6 @@ export class CommentLikeRepository extends EntityRepository<CommentLike> {
         try{
             const result = await this.findOne({id},{populate:['*']});
             if(result && result!== null){
-                // console.log("id du commentaire : ",result.comment.id);
                 const comment = await this.em.findOne(Comment, result.comment, {populate:['*'], refresh:true});
                 const user = await this.em.findOne(User, result.user, { populate: ['*'], refresh:true});
                 await this.em.removeAndFlush(result!);
