@@ -2,7 +2,9 @@ import { wrap } from "@mikro-orm/core";
 import { Book } from "src/database/entities/Book";
 import { Comment } from "src/database/entities/Comment";
 import { CommentLike } from "src/database/entities/CommentLike";
+import { Conversation } from "src/database/entities/Conversation";
 import { List } from "src/database/entities/List";
+import { Message } from "src/database/entities/Message";
 import { Rating } from "src/database/entities/Rating";
 import { User } from "src/database/entities/User";
 
@@ -101,6 +103,114 @@ export default class JsonApiSerializer {
         };
     }
 
+
+    static serializeConversation(conversation: Conversation, included = new Set()) {
+      const includedData: any[] = [];
+  
+      if (!included.has(conversation.id)) {
+        included.add(conversation.id);
+        includedData.push(...(conversation.participants || []).map(user => this.serializeUser(user, included).data));
+        includedData.push(...(conversation.messages || []).map(message => this.serializeMessage(message, included).data));
+      }
+  
+      return {
+        data: {
+          type: 'conversations',
+          id: conversation.id,
+          attributes: {
+            lastMessageDate: conversation.lastMessageDate,
+          },
+          relationships: {
+            participants: {
+              data: conversation.participants?.map(user => ({
+                type: 'users',
+                id: user.id,
+              })) || [],
+            },
+            messages: {
+              data: conversation.messages?.map(message => ({
+                type: 'messages',
+                id: message.id,
+              })) || [],
+            },
+          },
+        },
+        included: includedData,
+      };
+    }
+
+    static serializeConversations(conversations: Conversation[]) {
+      const included = new Set();
+      const serializedConversations = conversations.map(conversation => this.serializeConversation(conversation, included));
+      const includedData = serializedConversations.flatMap(conversation => conversation.included);
+      return {
+          data: serializedConversations.map(conversation => conversation.data),
+          included: includedData,
+      };
+    }
+
+
+    static serializeMessage(message: Message, included = new Set()) {
+      const includedData: any = [];
+      
+      if (!included.has(message.id)) {
+          included.add(message.id);
+
+          if (message.sender) {
+              includedData.push(this.serializeUser(message.sender, included).data);
+          }
+          if (message.receiver) {
+              includedData.push(this.serializeUser(message.receiver, included).data);
+          }
+          if (message.conversation) {
+            includedData.push(this.serializeConversation(message.conversation, included).data);
+        }
+      }
+
+      return {
+          data: {
+              type: 'messages',
+              id: message.id,
+              attributes: {
+                  content: message.content,
+                  isRead: message.isRead,
+              },
+              relationships: {
+                  sender: {
+                      data: message.sender ? {
+                          type: 'users',
+                          id: message.sender.id,
+                      } : null,
+                  },
+                  receiver: {
+                      data: message.receiver ? {
+                          type: 'users',
+                          id: message.receiver.id,
+                      } : null,
+                  },
+                  conversation: {
+                    data: message.conversation ? {
+                        type: 'conversations',
+                        id: message.conversation.id,
+                    } : null,
+                },
+              },
+          },
+          included: includedData,
+      };
+  }
+
+  static serializeMessages(messages: Message[]) {
+    const included = new Set();
+    const serializedMessages = messages.map(message => this.serializeMessage(message, included));
+    const includedData = serializedMessages.flatMap(message => message.included);
+    return {
+        data: serializedMessages.map(message => message.data),
+        included: includedData,
+    };
+  }
+
+
     static serializeUser(user: User, included = new Set()) {
       const includedData : any = [];
       if (!included.has(user.id)) {
@@ -112,6 +222,13 @@ export default class JsonApiSerializer {
         includedData.push(...(user.ratings || []).map(rating => this.serializeRating(rating, included).data));
         includedData.push(...(user.comments || []).map(comment => this.serializeComment(comment, included).data));
         includedData.push(...(user.likedComments || []).map(commentLike => this.serializeCommentLike(commentLike, included).data));
+        includedData.push(...(user.followers || []).map(follower => this.serializeUser(follower, included).data));
+        includedData.push(...(user.following || []).map(following => this.serializeUser(following, included).data));
+        includedData.push(...(user.blockedUsers || []).map(blockedUser => this.serializeUser(blockedUser, included).data));
+        includedData.push(...(user.blockedBy || []).map(blockedByUser => this.serializeUser(blockedByUser, included).data));
+        includedData.push(...(user.conversations || []).map(conversation => this.serializeConversation(conversation, included).data));
+        includedData.push(...(user.receivedMessages || []).map(message => this.serializeMessage(message, included).data));
+        includedData.push(...(user.sentMessages || []).map(message => this.serializeMessage(message, included).data));
         includedData.push(...(user.favoritesLists || []).map(list => this.serializeList(list, included).data));
         includedData.push(...(user.usersLists || []).map(list => this.serializeList(list, included).data));
     }
@@ -189,6 +306,36 @@ export default class JsonApiSerializer {
                 data: user.following? user.following.map(user => ({
                   type: 'users',
                   id: user.id,
+                })) : [],
+              },
+              blockedUsers: {
+                data: user.blockedUsers? user.blockedUsers.map(user => ({
+                  type: 'users',
+                  id: user.id,
+                })) : [],
+              },
+              blockedBy: {
+                data: user.blockedBy? user.blockedBy.map(user => ({
+                  type: 'users',
+                  id: user.id,
+                })) : [],
+              },
+              conversations: {
+                data: user.conversations? user.conversations.map(conversation => ({
+                  type: 'conversations',
+                  id: conversation.id,
+                })) : [],
+              },
+              sentMessages: {
+                data: user.sentMessages? user.sentMessages.map(message => ({
+                  type: 'messages',
+                  id: message.id,
+                })) : [],
+              },
+              receivedMessages: {
+                data: user.receivedMessages? user.receivedMessages.map(message => ({
+                  type: 'messages',
+                  id: message.id,
                 })) : [],
               },
               usersLists: {

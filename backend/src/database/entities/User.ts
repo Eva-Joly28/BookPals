@@ -9,6 +9,8 @@ import { List } from './List.js';
 import { Roles } from '../../utils/users.roles.js';
 import { Book } from './Book';
 import { CommentLike } from './CommentLike';
+import { Message } from './Message';
+import { Conversation } from './Conversation';
 
 
 @Entity()
@@ -63,6 +65,12 @@ export class User extends BaseEntity {
 
   @ManyToMany(() => User,'following')
   declare followers: User[]; 
+
+  @ManyToMany(() => User, 'blockedBy', { owner: true })
+  declare blockedUsers : User[];
+
+  @ManyToMany(() => User, 'blockedUsers')
+  declare blockedBy : User[];
   
   @OneToMany(() => Rating, rating=> rating.user)
   declare ratings : Rating[];
@@ -72,6 +80,15 @@ export class User extends BaseEntity {
 
   @OneToMany(() => CommentLike, commentLike => commentLike.user)
   likedComments: CommentLike[];
+
+  @ManyToMany(()=>Conversation,'participants')
+  declare conversations : Conversation[];
+
+  @OneToMany(() => Message, message=> message.sender)
+  declare sentMessages : Message[];
+
+  @OneToMany(() => Message, message=> message.receiver)
+  declare receivedMessages : Message[];
 
   @ManyToMany(() => List,'likedBy')
   declare favoritesLists : List[];

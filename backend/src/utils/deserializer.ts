@@ -71,11 +71,48 @@ export default class JsonApiDeserializer {
       if (relationships.following) {
         user.following = relationships.following.data.map((item: any) => item.id);
       }
+      if (relationships.blockedUsers) {
+        user.blockedUsers = relationships.blockedUsers.data.map((item: any) => item.id);
+      }
+      if (relationships.blockedBy) {
+        user.blockedBy = relationships.blockedBy.data.map((item: any) => item.id);
+      }
+      if (relationships.conversations) {
+        user.conversations = relationships.conversations.data.map((item: any) => item.id);
+      }
+      if (relationships.sentMessages) {
+        user.sentMessages = relationships.sentMessages.data.map((item: any) => item.id);
+      }
+      if (relationships.receivedMessages) {
+        user.receivedMessages = relationships.receivedMessages.data.map((item: any) => item.id);
+      }
       if (relationships.usersLists) {
         user.usersLists = relationships.usersLists.data.map((item: any) => item.id);
       }  
   
       return user;
+    }
+
+    static deserializeConversation(jsonApiData: any): any {
+      const attributes = jsonApiData.data.attributes ? jsonApiData.data.attributes : {};
+      const relationships = jsonApiData.data.relationships ? jsonApiData.data.relationships : {};
+  
+      const conversation: any = {
+        ...attributes,
+      };
+  
+      if (relationships.participants) {
+        conversation.participants = relationships.participants.data.map((item: any) => item.id);
+      }
+      if (relationships.messages) {
+        conversation.messages = relationships.messages.data.map((item: any) => item.id);
+      }
+  
+      return conversation;
+    }
+
+    static deserializeConversations(jsonApiDataArray: any[]): any[] {
+      return jsonApiDataArray.map(this.deserializeConversation);
     }
   
     static deserializeList(jsonApiData: any): any {
@@ -119,6 +156,27 @@ export default class JsonApiDeserializer {
       }
   
       return comment;
+    }
+
+    static deserializeMessage(jsonApiData: any): any {
+      const attributes = jsonApiData.data.attributes ? jsonApiData.data.attributes : {};
+      const relationships = jsonApiData.data.relationships ? jsonApiData.data.relationships : {};
+  
+      const message: any = {
+        ...attributes,
+      };
+  
+      if (relationships.sender) {
+        message.sender = relationships.sender.data ? relationships.sender.data.id : null;
+      }
+      if (relationships.conversation) {
+        message.conversation = relationships.conversation.data ? relationships.conversation.data.id : null;
+      }
+      if (relationships.receiver) {
+        message.receiver = relationships.receiver.data ? relationships.receiver.data.id : null;
+      }
+  
+      return message;
     }
   
     static deserializeRating(jsonApiData: any): any {

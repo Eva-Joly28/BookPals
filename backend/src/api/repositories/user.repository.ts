@@ -1,4 +1,4 @@
-import { EntityManager, EntityRepository,SelectQueryBuilder,wrap } from "@mikro-orm/postgresql";
+import { EntityManager, EntityRepository,PopulatePath,SelectQueryBuilder,wrap } from "@mikro-orm/postgresql";
 import { UserRepositoryPort } from "src/core/ports/out/userRepositoryPort";
 import { User } from "../../database/entities/User";
 import { Service } from "typedi";
@@ -20,7 +20,7 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
     }
 
 
-    findWithFilters(filters: any): Promise<User[]> {
+    async findWithFilters(filters: any): Promise<User[]> {
         const qb = this.em.qb(User).select('*');
         if(filters){
             this.setupFilters(filters, qb);
@@ -32,7 +32,9 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
                 qb.limit(parseInt(filters.limit.limit));
             }
         }
-        return qb.execute("all");
+        let results =  qb.execute("all");
+        // await this.em.populate(results,{followers});
+        return results;
 
     }
     async findById(id: string): Promise<User | null> {
