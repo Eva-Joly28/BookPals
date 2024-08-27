@@ -7,19 +7,19 @@ import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type SessionService from "ember-simple-auth/services/session";
 
-export interface ProfileFollowersSignature {
+export interface ProfileBlockedSignature {
     Args : {
         user : userModel;
     }
 }
 
-export default class ProfileFollowersComponent extends Component<ProfileFollowersSignature>{
+export default class ProfileBlockedComponent extends Component<ProfileBlockedSignature>{
     @service declare session : SessionService;
     @service declare currentUser : CurrentUserService;
     @service declare router : Router;
     @tracked hasRights = false;
 
-    constructor(owner: unknown, args: ProfileFollowersSignature['Args']){
+    constructor(owner: unknown, args: ProfileBlockedSignature['Args']){
         super(owner,args);
         if(this.session.isAuthenticated){
             if(this.args.user.id === this.currentUser.user!.id){

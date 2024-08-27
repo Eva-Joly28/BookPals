@@ -7,6 +7,7 @@ import type userModel from 'ember-boilerplate/models/user';
 import type Router from 'ember-boilerplate/router';
 import type Store from 'ember-boilerplate/services/store';
 import type emberData__store from '@ember-data/store';
+import { updateRecord } from 'ember-boilerplate/utils/update-model';
 
 export default class BookDetails extends Route {
     @service declare store : emberData__store;
@@ -39,7 +40,18 @@ export default class BookDetails extends Route {
             }
             let bookToUpdate = await this.store.findRecord('book',book!.id)
             bookToUpdate.views = parseInt(bookToUpdate.views)+1;
-            bookToUpdate.save();
+            let data = {
+                "data": {
+                    "id": `${book.id}`,
+                    "type": "books",
+                    "attributes": {
+                        "views": bookToUpdate.views
+                    }
+                    }
+                }
+            let response = await updateRecord('books',bookToUpdate.id,data);
+            // await bookToUpdate.reload();
+            // bookToUpdate.save();
         
             // if(book.categories.length){
             //     let genres = book.categories.slice(0,3);

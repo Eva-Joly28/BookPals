@@ -8,6 +8,7 @@ import userModel from "ember-boilerplate/models/user";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
+import { updateRecord } from "ember-boilerplate/utils/update-model";
 import type SessionService from "ember-simple-auth/services/session";
 
 export interface BookActionsSignature {
@@ -111,9 +112,22 @@ export default class BookActionsComponent extends Component<BookActionsSignature
                         // console.log(book);
                         // await book.usersToRead.reload();
                         user.booksToRead.push(book);
+                        let data = {
+                            "data": {
+                                "id": `${user.id}`,
+                                "type": "users",
+                                "relationships": {
+                                "booksToRead": {
+                                    "data": user.booksToRead
+                                },
+                               
+                                }
+                                }
+                            }
+                        let response = await updateRecord('users',user.id,data);
                         console.log(user.booksToRead);
                         // await user.booksToRead.reload();
-                        user.save();
+                        // user.save();
                         await this.reloadUser();
 
                 })

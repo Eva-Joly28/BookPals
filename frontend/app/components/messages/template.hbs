@@ -1,0 +1,16 @@
+<div class="flex flex-col max-w-8 {{this.direction}}">
+    <div class="flex flex-row">
+        {{#unless this.isCurrentUser }}
+            <Users::Base @size="h-[2em] w-[2em]" @picture={{if @message.sender.profilePicture @message.sender.profilePicture "[url('/assets/icons/user.svg')]"}} @clickEvent={{fn this.goToProfile @message.sender.username}}/>
+        {{/unless}}
+         <p class="m-1 p-2 bg-green-500 text-white text-sm">{{@message.content}}</p>
+    </div>
+    <div class="flex row max-w-10 justify-end">
+        <button type="button">
+            <img src="/assets/icons/modify.svg" alt="modifier le message" class="h-3 w-3">
+        </button>
+        <button type="button">
+            <img src="/assets/icons/delete.svg" alt="supprimer le message" class="h-3 w-3">
+        </button>
+    </div>
+</div>

@@ -1,1 +1,7 @@
-{{outlet}}
+{{#if this.model.isBlocked}}
+    <div>
+        <Profile @user={{this.model.user}}/>
+    </div>
+{{else}}
+    {{outlet}}
+{{/if}}

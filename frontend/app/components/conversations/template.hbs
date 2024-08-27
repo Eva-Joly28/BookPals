@@ -1,0 +1,8 @@
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div class="flex flex-row p-2 {{if @isActive 'bg-[#38260ca4] rounded-md border'}}" {{on 'click' (fn @selectConversation @conversation.id) }}>
+    <Users::Base/>
+    <div class="flex flex-col">
+        <p class="font-bold">{{this.otherUser}}</p>
+        <p class="text-sm text-gray-400">{{this.lastUser " : " this.extractMessage }}</p>
+    </div>
+</div>

@@ -20,6 +20,8 @@ Router.map(function () {
     this.route('ratings', {path: '/livres-notes'});
     this.route('followers', {path: '/abonnes'});
     this.route('following', {path: '/suivis'});
+    this.route('messages', {queryParams: ['conversation']});
+    this.route('blocked',{path: '/bloques'})
     this.route('wishlist');
     this.route('lists',{path:'/listes'});
     this.route('to-read', {path:'/pile-a-lire'});

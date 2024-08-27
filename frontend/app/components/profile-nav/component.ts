@@ -1,6 +1,7 @@
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
+import type messageModel from "ember-boilerplate/models/message";
 import type userModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
@@ -21,7 +22,7 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
         super(owner,args);
     }
 
-    get isReadActive() {
+      get isReadActive() {
         return this.router.isActive('profile.read');
       }
     
@@ -51,6 +52,29 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
     
       get isFriendsActive() {
         return this.router.isActive('profile.friends');
+      }
+
+      get isMessagesActive() {
+        return this.router.isActive('profile.messages');
+      }
+
+      get isCurrentUser(){
+          if(this.currentUser.user && (this.currentUser.user.id == this.args.user.id) ){
+            return true;
+          }
+          return false;
+      }
+
+      get unreadMessages(){
+        let unreadTab : messageModel[] = [];
+        this.args.user.conversations.forEach(c => {
+          c.messages.forEach(m=>{
+            if(!m.isRead){
+              unreadTab = [...unreadTab, m];
+            }
+          })
+        });
+        return unreadTab;
       }
     
 
@@ -88,5 +112,10 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
     @action
     goToNetwork(){
         this.router.transitionTo('profile.followers', this.args.user.username);
+    }
+
+    @action
+    goToMessages(){
+        this.router.transitionTo('profile.messages', this.args.user.username);
     }
 }

@@ -11,6 +11,17 @@
             <p class="p-4 cursor-pointer {{if this.isListsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Listes</p>
             <p class="p-4 cursor-pointer {{if this.isLikedActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Aimés</p>
             <p class="p-4 cursor-pointer {{if this.isReviewsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToReviews}}>Commentaires</p>
+            {{#if this.isCurrentUser }}
+                {{#if @user.conversations.length}}
+                    <div class="inline-flex">
+                    <p class="p-4 cursor-pointer {{if this.isMessagesActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToMessages}}>Messages</p>
+                    <span
+                        class="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center top-[4%] right-[2%] translate-x-2/4 -translate-y-2/4 bg-red-500 text-white min-w-[24px] min-h-[24px]">
+                        5
+                    </span>
+                </div>
+                {{/if}}
+            {{/if}}
             <p class="p-4 cursor-pointer {{if this.isFriendsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}} mr-4" {{on 'click' this.goToNetwork}}>Réseau</p>
         </div>
 </div>

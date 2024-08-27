@@ -3,6 +3,8 @@ import type BookModel from "./book";
 import type commentLikeModel from "./comment-like";
 import type RatingModel from "./rating";
 import type commentModel from "./comment";
+import type conversationModel from "./conversation";
+import type messageModel from "./message";
 
 export default class userModel extends Model {
     @attr() declare username : string;
@@ -41,11 +43,41 @@ export default class userModel extends Model {
     })
     declare followers: SyncHasMany<userModel>
 
+    @hasMany('user', {
+        async:false,
+        inverse: 'blockedBy',
+    })
+    declare blockedUsers: SyncHasMany<userModel>
+
+    @hasMany('user', {
+        async:false,
+        inverse: 'blockedUsers',
+    })
+    declare blockedBy: SyncHasMany<userModel>
+
     @hasMany('book', {
         async:false,
         inverse: 'usersWishLists',
     })
     declare wishList: SyncHasMany<BookModel>
+
+    @hasMany('conversation', {
+        async:false,
+        inverse: 'participants',
+    })
+    declare conversations: SyncHasMany<conversationModel>
+
+    @hasMany('message', {
+        async:false,
+        inverse: 'sender',
+    })
+    declare sentMessages: SyncHasMany<messageModel>
+
+    @hasMany('message', {
+        async:false,
+        inverse: 'receiver',
+    })
+    declare receivedMessages: SyncHasMany<messageModel>
 
     @hasMany('comment', {
         async:false,
