@@ -2,5 +2,6 @@ dist
 node_modules
 .env
 .env.test
+.env.production
 logs
 *.log*
