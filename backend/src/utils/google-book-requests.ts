@@ -80,7 +80,6 @@ export async function assign(item:any){
     book.snippet= item.searchInfo? getExtract(item.searchInfo.textSnippet,340): "";
     book.language= item.volumeInfo.language;
     book.views= 0;
-    book.rate = 0;
 
     return book;}
     catch(e){
@@ -125,7 +124,7 @@ export class GoogleBooksRequester {
     async getBooksBySearch(query: string): Promise<Book[]> {
         try{
             const response = await axios.get(apiInfos.BASE_URL!,{
-                params : {q: `intitle:${query}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
+                params : {q: `intitle:${query}`, key: apiInfos.API_KEY, maxResults: 40, langRestrict:'fr', printType:"books"}
             });
 
             let books = response.data.items ? await assignBook(response.data.items) : [];
@@ -138,9 +137,15 @@ export class GoogleBooksRequester {
                 
                 if (newQuery !== query) {
                     const newResponse = await axios.get(apiInfos.BASE_URL!, {
-                        params: { q: `intitle:${newQuery}`, key: apiInfos.API_KEY, maxResults: 40, printType: "books" }
+                        params: { q: `intitle:${newQuery}`, key: apiInfos.API_KEY, langRestrict:'fr', maxResults: 40, printType: "books" }
                     });
                     books = [...books,...(await assignBook(newResponse.data.items))];
+                    if(books.length<=5){
+                        const newResponseAll = await axios.get(apiInfos.BASE_URL!, {
+                            params: { q: `intitle:${newQuery}`, key: apiInfos.API_KEY, maxResults: 40, printType: "books" }
+                        });
+                        books = [...books,...(await assignBook(newResponseAll.data.items))];
+                    }
                 }
                 return books;
             }
@@ -154,9 +159,16 @@ export class GoogleBooksRequester {
     async getBooksByAuthor(author : string): Promise<Book[]> {
         try{
             const response = await axios.get(apiInfos.BASE_URL!,{
-                params : {q: `inauthor:${author}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
+                params : {q: `inauthor:${author}`, key: apiInfos.API_KEY, maxResults: 40, langRestrict:'fr', printType:"books"}
             });
-            return response.data.items ? await assignBook(response.data.items) : [];
+            let books = response.data.items ? await assignBook(response.data.items) : [];
+            if(books.length <= 5){
+                const newResponse = await axios.get(apiInfos.BASE_URL!,{
+                    params : {q: `inauthor:${author}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
+                });
+                books = [...books,...(await assignBook(newResponse.data.items))];
+            }
+            return books;
         }
         catch(e){
             console.error("there is a problem with the author request", e);
@@ -194,12 +206,18 @@ export class GoogleBooksRequester {
         let books : Book[] =[];
         let count = 0;
         try {
-            const params: any = { q: `subject:${subject}`, key: apiInfos.API_KEY, maxResults: 40, printType: "books" };
+            const params: any = { q: `subject:${subject}`, key: apiInfos.API_KEY, maxResults: 40, langRestrict:'fr', printType: "books" };
             if (startIndex) params.startIndex = startIndex;
 
             const response = await axios.get(apiInfos.BASE_URL!, { params });
             console.log(response.request);
             books = response.data.items? await assignBook(response.data.items) : [];
+            if(books.length<20){
+                const newResponse = await axios.get(apiInfos.BASE_URL!,{
+                    params : {q: `subject:${subject}`, key: apiInfos.API_KEY, maxResults: 40, printType:"books"}
+                });
+                books = [...books,...(await assignBook(newResponse.data.items))];
+            }
             count = response.data.totalItems || 0;
             
         } catch (e) {

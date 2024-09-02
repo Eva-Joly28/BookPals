@@ -9,7 +9,6 @@ import { networkInterfaces } from "os";
 export interface RatingFilters{
     book?:string,
     user?: string,
-    likedBy?:string,
     orderByDate: boolean,
     offset?:number,
     limit?: number,
@@ -63,18 +62,18 @@ export class RatingRepository extends EntityRepository<Rating> implements Rating
         const newRating = new Rating();
         wrap(newRating).assign(rating,{em:this.em});
         await this.em.persistAndFlush(newRating);
-        if(!newRating.book.ratings.find((rate)=> rate.id === newRating.id)){
-            wrap(newRating.book).assign({
-                ratings : [...newRating.book.ratings, newRating]
-            })
-            this.em.persistAndFlush(newRating.book);
-        }
-        if(!newRating.user.ratings.find((rate)=> rate.id === newRating.id)){
-            wrap(newRating.user).assign({
-                ratings : [...newRating.user.ratings, newRating]
-            })
-            this.em.persistAndFlush(newRating.user);
-        }
+        // if(!newRating.book.ratings.find((rate)=> rate.id === newRating.id)){
+        //     wrap(newRating.book).assign({
+        //         ratings : [...newRating.book.ratings, newRating]
+        //     })
+        //     this.em.persistAndFlush(newRating.book);
+        // }
+        // if(!newRating.user.ratings.find((rate)=> rate.id === newRating.id)){
+        //     wrap(newRating.user).assign({
+        //         ratings : [...newRating.user.ratings, newRating]
+        //     })
+        //     this.em.persistAndFlush(newRating.user);
+        // }
         return newRating;
     }
     async updateRating(id: string, rating: Partial<Rating>): Promise<Rating | null> {

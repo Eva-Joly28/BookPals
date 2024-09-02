@@ -28,6 +28,11 @@ export class ConversationRepository extends EntityRepository<Conversation>{
         return results;
     }
 
+    async findConversation(id : string){
+        let conversation = await this.em.findOneOrFail(Conversation, {id},{populate:['*'], refresh:true});
+        return conversation;
+    }
+
     async findOrCreateConversation(sender: string, receiver: string ){
         const qb = this.em.qb(Conversation)
         .select('*').where({

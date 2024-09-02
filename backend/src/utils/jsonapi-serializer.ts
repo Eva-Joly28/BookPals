@@ -42,7 +42,6 @@ export default class JsonApiSerializer {
             snippet: book.snippet,
             language: book.language,
             views: book.views,
-            rate: book.rate,
           },
           relationships: {
             usersWishlists: {

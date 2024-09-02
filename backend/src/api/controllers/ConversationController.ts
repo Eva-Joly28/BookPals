@@ -16,6 +16,12 @@ export class ConversationController{
         return JsonApiSerializer.serializeConversations(conversations);
     }
 
+    @Get('/:id')
+    async findConversation(@Param('id') id:string){
+        let result = await this.conversationRepository.findConversation(id);
+        return result!=null ? JsonApiSerializer.serializeConversation(result) : undefined; 
+    }
+
     @Delete('/:id')
     async deleteConversation(@Param('id') id:string){
         await this.conversationRepository.deleteConversation(id);

@@ -24,7 +24,6 @@ export class MessageController implements MessageControllerPort {
     @Get('/', {transformResponse:false})
     async getWithFilters(@Req() request: any): Promise<any> { 
         let results = await this.messageService.getMessagesWithFilters(request.query);
-        console.log(results);
         return JsonApiSerializer.serializeMessages(results);
     }
 
@@ -34,7 +33,6 @@ export class MessageController implements MessageControllerPort {
         await validateOrReject(Object.assign(new messagePost(), deserializedMessage));
         let conversation = await this.conversationRepository.findOrCreateConversation(deserializedMessage.sender, deserializedMessage.receiver);
         deserializedMessage.conversation = conversation.id;
-        console.log(deserializedMessage);
         let newMessage = await this.messageService.createMessage(deserializedMessage);
         await this.conversationRepository.updateConversation(conversation.id,{lastMessageDate:new Date()});
         return message ? JsonApiSerializer.serializeMessage(newMessage!) : undefined;
@@ -47,7 +45,7 @@ export class MessageController implements MessageControllerPort {
     }
 
     @Patch('/:id')
-    async update(@Param('id') id: string, message: any): Promise<any> {
+    async update(@Param('id') id: string, @Body() message: any): Promise<any> {
         let deserializedMessage = JsonApiDeserializer.deserializeMessage(message);
         await validateOrReject(Object.assign(new messagePatch(), deserializedMessage));
         let result = await this.messageService.updateMessage(id,deserializedMessage);
@@ -55,7 +53,7 @@ export class MessageController implements MessageControllerPort {
     }
 
     @Delete('/:id', {transformResponse:false})
-    async delete(id: string): Promise<void> {
+    async delete(@Param('id') id: string): Promise<void> {
         await this.messageService.deleteMessage(id);
     }
 

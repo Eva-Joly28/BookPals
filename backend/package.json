@@ -6,6 +6,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "NODE_ENV=dev node dist/src/index.js",
+    "start:prod": "NODE_ENV=production node dist/src/index.js",
     "prestart:debug": "npm run build",
     "start:debug": "NODE_ENV=development node --inspect-brk dist/src/index.js",
     "build": "tsc",

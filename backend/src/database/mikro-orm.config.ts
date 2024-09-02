@@ -12,6 +12,9 @@ const options: Options = {
   driver: PostgreSqlDriver,
   extensions: [Migrator, SeedManager],
   dbName: process.env.PG_DB_NAME,
+  driverOptions:{
+    connection : {ssl : {rejectUnauthorized: false }},
+  },
   password: process.env.PG_PASSWORD,
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
@@ -21,6 +24,7 @@ const options: Options = {
     allOrNothing: true,
     path: path.join(process.cwd(), 'dist/src/database/migrations'),
     pathTs: path.join(process.cwd(), 'src/database/migrations'),
+    disableForeignKeys: false,
   },
 };
 

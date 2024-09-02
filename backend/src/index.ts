@@ -11,6 +11,8 @@ import express from 'express';
 
 
 console.log('Starting application...');
+console.log(process.env.PG_HOST);
+
 
 useContainer(Container);
 
