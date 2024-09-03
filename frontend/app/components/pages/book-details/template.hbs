@@ -1,4 +1,5 @@
 <section class="pt-20 p-4 mx-16">
+  <Alert @visibility={{this.visibility}} @alertText={{this.alertText}}/>
   <div class="flex flex-row flex-wrap flex-auto">
     <Cards::Details @book={{@model.book}} />
     <div class="flex flex-col flex-1 pl-4 pr-4 mt-16">
@@ -37,7 +38,9 @@
         </div>
         <div class="flex flex-col p-3">
           {{#if this.session.isAuthenticated}} 
-            <BookActions @book={{@model.book}} @rating={{this.rating}}/>
+            <BookActions @book={{@model.book}} @rating={{this.rating}} @setAlert={{this.setAlert}}>
+               <Stars @rating={{this.rating}} @book={{@model.book}} @value={{this.rating.value}} @id={{this.rating.id}}/>
+            </BookActions>
             {{else}}
             <div class="flex flex-col max-w-64 h-[4em] m-8 bg-[#664436]/70 border border-[#614032]/70 rounded">
               <p class="flex-1 p-1 text-[11px] text-white/70 h-[2em] text-center cursor-pointer hover:text-white" {{on 'click' this.openModal}}>Connectez ou inscrivez-vous pour intéragir</p>
@@ -45,21 +48,33 @@
               <p class=" flex-1 p-1 text-[11px] text-white/70 h-[2em] text-center cursor-pointer hover:text-white">Partager</p>
             </div>
           {{/if}}
-        <Rate />
+        {{#if this.ratings.length}}
+          <Rate @ratings={{this.ratings}}/>
+        {{/if}}
         </div>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col my-10">
+        {{#if this.userComments.length}}
+          <div class="my-10">
+            <span class=" justify-start text-gray-100/80">Vos commentaires</span>
+            <hr class="mt-1 text-amber-900 bg-amber-950 h-[0.1em]">
+            {{#each this.userComments as |c|}}
+              <Comments::Update @comment={{c}} @update={{fn this.updateComment c.id}} @delete={{fn this.deleteComment c.id}}/>
+            {{/each}}
+          </div>
+        {{/if}}
+        <span class="justify-start text-gray-100/80">Commentaires populaires</span>
+        <hr class="mt-1 text-amber-900 bg-amber-950 h-[0.1em]">
         {{#if this.comments.length}}
           {{#each this.comments as |c|}}
             <Comments @comment={{c}}/>
           {{/each}}
         {{else}}
-          <hr class="mb-5">
-          <h3 class="m-auto text-center">Aucun commentaire pour le moment</h3>
+          <h3 class="my-8 text-center">Aucun commentaire pour le moment</h3>
         {{/if}}
         {{#if this.session.isAuthenticated}}
-          <div class="mt-5 flex flex-row justify-center">
-            <Comments::Add/>
+          <div class=" mt-10 flex flex-row justify-center">
+            <Comments::Add @book={{@model.book}}/>
           </div>
         {{/if}}
       </div>
@@ -82,4 +97,19 @@
     </div>
   </div>
   <Modals::Register @onClose={{this.onClose}} @isOpen={{this.isOpen}} @users={{@model.users}}/>
+  <Modals::Confirm
+  @isOpen={{this.isOpenConfirm}}
+  @onClose={{this.onClose}}
+  @onConfirm={{this.confirmDelete}}
+  @title="Voulez-vous supprimer définitivement ce commentaire ?"/>
+  <Modals::Comment
+  @isOpen={{this.isOpenUpdate}}
+  @onClose={{this.onClose}}
+  @onConfirm={{this.confirmUpdate}}
+  @title="Modifier ce commentaire"
+  @book={{@model.book}}
+  @comment={{@model.book.comments}}
+  @array={{this.starsArray}}
+  />
 </section>
+

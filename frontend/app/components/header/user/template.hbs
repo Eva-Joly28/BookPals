@@ -5,12 +5,12 @@
         <hr class=" text-amber-950">
     </div>
     <div class="user-options hidden p-0">
-        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">accueil</p>
-        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">profil</p>
-        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">livres</p>
-        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">réseau</p>
-        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">Listes</p>
         {{!-- template-lint-disable no-invalid-interactive --}}
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80" {{on 'click' this.goToHome}}>accueil</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80" {{on 'click' this.goToProfile}}>profil</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80" {{on 'click' this.goToRead}}>livres</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80" {{on 'click' this.goToNetwork}}>réseau</p>
+        <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80">Listes</p>
         <p class="hover:bg-amber-700/70 mx-0 my-2 capitalize text-base cursor-pointer text-white/80" {{on 'click' this.logOut}}>Déconnexion</p>
     </div>
 </div>

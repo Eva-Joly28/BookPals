@@ -1,5 +1,7 @@
 import config from "ember-boilerplate/config/environment";
 import fetch from 'ember-fetch';
+import $ from 'jquery';
+import { stringify, toJSON } from "flatted";
 
 
 export async function updateRecord(model:string,id:string,data:any){
@@ -18,11 +20,21 @@ export async function updateRecord(model:string,id:string,data:any){
   
     //   return response.json();
 
+    // eslint-disable-next-line ember/no-jquery
     return $.ajax({
       url: `${config.host}/${config.namespace}/${model}/${id}`,
       type: 'PATCH',
       contentType: 'application/json',
-      data: JSON.stringify(data),
+      data: JSON.stringify(data,function(key, val) {
+        var seen : any[] = [];
+        if (val != null && typeof val == "object") {
+             if (seen.indexOf(val) >= 0) {
+                 return;
+             }
+             seen.push(val);
+         }
+         return val;
+     }),
     }).then((response:any) => {
       return response;
     }).catch((error:any) => {

@@ -1,5 +1,5 @@
 <div class="flex flex-row p-6 pt-28 top-20 justify-between my-14">
-  <div class="flex flex-col m-16 flex-2">
+  <div class="flex flex-col m-16 flex-2 w-2/3">
     {{#each this.serializedArray as |book|}}
       <Books @book={{book}} />
       <hr class="my-6" />
@@ -7,14 +7,14 @@
     {{#if (gt @model.length this.actualCount)}}
       <button
         type="button"
-        class="h-9 w-28 bg-gray-400/40 mx-60 mt-5 p-2 box-border hover:bg-blue-300/40 rounded"
+        class="h-9 w-28 bg-yellow-300/70 mx-60 mt-5 p-2 box-border hover:bg-yellow-700/80 rounded"
         {{on "click" this.viewMore}}
       >
-        <span class="text-center text-yellow-50 text-base">Voir plus</span>
+        <span class="text-center text-amber-800 hover:text-yellow-100 text-base">Voir plus</span>
       </button>
     {{/if}}
   </div>
-  <div class="flex flex-col p-10 min-w-80 m-10 flex-1 capitalize text-justify">
+  <div class="flex flex-col p-10 w-1/3 m-10 flex-1 capitalize text-justify">
     <h3 class="uppercase m-2">Résultats pour : </h3>
     <hr />
     <p class="m-3">Tout</p>

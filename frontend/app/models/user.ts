@@ -11,6 +11,7 @@ export default class userModel extends Model {
     @attr() declare password : string;
     @attr() declare email : string;
     @attr() declare role : string;
+    @attr() declare status : number;
     @attr() declare profilePicture : string;
 
     @hasMany('book', {

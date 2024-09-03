@@ -22,14 +22,14 @@ export default class ProfileReadComponent extends Component<ProfileReadSignature
 
     constructor(owner: unknown, args: ProfileReadSignature['Args']){
         super(owner,args);
-        this.serializedArray = this.args.user.readBooks.slice(0,24);
+        this.serializedArray = this.args.user.readBooks.slice(0,25);
         this.actualCount = this.serializedArray.length;
     }
 
     @action
     viewMore(){
-        this.serializedArray = [...this.serializedArray,...this.args.user.booksInProgress.slice(this.actualCount, this.actualCount+6)]
-        this.actualCount = this.actualCount + 8; 
+        this.serializedArray = [...this.serializedArray,...this.args.user.booksInProgress.slice(this.actualCount, this.actualCount+5)]
+        this.actualCount = this.actualCount + 5; 
     }
 
     @action

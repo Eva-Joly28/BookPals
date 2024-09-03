@@ -5,6 +5,7 @@ import { tracked } from "@glimmer/tracking";
 import type userModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
+import { updateFollowing } from "ember-boilerplate/utils/updating-collections";
 import type SessionService from "ember-simple-auth/services/session";
 
 export interface TableBaseSignature {
@@ -29,8 +30,23 @@ export default class TableBaseComponent extends Component<TableBaseSignature>{
         return this.currentUser.user?.following
     }
 
+    background(user : any){
+        if(this.currentUser.user!.following.includes(user)){
+            return 'bg-red-400'
+        }
+        else{
+            return 'bg-green-400'
+        }
+    }
+
     @action
     goToUser(user : any){
-        this.router.transitionTo('profile', user.id);
+        this.router.transitionTo('profile', user.username);
+    }
+
+    @action
+    async followUser(user : any){
+        await updateFollowing(user, 'push', this.currentUser.user!);
+        await user.reload();
     }
 }

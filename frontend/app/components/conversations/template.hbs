@@ -1,8 +1,9 @@
 {{!-- template-lint-disable no-invalid-interactive --}}
-<div class="flex flex-row p-2 {{if @isActive 'bg-[#38260ca4] rounded-md border'}}" {{on 'click' (fn @selectConversation @conversation.id) }}>
-    <Users::Base/>
-    <div class="flex flex-col">
-        <p class="font-bold">{{this.otherUser}}</p>
-        <p class="text-sm text-gray-400">{{this.lastUser " : " this.extractMessage }}</p>
+<div class="flex flex-row p-1 m-2 {{if @isActive 'bg-[#967960a5] rounded-md border-l-4 border-amber-700'}}" {{on 'click' (fn @selectConversation @conversation.id) }}>
+    <Users::Base @size="h-[1.5em] w-[1.5em]" @picture={{if this.otherUser.profilePicture this.otherUser.profilePicture "[url('/assets/icons/user.svg')]"}}
+    @clickEvent={{fn this.goToUser this.otherUser.username}}/>
+    <div class="flex flex-col truncate">
+        <p class=" font-thin max-w-fit cursor-pointer" {{on 'click' (fn this.goToUser this.otherUser.username)}}>{{this.otherUser.username}}</p>
+        <p class="text-sm text-white">{{this.lastMessage.sender.username}}  :  {{this.lastMessage.content }}</p>
     </div>
 </div>

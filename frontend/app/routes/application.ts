@@ -27,40 +27,24 @@ export default class Application extends Route {
 
   constructor(){
     super(...arguments);
-    // eslint-disable-next-line ember/no-observers
-    this.flashMessages.addObserver('arrangedQueue', this, this.updateFlashMessages);
   }
-
-  updateFlashMessages() {
-    console.log(this.flashMessages.arrangedQueue);
-    this.flashMessageQueue = this.flashMessages.arrangedQueue;
-  }
-
-  willDestroy() {
-    super.willDestroy();
-    this.flashMessages.removeObserver('arrangedQueue', this, this.updateFlashMessages);
-  }
-
-  get queue(){
-    return this.flashMessages.arrangedQueue;
-  }
-
 
   async beforeModel() {
     this.intl.setLocale(['fr-fr']);
     await this.session.setup();
-    
-  }
-
-  async model(){
-    console.log(this.session.data.authenticated);
     if(this.session.isAuthenticated){
       await this.currentUser.load();
     }
-    console.log(this.currentUser.user?.username);
-    let users : userModel[] = makeArray(await this.store.findAll('user')) as unknown as userModel[];
-    return users
+    
   }
+
+  // async model(){
+  //   // console.log(this.session.data.authenticated);
+    
+  //   console.log(this.currentUser.user?.username);
+  //   let users : userModel[] = makeArray(await this.store.findAll('user')) as unknown as userModel[];
+  //   return users
+  // }
 
   @action
   loading(transition:Transition){

@@ -5,7 +5,7 @@
             <span class="capitalize text-start text-lg py-1 text-white font-extrabold">livres favoris</span>
             <hr class="text-amber-900 bg-amber-950 h-[0.1em]">
             {{#if this.bestRatings.length}}
-                <div class="flex flex-row justify-between">
+                <div class="flex flex-row justify-between w-fit">
                     {{#each this.bestRatings as |r|}}
                     <Cards::Base @book={{r.book}} @addStyle="h-[16em] w-[11em]"/>
                     {{/each}}
@@ -20,7 +20,7 @@
             {{#if this.recentRatings.length}}
                 <div class="flex flex-row justify-between">
                 {{#each this.recentRatings as |r|}}
-                <Cards::Base @book={{r.book}} @addStyle="h-[4em] w-[4em]"/>
+                <Cards::Base @book={{r.book}} @addStyle="h-[16em] w-[11em]"/>
                 {{/each}}
             </div>
             {{else}}

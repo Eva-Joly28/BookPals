@@ -1,0 +1,38 @@
+<Modals::Base 
+@confirmQuestion={{@confirmQuestion}}
+@isOpen={{@isOpen}}
+@onClose={{@onClose}}
+@title={{@title}}
+@height="max-h-[25vh]"
+@size=" top-1/2 left-[55%] w-3/5 -translate-x-1/2 -translate-y-1/2 pb-4"
+@spacing="m-3 p-1"
+>
+    <div class="flex flex-row my-5">
+        <div class="min-w-[3em]">
+            <Cards::Base @addStyle="h-[8em] w-[5em]" @book={{@book}}/>
+        </div>
+        <div class="flex flex-col mx-6 mt-10">
+            <div class="flex flex-col">
+                <span class="capitalize my-2 text-gray-100 font-[glenn] font-thin text-lg cursor-pointer hover:text-amber-600">{{@book.title}}</span>
+                <div class="flex flex-row p-2 m-1">
+                    {{#each @array}}
+                    <Stars::Icons/>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="my-3 font-thin">
+                <label for="comment">Votre commentaire</label>
+                <textarea id="comment" placeholder="commentez-ici" 
+                rows="8" class="text-base text-white bg-transparent px-3 py-2.5 rounded-[7px] border border-amber-600 border-t-transparent"
+                {{on 'input' this.updateCharCount}} value={{this.commentText}}>
+                </textarea>
+                <span class="right-0 text-sm text-white font-bold">{{this.charCount}}/2300</span>
+            </div>
+        </div>
+        <TpkButton
+        @onClick={{@onConfirm}}
+        class="rounded-md bg-yellow-100/80 text-yellow-900 hover:shadow-lg font-[glenn] hover:bg-yellow-900 hover:text-yellow-100/80 justify-end"
+        >Modifier</TpkButton>
+    </div>
+    
+</Modals::Base>

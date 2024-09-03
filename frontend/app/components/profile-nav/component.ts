@@ -51,7 +51,11 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
       }
     
       get isFriendsActive() {
-        return this.router.isActive('profile.friends');
+        let active = false 
+        if(this.router.isActive('profile.following')|| this.router.isActive('profile.followers') || this.router.isActive('profile.blocked')){
+          active = true;
+        }
+        return active;
       }
 
       get isMessagesActive() {
@@ -69,7 +73,7 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
         let unreadTab : messageModel[] = [];
         this.args.user.conversations.forEach(c => {
           c.messages.forEach(m=>{
-            if(!m.isRead){
+            if((m.sender.id!==this.args.user.id)&&(!m.isRead)){
               unreadTab = [...unreadTab, m];
             }
           })
@@ -116,6 +120,6 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
 
     @action
     goToMessages(){
-        this.router.transitionTo('profile.messages', this.args.user.username);
+        this.router.transitionTo('profile.messages.index');
     }
 }

@@ -5,13 +5,13 @@ import { tracked } from "@glimmer/tracking";
 import type { LoginChangeset } from "ember-boilerplate/changesets/login";
 import type Router from "ember-boilerplate/router";
 import type LoginChangesetService from "ember-boilerplate/services/changesets/login";
-import type SessionService from "ember-boilerplate/services/session";
 import loginSchema from "ember-boilerplate/validations/login";
 import type FlashMessageService from "ember-cli-flash/services/flash-messages";
+import type SessionService from "ember-simple-auth/services/session";
 
 export interface FormsLoginSignature{
     Args : {
-
+        setAlert:Function;
     }
 }
 
@@ -19,7 +19,7 @@ export default class FormsLoginComponent extends Component<FormsLoginSignature> 
     @service declare flashMessages :  FlashMessageService;
     @tracked declare changeset : LoginChangeset;
     @service('changesets/login') declare loginService : LoginChangesetService;
-    @service('session') declare session : SessionService;
+    @service declare session : SessionService;
     @service declare router : Router
     validationSchema = loginSchema;
 
@@ -29,12 +29,21 @@ export default class FormsLoginComponent extends Component<FormsLoginSignature> 
     }
 
     @action
-    submit(){
+    async submit(){
         try{
-            this.loginService.save(this.changeset);
+           if(this.changeset.isValid){
+            await this.session.authenticate('authenticator:jwt',this.changeset.get('username'),this.changeset.get('password'));
+            this.session.handleAuthentication(this.router.currentURL!)
+           }
+           else{
+            this.args.setAlert('Les identifiants sont incorrects');
+           }
+                    
         }
         catch(e){
-            this.flashMessages.danger("les identifiants sont incorrects");
+            this.args.setAlert('Les identifiants sont incorrects');
         }
     }
+
+    
 }

@@ -8,10 +8,22 @@ import type Router from 'ember-boilerplate/router';
 import type Store from 'ember-boilerplate/services/store';
 import type emberData__store from '@ember-data/store';
 import { updateRecord } from 'ember-boilerplate/utils/update-model';
+import { toJSON } from 'flatted';
+import type CurrentUserService from 'ember-boilerplate/services/current-user';
+import type SessionService from 'ember-simple-auth/services/session';
 
 export default class BookDetails extends Route {
     @service declare store : emberData__store;
     @service declare router : Router;
+    @service declare session: SessionService;
+    @service declare currentUser : CurrentUserService;
+
+    async beforeModel(){
+        await this.session.setup();
+        if(this.session.isAuthenticated){
+            await this.currentUser.load();
+        }
+    }
 
     async model(params : any){
         try {
@@ -20,14 +32,6 @@ export default class BookDetails extends Route {
             let toRead = book.usersToRead;
             console.log(toRead);
 
-            // let response = await fetch(`${config.host}/${config.namespace}/books/${params.book_id}`, {
-            //     method: 'GET',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            // })
-            
-            // const book = await response.json() as unknown as BookModel;
             const users = await this.store.findAll('user') as unknown as userModel[];
             let authorsBooks : BookModel[] = [];
             let genreBooks : BookModel[] = [];
@@ -38,6 +42,10 @@ export default class BookDetails extends Route {
 
                 }
             }
+
+            // if(this.currentUser.user){
+            //     actualRating = book.ratings.find(r => r.user.id === this.currentUser.user!.id);
+            // }
             let bookToUpdate = await this.store.findRecord('book',book!.id)
             bookToUpdate.views = parseInt(bookToUpdate.views)+1;
             let data = {
@@ -49,17 +57,8 @@ export default class BookDetails extends Route {
                     }
                     }
                 }
-            let response = await updateRecord('books',bookToUpdate.id,data);
-            // await bookToUpdate.reload();
-            // bookToUpdate.save();
-        
-            // if(book.categories.length){
-            //     let genres = book.categories.slice(0,3);
-            //     for(const g of genres){
-            //         const result = await this.store.query('book',{category:(g),orderBy:"views",order:"desc", limit:5}) as unknown as BookModel[];
-            //         genreBooks = [...genreBooks,...result.filter(r => !genreBooks.some((b)=> b===r)).filter(r =>r.bookId !== book.bookId)]
-            //     }
-            // }
+            await updateRecord('books',bookToUpdate.id,data);
+
             return{book,authorsBooks,genreBooks,users}
         }
         catch(e){

@@ -18,19 +18,25 @@ export default class MessageComponent extends Component<MessagesSignature>{
     @service declare router : Router;
     @service declare currentUser : CurrentUserService;
     @tracked isCurrentUser = false;
-    @tracked direction = 'justify-end';
+    @tracked optionsVisible = false;
+    @tracked direction = 'col-start-1 col-end-8 p-3';
 
     constructor(owner: unknown, args: MessagesSignature['Args']){
         super(owner,args);
         if(this.currentUser.user!.id === this.args.message.sender.id){
             this.isCurrentUser = true;
-            this.direction = 'justify-start'
+            this.direction = 'col-start-6 col-end-12 p-3'
         }
     }
     
     @action
     goToProfile(username : string){
         this.router.transitionTo('profile', username);
+    }
+
+    @action
+    setHover(visible : boolean){
+        this.optionsVisible = visible;
     }
 
 }

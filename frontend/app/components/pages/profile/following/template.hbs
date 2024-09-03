@@ -1,11 +1,11 @@
 <div class=" mx-32 my-36">
     <ProfileNav::Details @user={{@user}}/>
-    <div class="flex flex-row border-b border-amber-800">
+    <div class="flex flex-row border-b border-amber-800 my-4">
         {{!-- template-lint-disable no-invalid-interactive --}}
-        <span class="py-1 px-4 text-[#bfd49e] hover:border-b border-[#bfd49e] cursor-pointer" {{on 'click' this.goToFollowers}}>Abonnés</span>
-        <span class="py-1 px-4 text-[white] border-b hover: border-white cursor-pointer" {{on 'click' this.goToBlocked}}>Suivis</span>
+        <span class="px-4 text-[#bfd49e] hover:border-b border-[#bfd49e] cursor-pointer" {{on 'click' this.goToFollowers}}>Abonnés</span>
+        <span class="px-4 text-[white] border-b hover: border-white cursor-pointer" {{on 'click' this.goToBlocked}}>Suivis</span>
         {{#if this.hasRights}}
-            <span class=" px-4 text-[#bfd49e] hover:border-b border-[#bfd49e] cursor-pointer" {{on 'click' this.goToBlocked}}>Bloqués</span>
+            <span class="px-4 text-[#bfd49e] hover:border-b border-[#bfd49e] cursor-pointer" {{on 'click' this.goToBlocked}}>Bloqués</span>
         {{/if}}
     </div>
     {{#if @user.following.length}}

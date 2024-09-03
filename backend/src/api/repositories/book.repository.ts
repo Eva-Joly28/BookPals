@@ -36,13 +36,14 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
             qb.orderBy({language:'desc',[filters.orderBy]:filters.order||'asc'}).limit(parseInt(filters.limit.limit));
         }
         const dbBooks = filters.limit? await qb.execute("all") : await qb.orderBy({language:'desc'}).execute("all");
-        const externalBooks = await this.fetchBooksFromRequester(filters, dbBooks);
+        let externalBooks = await this.fetchBooksFromRequester(filters, dbBooks);
 
         const bookIds = new Set<string>(dbBooks.map(book => book.bookId));
         const result = [
             ...dbBooks,
             ...externalBooks.filter(book => !bookIds.has(book.bookId)),
         ];
+        externalBooks = externalBooks.filter(book => !bookIds.has(book.bookId))
         for (const book of externalBooks) {
             if (await this.findOne({ bookId: book.bookId }) === null) {
                 const instance = this.create(book);
@@ -106,7 +107,7 @@ export class BookRepository extends EntityRepository<Book> implements BookReposi
     async filterTitle(filters:any,qb:SelectQueryBuilder<Book>){
         if (filters.title) {
             console.log('here title');
-            if((await this.findAll({where:{title:{$ilike:`${filters.title}`}}})).length<2){
+            if((await this.findAll({where:{title:{$ilike:`${filters.title}`}}})).length<1){
                 let tab = filters.title.split(" ");
                 let search = tab.length>1? tab.slice(0,-1).join(" ") : filters.title;
                 console.log(search)

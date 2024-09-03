@@ -21,8 +21,7 @@ export class CommentController implements CommentControllerPort {
   }
     @Get('/',{transformResponse:false})
     async getWithFilters(@Req() request: any): Promise<any> {
-       const {filters} = request.params();
-       let results = await this.commentService.getCommentsWithFilters(filters);
+       let results = await this.commentService.getCommentsWithFilters(request.query);
        return JsonApiSerializer.serializeComments(results);
     }
 

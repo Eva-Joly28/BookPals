@@ -4,7 +4,8 @@
     </div>
     <div class="flex flex-col mx-6 mt-10">
         <div class="flex flex-row">
-            <span class="capitalize my-2 text-gray-100 font-[glenn] font-thin text-lg cursor-pointer hover:text-amber-600">{{@comment.book.title}}</span>
+            {{!-- template-lint-disable no-invalid-interactive --}}
+            <span class="capitalize my-2 text-gray-100 font-[glenn] font-thin text-lg cursor-pointer hover:text-amber-600" {{on 'click' this.goToBook}}>{{@comment.book.title}}</span>
             <div class="flex flex-row p-2 m-1">
                 {{#each this.array}}
                   <Stars::Icons/>

@@ -1,11 +1,33 @@
 <div class="flex flex-col mt-10">
     <div class="flex flex-row justify-around p-4 mb-5">
-        <div class="flex flex-row p-2 justify-between">
-            <Users::Base @picture={{if @user.profilePicture @user.profilePicture "[url('/assets/icons/user.svg')]"}} @size=" h-20 w-20" @clickEvent={{this.goToUser}}/>
-            <p class=" text-yellow-50 text-lg font-bold mx-8 mt-9 capitalize">{{@user.username}}</p>
-            <button type="button" class=" max-h-8 px-4 mx-4 justify-center rounded-sm mt-9 {{if this.followUser "bg-green-700 hover:bg-green-600" " bg-yellow-600 hover:bg-yellow-500"}}" >
-                <span class="text-lg text-[#ecc19c] font-bold">{{if this.followUser "ne plus suivre" "suivre"}}</span>
-            </button>
+        <div class="flex flex-col p-2 justify-between">
+            <div class="flex flex-row mx-5 my-2">
+                <Users::Base @picture={{if @user.profilePicture @user.profilePicture "[url('/assets/icons/user.svg')]"}} @size=" h-20 w-20" @clickEvent={{this.goToUser}}/>
+                <div class="flex flex-col">
+                    <p class=" text-yellow-50 text-lg font-bold mx-11 my-3 capitalize">{{@user.username}}</p>
+                    {{#if (and this.session.isAuthenticated (not-eq this.currentUser.id @user.id))}}
+                        <button type="button" class="flex flex-row bg-yellow-700 hover:bg-yellow-800 text-white mx-4 rounded-md p-2">
+                        {{!-- template-lint-disable no-invalid-interactive --}}
+                        <p class="m-auto" {{on 'click' this.sendMessage}}>Envoyer un message</p>
+                        <img src="/assets/icons/comments-2.svg" alt="envoyer un message" class="h-4 w-4 mx-2 my-1">
+                    </button>
+                    {{else}}
+                        <button type="button" class="mx-2 justify-center rounded-md mt-2 p-2 bg-yellow-700 hover:bg-yellow-800 text-sm" >
+                            <p class="text-sm text-white font-bold">paramètres du compte</p>
+                        </button>
+                    {{/if}}
+                </div>
+            </div>
+           {{#if (and this.session.isAuthenticated (not-eq this.currentUser.id @user.id))}}
+             <div class="flex flex-row mx-2">
+                <button type="button" class=" max-h-8 px-4 mx-4 justify-center rounded-md mt-9 {{if this.followUser "bg-green-700/80 hover:bg-green-600/80" " bg-yellow-600/80 hover:bg-yellow-500/80"}}" >
+                <p class="text-[#ecc19c] font-bold p-2">{{if this.followUser "ne plus suivre" "suivre"}}</p>
+                </button>
+                <button type="button" class=" max-h-8 px-4 mx-4 justify-center rounded-md mt-9 {{if this.blockedUser " bg-red-500 hover:bg-red-600" " bg-yellow-600/80 hover:bg-yellow-500/80"}}" >
+                <p class="text-[#ecc19c] font-bold p-2">{{if this.blockedUser "Bloqué" "bloquer"}}</p>
+                </button>
+             </div>
+           {{/if}}
         </div>
         <div class="flex flex-row justify-between mt-4 ml-8">
             <div class="flex flex-col p-5">

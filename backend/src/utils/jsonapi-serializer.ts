@@ -417,8 +417,17 @@ export default class JsonApiSerializer {
       const includedData : any = []; 
       if (!included.has(comment.id)) {
         included.add(comment.id);
-        wrap(comment.book).init().then(includedData.push(this.serializeBook(comment.book, included).data));
-        (comment.likedBy || []).map(commentLike => {wrap(commentLike).init().then(includedData.push(this.serializeCommentLike(commentLike, included).data))})
+        
+    if (comment.book) {
+      includedData.push(this.serializeBook(comment.book, included).data);
+    }
+
+    if (comment.user) {
+      includedData.push(this.serializeUser(comment.user, included).data);
+    }
+
+    includedData.push(...(comment.likedBy || []).map(like => this.serializeCommentLike(like, included)));
+  
         
     }
 
@@ -431,16 +440,16 @@ export default class JsonApiSerializer {
             },
             relationships: {
               book: {
-                data: {
+                data: comment.book? {
                   type: 'books',
                   id: comment.book.id,
-                },
+                } : null,
               },
               user: {
-                data: {
+                data: comment.user? {
                   type: 'users',
                   id: comment.user.id,
-                },
+                }: null ,
               },
               likedBy: {
                 data: comment.likedBy?.map(commentLike => ({
@@ -515,8 +524,13 @@ export default class JsonApiSerializer {
 
         if (!included.has(commentLike.id)) {
             included.add(commentLike.id);
-            wrap(commentLike.user).init().then(includedData.push(this.serializeUser(commentLike.user, included).data))
-            wrap(commentLike.comment).init().then(includedData.push(this.serializeComment(commentLike.comment, included).data))
+            if (commentLike.user) {
+              includedData.push(this.serializeUser(commentLike.user, included).data);
+            }
+        
+            if (commentLike.comment) {
+              includedData.push(this.serializeComment(commentLike.comment, included).data);
+            }
         }
 
         return {
@@ -528,16 +542,16 @@ export default class JsonApiSerializer {
             },
             relationships: {
               user: {
-                data: {
+                data: commentLike.user? {
                   type: 'users',
                   id: commentLike.user.id,
-                },
+                } : null,
               },
               comment: {
-                data: {
+                data:commentLike.comment? {
                   type: 'comment',
                   id: commentLike.comment.id,
-                },
+                }:null,
               },
             },
           },

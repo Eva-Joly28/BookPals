@@ -1,12 +1,12 @@
 <div class="my-32">
     <ProfileNav::Details @user={{@user}}/>
-    <div class="pt-8 mx-32 my-10">
+    <div class="pt-8 mx-28 my-10">
       <span class="text-start p-1 text-yellow-50">Pile à lire</span>
       <hr class="text-amber-900 bg-amber-950 h-[0.1em]"/>
       {{#if @user.booksToRead.length}}
-        <div class="m-3 p-3 grid grid-cols-6 gap-4">
+        <div class="grid grid-cols-5 gap-4">
           {{#each this.serializedArray as |b|}}
-            <Cards::Base @book={{b}} @addStyle="h-[8em] w-[5em]" />
+            <Cards::Base @book={{b}} @addStyle="h-[14em] w-[10em]" />
           {{/each}}
         </div>
         {{#if (gt @user.booksToRead.length this.actualCount)}}

@@ -37,4 +37,9 @@ export default class ProfileBlockedComponent extends Component<ProfileBlockedSig
     goToBlocked(){
         this.router.transitionTo('profile.blocked', this.args.user.username);
     }
+
+    @action
+    goToFollowers(){
+        this.router.transitionTo('profile.followers', this.args.user.username);
+    }
 }

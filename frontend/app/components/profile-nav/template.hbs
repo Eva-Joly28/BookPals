@@ -1,27 +1,29 @@
-<div class="flex flex-row justify-between max-w-max m-auto bg-transparent border-[0.05px] border-amber-900/30 my-5">
+<div class="flex flex-row justify-between max-w-max m-auto bg-transparent border-[0.05px] border-amber-900/30 my-8">
         <div class="flex flex-row p-1">
             {{yield}}
         </div>
-        <div class="mx-10 justify-center flex flex-row">
+        <div class="mx-6 my-1 justify-center flex flex-row">
             {{!-- template-lint-disable no-invalid-interactive --}}
-            <p class="p-4 cursor-pointer ml-4 {{if this.isReadActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToRead}}>Lus</p>
-            <p class="p-4 cursor-pointer {{if this.isToReadActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goTotoRead}}>Pile à lire</p>
-            <p class="p-4 cursor-pointer {{if this.isWishListActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToWishlist}}>WishList</p>
-            <p class="p-4 cursor-pointer {{if this.isInProgressActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToInProgress}}>En cours</p>
-            <p class="p-4 cursor-pointer {{if this.isListsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Listes</p>
-            <p class="p-4 cursor-pointer {{if this.isLikedActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Aimés</p>
-            <p class="p-4 cursor-pointer {{if this.isReviewsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToReviews}}>Commentaires</p>
+            <p class="p-3 cursor-pointer ml-4 {{if this.isReadActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToRead}}>Lus</p>
+            <p class="p-3 cursor-pointer {{if this.isToReadActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goTotoRead}}>Pile à lire</p>
+            <p class="p-3 cursor-pointer {{if this.isWishListActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToWishlist}}>WishList</p>
+            <p class="p-3 cursor-pointer {{if this.isInProgressActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToInProgress}}>En cours</p>
+            <p class="p-3 cursor-pointer {{if this.isListsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Listes</p>
+            <p class="p-3 cursor-pointer {{if this.isLikedActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}">Aimés</p>
+            <p class="p-3 cursor-pointer {{if this.isReviewsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToReviews}}>Commentaires</p>
             {{#if this.isCurrentUser }}
                 {{#if @user.conversations.length}}
-                    <div class="inline-flex">
-                    <p class="p-4 cursor-pointer {{if this.isMessagesActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToMessages}}>Messages</p>
-                    <span
-                        class="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center top-[4%] right-[2%] translate-x-2/4 -translate-y-2/4 bg-red-500 text-white min-w-[24px] min-h-[24px]">
-                        5
-                    </span>
-                </div>
+                    <div class="relative inline-flex p-3">
+                        <p class=" cursor-pointer {{if this.isMessagesActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}}" {{on 'click' this.goToMessages}}>Messages</p>
+                        {{#if this.unreadMessages.length}}
+                            <span
+                            class="absolute rounded-full text-xs font-medium content-[''] leading-none grid place-items-center top-[10%] right-[10%] translate-x-2/4 -translate-y-2/4 bg-green-700 text-white min-w-[24px] min-h-[24px]">
+                            {{this.unreadMessages.length}}
+                        </span>
+                        {{/if}}
+                    </div>
                 {{/if}}
             {{/if}}
-            <p class="p-4 cursor-pointer {{if this.isFriendsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}} mr-4" {{on 'click' this.goToNetwork}}>Réseau</p>
+            <p class="p-3 cursor-pointer {{if this.isFriendsActive 'text-[#ca7131] hover:text-[#ca7131]' 'hover:text-[#ab5255]'}} mr-1" {{on 'click' this.goToNetwork}}>Réseau</p>
         </div>
 </div>

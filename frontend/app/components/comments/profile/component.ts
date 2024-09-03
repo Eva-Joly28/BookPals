@@ -73,6 +73,9 @@ export default class CommentsProfileComponent extends Component<CommentsProfileS
             })
             await newLike.save();
             this.userLike = newLike;
+            this.actualComment.get('likedBy').reload().then((updatedLikes)=> {
+                this.likeNumber = updatedLikes.length;
+            })
         }
         else{
             this.store.findRecord('comment-like',this.userLike!.id).then((like)=>{
@@ -80,5 +83,10 @@ export default class CommentsProfileComponent extends Component<CommentsProfileS
             });
             this.likeNumber -= 1
         }
+    }
+
+    @action
+    goToBook(){
+        this.router.transitionTo('book-details', this.args.comment.book.id);
     }
 }

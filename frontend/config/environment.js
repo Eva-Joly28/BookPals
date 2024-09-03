@@ -1,7 +1,13 @@
 'use strict';
 
 module.exports = function (environment) {
-  const host = 'http://localhost:3000';
+  let host;
+  if(environment == 'production'){
+    host = 'http://localhost:3001';
+  }
+  else{
+    host = 'http://localhost:3001';
+  }
   const namespace = 'api/v1';
 
   let ENV = {

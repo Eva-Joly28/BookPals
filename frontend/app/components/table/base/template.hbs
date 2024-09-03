@@ -4,7 +4,7 @@
         <tbody>
             {{#each @users as |u|}}
               <tr class="bg-transparent border-b border-amber-700/70">
-                <th scope="row" class=" py-4 font-medium text-gray-900 whitespace-nowrap m-4">
+                <th scope="row" class=" w-1/5 py-4 font-medium text-gray-900 whitespace-nowrap m-4">
                     <div class="flex flex-row">
                         <Users::Base @picture={{if u.profilePicture u.profilePicture "[url('/assets/icons/user.svg')]"}} @size="h-[2em] w-[2em]" @clickEvent={{fn this.goToUser u}}/>
                         <div class="m-1.5">
@@ -13,28 +13,29 @@
                         </div>
                     </div>
                 </th>
-                <td class=" px-12 py-4 m-4">
+                <td class=" px-12 py-4 m-4 w-1/5">
                     <div class="flex flex-row">
                         <img src="/assets/icons/views.svg" alt="user read" class="h-4 w-auto mt-1.5">
                         <span class="p-1 text-white">0</span>
                     </div>
                 </td>
-                <td class="px-12 py-2">
+                <td class="px-12 py-2 w-1/5">
                     <div class="flex flex-row">
                         <img src="/assets/icons/box-list.svg" alt="user lists" class="h-4 w-auto -mt-0.5">
                         <span class="p-1 h-2 w-2 -mt-2.5 text-white">0</span>
                     </div>
                 </td>
-                <td class="px-12 py-4">
+                <td class="px-12 py-4 w-1/5">
                     <div class="flex flex-row">
                         <img src="/assets/icons/comments-2.svg" alt="user comments" class="h-4 w-auto mt-2">
                         <span class="p-1 text-white">0</span>
                     </div>
                 </td>
                 {{#if this.session.isAuthenticated}}
-                    <td class="px-10 py-4">
-                        <div class="rounded-full {{@addStyle}} h-6 w-6">
-                            <img class="h-5 w-5 my-2 mx-0.5" src="/assets/icons/{{icon-action this.currentUser.user u}}.svg" alt="whatever icon">
+                    <td class="px-10 py-4 w-1/5">
+                        {{!-- template-lint-disable no-invalid-interactive --}}
+                        <div class="rounded-full {{background this.currentUser.user u}} {{@addStyle}} h-6 w-6" {{on 'click' (fn this.followUser u)}}>
+                            <img class="h-5 w-5 m-auto stroke-1" src="/assets/icons/{{icon-action this.currentUser.user u}}.svg" alt="whatever icon">
                         </div>
                     </td>
                 {{/if}}

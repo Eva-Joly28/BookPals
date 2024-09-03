@@ -6,12 +6,13 @@ import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
 import type SessionService from "ember-simple-auth/services/session";
-import { format } from 'date-fns';
+import { format, isThisSecond } from 'date-fns';
 import type commentModel from "ember-boilerplate/models/comment";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
 import type commentLikeModel from "ember-boilerplate/models/comment-like";
 import type userModel from "ember-boilerplate/models/user";
 import type { Invoke } from "@glint/template/-private/integration";
+import type RatingModel from "ember-boilerplate/models/rating";
 
 export interface CommentsSignature{
     Args: {
@@ -21,7 +22,7 @@ export interface CommentsSignature{
 
 export default class CommentsComponent extends Component<CommentsSignature>{
     @tracked declare likeState : boolean;
-    @tracked array = [1,2,3,4];
+    @tracked array: number[] = [];
     @service declare session : SessionService;
     @service declare router : Router;
     @service declare store : Store;
@@ -32,44 +33,40 @@ export default class CommentsComponent extends Component<CommentsSignature>{
 
     constructor(owner: unknown, args: CommentsSignature['Args']){
         super(owner,args);
+
+        let bookRate : any;
+        this.args.comment.user.reload().then((u:any)=>{
+            bookRate = u.ratings.find((rate:RatingModel)=> {
+                rate.reload().then(r=>{
+                    r.book.id === this.args.comment.book.id
+                })
+            });
+        })
+        //  = this.args.comment.user.ratings.find((rate:RatingModel)=> rate.book.id === this.args.comment.book.id);
+        if(bookRate){
+            let tab = [];
+            for (let i = 1; i <=bookRate.value ; i++) {
+                this.array.push(i);  
+            }
+        }
+
         this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
             this.actualComment = comment;
-            // comment.likedBy.map((like:any)=>{this.store.unloadRecord(like)})
-            // this.store.unloadRecord(comment.likedBy);
             comment.reload().then((reloadedComment:any)=> {
                 this.likeNumber = reloadedComment.likedBy.length;
             })});
             if(this.session.isAuthenticated){
                 this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
                     this.actualComment = comment;
+                    this.userLike = this.currentUser.user!.likedComments.find((like : commentLikeModel) => (like.comment.id==this.actualComment.id));
+                    if(this.userLike){
+                        this.likeState = true;
+                    }
+                    else{
+                        this.likeState = false;
+                    }
                 });
-            this.store.findRecord('user',this.currentUser.user!.username).then((user)=>{
-                this.userLike = user.likedComments.find((like : commentLikeModel) => (like.comment.id === this.actualComment.id));
-                if(user.likedComments.some((like: commentLikeModel) =>{console.log(like.comment.id); like.comment.id === this.actualComment.id}
-                )){
-                    this.likeState = true;
-                }
-                else{
-                    this.likeState = false;
-                }
-                console.log()
-            });
-            // this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
-            //     this.actualComment = comment;
-            //     hasManyToArray(this.actualComment.likedBy).map((like)=>{
-            //         this.store.findRecord('user',this.currentUser.user!.id).then(()=>{
-            //             let user = like.get('user');
-            //             if(user.id === this.currentUser.user!.id){
-            //                 this.userLike = like;
-            //             }
-            //         });
-            //     })
-            //     this.userLike = hasManyToArray(this.actualComment.likedBy).find((like)=>{
-            //         console.log(like);
-            //         like.user.username===this.currentUser.user!.username
-            //     });
-                
-            // });
+            
         }
 
     }

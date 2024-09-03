@@ -21,24 +21,33 @@ export default class UsersTopComponent extends Component<UsersTopSignature>{
     @service declare currentUser : CurrentUserService;
 
     get topRead() {
-        return this.args.user.readBooks;
+        let books : any;
+        this.args.user.reload().then((u)=>{
+            books = u.readBooks;
+        })
+        return books;
         //trier la liste de livre lus par rapport aux notes et retourner les trois avec les meilleures notes
     }
 
     get userComments(){
-        return this.args.user.comments.length;
+        let number : any;
+        this.args.user.reload().then((u)=>{
+            number = u.comments.length;
+        })
+        return number;
     }
 
     get userRead(){
-        return this.args.user.booksToRead.length;
+        let number : any;
+        this.args.user.reload().then((u)=>{
+            number = u.booksToRead.length;
+        })
+        return number;
+        // return this.args.user.booksToRead.length;
     }
 
     @action
     async followUser(){
-        // let loggedUser : userModel = await this.store.findRecord('user',this.currentUser.user!.id);
-        // // loggedUser.followers = [...loggedUser.followers, this.args.user];
-        // loggedUser.followers.pushObject(this.args.user);
-        // loggedUser.save();
         this.store.findRecord('user', this.currentUser.user!.id).then(async (user)=>{
             // await user.following.reload();
             // let userToAdd = await this.store.findRecord('user', this.args.user.id);

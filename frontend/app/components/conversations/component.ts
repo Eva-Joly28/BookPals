@@ -13,7 +13,8 @@ import type SessionService from "ember-simple-auth/services/session";
 export interface ConversationsSignature {
     Args : {
         conversation : conversationModel;
-        lastMessage : messageModel;
+        otherUser : userModel;
+        // lastMessage : messageModel;
     }
 }
 
@@ -28,29 +29,33 @@ export default class ConversationComponent extends Component<ConversationsSignat
     }
 
     get lastUser(){
-        if(this.args.lastMessage.sender.id === this.currentUser.user!.id){
+        if(this.lastMessage!.sender.id === this.currentUser.user!.id){
             return 'vous';
         }
-        return this.args.lastMessage.sender.username;
+        return this.lastMessage!.sender.username;
     }
 
-    // get message(){
-    //     let message = hasManyToArray(this.args.conversation.messages)[0];
-    //     return message;
-    // }
+    get lastMessage(){
+        return  hasManyToArray(this.args.conversation.messages).reverse()[0];
+    }
 
     get otherUser(){
-        let user = this.args.conversation.participants.find(user=>user.id!==this.currentUser.user!.id)
-        return user?.username;
+        let other = this.args.conversation.participants.find(u => u.id !== this.currentUser.user!.id);
+        return other;
     }
 
     get extractMessage(){
-        if(this.args.lastMessage.content.length <= 35) {
-            return this.args.lastMessage.content;
+        if(this.lastMessage!.content.length <= 35) {
+            return this.lastMessage!.content;
         }
-        let extract = this.args.lastMessage.content.slice(0,34);
+        let extract = this.lastMessage!.content.slice(0,34);
         extract+='...';
         return extract;
+    }
+
+    @action
+    goToUser(username : string){
+        this.router.transitionTo('profile.index', username);
     }
     
 

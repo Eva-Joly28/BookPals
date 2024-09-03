@@ -1,4 +1,5 @@
 import { action } from "@ember/object";
+import { later } from "@ember/runloop";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
@@ -21,17 +22,21 @@ export default class HeaderComponent extends Component<HeaderSignature>{
     @tracked isOpenModal = false;
     @tracked isIndex : boolean = true;
     @tracked searchValue = '';
+    @tracked visibility = 'invisible';
+    @tracked alertText = '';
     @service declare session : SessionService;
     @service('current-user') declare currentUser : CurrentUserService;
     declare currentRoute : string|null;
+    declare alertColor?: string;
+
     constructor(owner : unknown, args: HeaderSignature['Args']) {
         super(owner,args);
         this.currentRoute = this.router.currentRouteName;
         this.isIndex = this.currentRoute === 'index'? true : false;
-        this.router.on('routeDidChange', () => {
-            this.currentRoute = this.router.currentRouteName;
-            this.isIndex = this.currentRoute === 'index'? true : false;
-        })
+        // this.router.on('routeDidChange', () => {
+        //     this.currentRoute = this.router.currentRouteName;
+        //     this.isIndex = this.currentRoute === 'index'? true : false;
+        // })
 
     }
 
@@ -47,6 +52,15 @@ export default class HeaderComponent extends Component<HeaderSignature>{
             console.log(this.searchValue);
             this.router.transitionTo('search', this.searchValue.replaceAll(' ','-'));
         }
+    }
+    
+    @action
+    setAlert(text : string, color?:string){
+        this.alertText = text;
+        this.alertColor = color? color : undefined;
+        this.visibility = "visible";
+        // eslint-disable-next-line ember/no-runloop
+        later(() => {this.visibility="invisible"}, 3000);
     }
 
 

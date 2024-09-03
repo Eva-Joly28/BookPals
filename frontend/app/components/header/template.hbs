@@ -27,14 +27,16 @@
       </button>
     </div>
     {{#if this.showLogin}}
-      <Forms::Login @closeLogin={{this.closeLogin}}/>
+      <Forms::Login @closeLogin={{this.closeLogin}} @setAlert={{this.setAlert}}/>
       {{else}}
         <Header::Nav @openLogin={{this.openLogin}} @openModal={{this.openModal}}/>
     {{/if}}
   </div>
+  
   <Modals::Register
   @users={{@model}}
   @isOpen={{this.isOpenModal}}
   @onClose={{this.onCloseModal}}
   />
 </nav>
+<Alert @visibility={{this.visibility}} @alertText={{this.alertText}} @color={{this.alertColor}}/>

@@ -1,0 +1,21 @@
+<Modals::Base 
+@confirmQuestion={{@confirmQuestion}}
+@isOpen={{@isOpen}}
+@onClose={{@onClose}}
+@title={{@title}}
+@height="max-h-[25vh]"
+@size=" top-1/2 left-[55%] w-2/5 -translate-x-1/2 -translate-y-1/2 pb-4"
+@spacing="m-3 p-1"
+>
+    <div class="flex justify-around mt-6 ml-2 mr-2">
+        <TpkButton
+        @onClick={{@onConfirm}}
+        class="confirm confirm_button"
+        >Confirmer</TpkButton>
+        <TpkButton
+        @onClick={{@onClose}}
+        class="cancel cancel_button"
+        >Annuler</TpkButton>
+    </div>
+    
+</Modals::Base>

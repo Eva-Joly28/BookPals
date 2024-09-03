@@ -4,6 +4,7 @@ import { User } from "../../database/entities/User";
 import { Service } from "typedi";
 import { UserPost, UserPatch } from "../validators/User";
 import { NotFoundError } from "routing-controllers";
+import { error } from "console";
 
 export interface UserFilters{
     username?:string,
@@ -48,9 +49,14 @@ export class UserRepository extends EntityRepository<User> implements UserReposi
     }
     async createUser(user: UserPost): Promise<User> {
         const newUser = new User();
-        wrap(newUser).assign(user);
-        await this.em.persistAndFlush(newUser);
-        return newUser;
+        let alreadyUser = this.findOne({username:user.username});
+        if(!alreadyUser || alreadyUser==null){
+            throw new Error('username already in the database');
+        }else{
+            wrap(newUser).assign(user);
+            await this.em.persistAndFlush(newUser);
+            return newUser;
+        }
     }
     async deleteUser(id: string): Promise<void> {
         const result = await this.findOneOrFail({id}, {failHandler: () => new NotFoundError()});

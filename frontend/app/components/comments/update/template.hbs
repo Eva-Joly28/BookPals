@@ -1,0 +1,16 @@
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div class="relative" {{on 'mouseleave' (fn this.setHover false)}} {{on 'mouseover' (fn this.setHover true)}}>
+    <div class="w-full flex flex-col justify-center mr-10 absolute">
+        <div class="flex absolute flex-row bg-white/5 justify-end max-w-16 rounded my-1 {{if this.optionsVisible 'visible' 'invisible'}}">
+            <TpkButton @type="button" @title="modifier" @onClick={{@update}} class="cursor-pointer">
+                <img src="/assets/icons/modify.svg" alt="modifier le commentaire" class="h-7 w-7 p-1" >
+            </TpkButton>
+            <button type="button" title="supprimer" {{on 'click' @delete}}>
+                <img src="/assets/icons/delete.svg" alt="supprimer le commentaire" class="h-7 w-7 p-1">
+            </button>
+        </div>
+    </div>
+    <div class="relative">
+        <Comments @comment={{@comment}}/>
+    </div>
+</div>

@@ -20,16 +20,8 @@ export default class CurrentUserService extends Service {
   async load() {
     this.id = this.session.data.authenticated.id;
     if(this.id) {
-      //   let response = await fetch(`${config.host}/${config.namespace}/users/${this.id}`, {
-      //     method: 'GET',
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //     },
-      // })
-    
-      // this.user = await response.json() as unknown as UserModel;
+  
       this.user = await this.store.findRecord('user',this.id);
-      console.log(this.user);
       // eslint-disable-next-line ember/classic-decorator-no-classic-methods
       this.set('user', this.user);
     }
@@ -37,15 +29,6 @@ export default class CurrentUserService extends Service {
       this.user = undefined;
     }
 
-    // if (this.session.isAuthenticated) {
-    //   try {
-    //     this.user = await this.store.findRecord('user', this.id!.toString());
-    //     console.log(this.user);
-    //   } catch (error) {
-    //     console.error('Failed to load user:', error);
-    //     this.user = undefined;
-    //   }
-    // } 
   }
 
 }

@@ -56,18 +56,24 @@ export default class FormsLoginComponent extends Component<FormsRegisterSignatur
         this.changeset.execute();
         const{email,password} = this.changeset.data;
         console.log(this.changeset.data);
-        try{
-            let res = await this.register(this.inputValue, email, password);
-            if(res.ok){
-                this.close();
-                await this.session.authenticate('authenticator:jwt',this.inputValue,password);
-                //window.location.reload();
-                this.session.handleAuthentication(this.router.currentURL!)
+        if(this.changeset.isInvalid){
+            console.log(this.changeset.errors)
+            this.setAlert('Veuillez remplir correctement les identifiants')
+        }  
+        else{
+            try{
+                let res = await this.register(this.inputValue, email, password);
+                if(res.ok){
+                    this.close();
+                    await this.session.authenticate('authenticator:jwt',this.inputValue,password);
+                    //window.location.reload();
+                    this.session.handleAuthentication(this.router.currentURL!)
+                }
+            }
+            catch(e){
+                this.setAlert('Veuillez remplir correctement les identifiants');
             }
         }
-        catch(e){
-            this.setAlert('Veuillez remplir correctement les identifiants');
-        }  
     }
 
     @action

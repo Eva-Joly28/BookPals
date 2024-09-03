@@ -1,0 +1,32 @@
+<div
+  class="flex justify-center modal-base
+    {{if @isOpen 'w-full h-screen fixed top-0 left-0 bg-black/45 overflow-hidden' 'relative'}}"
+>
+  <TpkModal
+    class="
+       fixed
+      {{@size}}
+      m-auto border-[#6a3415] border bg-gray-900 rounded-md shadow-md z-50"
+    @title={{@title}}
+    @confirmQuestion={{@confirmQuestion}}
+    @isOpen={{@isOpen}}
+    @onClose={{@onClose}}
+    as |M|
+  >
+    <M.Content class="{{@height}} rounded text-justify m-5">
+      <button
+        data-test-button="close"
+        type="button"
+        {{on "click" M.onClose}}
+        class="absolute top-0 right-0 mr-3 mt-3">
+        <img alt="close" src="/assets/icons/cross.svg" class="w-8" />
+      </button>
+      <div class="flex justify-between {{@spacing}}">
+        <h3 class="text-base text-white px-3 text-center">
+          {{@title}}
+        </h3>
+      </div>
+      {{yield}}
+    </M.Content>
+  </TpkModal>
+</div>

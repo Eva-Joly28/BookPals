@@ -22,8 +22,7 @@ export class RatingController implements RatingControllerPort  {
 
   @Get('/', {transformResponse:false})
   async getWithFilters(@Req() request: any){
-    const {filters} = request.params;
-    return JsonApiSerializer.serializeRatings(await this.ratingService.getRatingsWithFilters(filters));
+    return JsonApiSerializer.serializeRatings(await this.ratingService.getRatingsWithFilters(request.query));
 
   }
 

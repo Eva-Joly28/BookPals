@@ -1,0 +1,52 @@
+<div class="h-full overflow-hidden py-4 ml-4">
+    <div class="max-h-[15em] w-full overflow-y-auto">
+        <div class="grid grid-cols-12 gap-y-2 px-1 min-h-[6em]">
+            {{#each this.messagesArgs as |m|}}
+                <Messages @message={{m}} @delete={{fn this.openModal m.id}} @update={{fn this.updateMessage m}}/>
+            {{/each}}
+        </div>
+    </div>
+</div>
+<div class="flex flex-row items-center">
+	<div class="flex flex-col w-full rounded-3xl mx-2">
+        {{#if (eq this.mode 'update')}}
+            <div class="flex flex-row max-w-96">
+                <button type="button" {{on "click" (fn this.switchMode 'create')}}>
+                    <img alt="close" src="/assets/icons/cross.svg" class="w-4" />
+                </button>
+                <p class="py-1 px-5 text-sm truncate">modifier le message</p>
+            </div>
+        {{/if}}
+        {{!-- template-lint-disable require-input-label --}}
+        <input type="text" class="border border-transparent rounded-md w-full bg-[#ddc6b3] focus:outline-none text-sm h-10 flex items-center" placeholder="Entrez votre message...." value={{this.newMessageContent}} {{on "input" this.updateMessageContent}}>
+    </div>
+	<div class="ml-6">
+        {{!-- template-lint-disable no-implicit-this --}}
+        <button class="flex items-center justify-center h-10 w-10 rounded-lg bg-green-800 {{if this.newMessageContent.length 'hover:bg-green-600' 'cursor-not-allowed'}} text-white" type="button" {{on 'click' this.sendMessage}}>
+            {{#if (eq this.mode 'create')}}
+                <svg class="w-5 h-5 transform rotate-90 -mr-px"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+            {{else}}
+                <svg class="w-5 h-5 -mr-px"
+                viewBox="0 0 24 24" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"> 
+                <path d="M20.1498 7.93997L8.27978 19.81C7.21978 20.88 4.04977 21.3699 3.32977 20.6599C2.60977 19.9499 3.11978 16.78 4.17978 15.71L16.0498 3.84C16.5979 3.31801 17.3283 3.03097 18.0851 3.04019C18.842 3.04942 19.5652 3.35418 20.1004 3.88938C20.6356 4.42457 20.9403 5.14781 20.9496 5.90463C20.9588 6.66146 20.6718 7.39189 20.1498 7.93997V7.93997Z" stroke="#fffafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> 
+                </svg>
+            {{/if}}
+        </button> 
+    </div>
+    <Modals::Confirm
+    @title="Voulez vous supprimer définitivement ce message ?"
+    @isOpen={{this.isOpen}}
+    @onClose={{this.onClose}}
+    @onConfirm={{this.deleteMessage}}/>
+</div>

@@ -3,6 +3,7 @@ import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
 import Component from "@glimmer/component"
 import { tracked } from "@glimmer/tracking";
+import { later } from "@ember/runloop";
 import type BookModel from "ember-boilerplate/models/book";
 import type commentModel from "ember-boilerplate/models/comment";
 import type userModel from "ember-boilerplate/models/user";
@@ -12,6 +13,7 @@ import type Store from "ember-boilerplate/services/store";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
 import type SessionService from "ember-simple-auth/services/session";
 import sanitizeHtml from "sanitize-html";
+import type RatingModel from "ember-boilerplate/models/rating";
 
 export interface PagesBookDetailsSignature {
     Args : {
@@ -23,14 +25,38 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     @service declare store : Store;
     @service declare router : Router;
     @tracked showMore = false;
+    @tracked alertText = '';
+    @tracked visibility = "invisible";
     @service('current-user') declare currentUser : CurrentUserService;
     @service declare session : SessionService;
     @tracked isOpen = false; 
+    @tracked isOpenConfirm = false;
+    @tracked isOpenUpdate = false;
+    @tracked commentToUpdate = '';
+    @tracked commentToDelete = '';
 
     constructor(owner: unknown, args: PagesBookDetailsSignature['Args']){
       console.log
         super(owner,args);
 
+    }
+
+    get actualRating(){
+      let rate = this.args.model.book.ratings.find((r:any)=>{
+        r.user.id===this.currentUser.user?.id;
+      })
+      return rate;
+    }
+
+    get starsArray(){
+      if(this.actualRating){
+        let tab = [];
+          for (let i = 1; i <=this.actualRating.value ; i++) {
+              tab.push(i);  
+          }
+        return tab;
+      }
+      return [];
     }
     
     get authorBooks() {
@@ -41,29 +67,68 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
         return this.args.model.genreBooks.filter(book => book.cover.length).slice(0,8);
     }
 
+    get userComments() {
+      if(this.session.isAuthenticated){
+        return this.args.model.book.comments.filter((c:any)=>c.user.id===this.currentUser.user!.id);
+      }
+      return [];
+    }
+
+    get ratings(){
+      return this.args.model.book.ratings;
+
+    }
+
     get comments(){
-    return this.args.model.book.comments;
-    //   // let bookComments : commentModel[] = [];
-    //   // this.args.model.book.comments.then((comments)=>{
-    //   //    bookComments = comments as unknown as commentModel[] ;
-    //   // });
-    //   // return bookComments;
+      // if(this.session.isAuthenticated){
+      //   return this.args.model.book.comments.filter((c:any)=>c.user.id!==this.currentUser.user!.id);
+      // }
+      return this.args.model.book.comments;
     }
 
     get rating(){
-      console.log(this.args.model.book);
-      return this.args.model.book.ratings.find((r:any)=> r.user.id === this.currentUser.user!.id)
+      let rate : RatingModel =  this.args.model.book.ratings.find((r:RatingModel)=> r.user.id === this.currentUser.user!.id);
+      console.log(rate);
+      return rate
     }
 
 
     @action
     onClose(){
       this.isOpen = false;
+      this.isOpenConfirm = false;
+      this.isOpenConfirm = false;
+
     }
 
     @action
     openModal(){
       this.isOpen = true;
+    }
+
+    @action
+    deleteComment(id : string){
+      this.commentToDelete = id;
+      this.isOpenConfirm = true;
+    }
+
+    @action
+    updateComment(id:string){
+      this.commentToUpdate = id;
+      this.isOpenUpdate = true;
+    }
+
+    @action
+    async confirmDelete(){
+      let comment = this.store.peekRecord('comment', this.commentToDelete);
+      await comment.destroyRecord();
+      this.isOpenConfirm = false;
+      await this.args.model.book.comments.reload();
+    }
+
+    @action
+    async confirmUpdate(){
+      let comment = await this.store.findRecord('comment', this.commentToUpdate);
     }
 
     @action
@@ -99,6 +164,14 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     @action
     toggleDescription(){
       this.showMore = !this.showMore;
+    }
+
+    
+    setAlert(text : string){
+        this.alertText = text;
+        this.visibility = "visible";
+        // eslint-disable-next-line ember/no-runloop
+        later(() => {this.visibility="invisible"}, 3000);
     }
 
     @action

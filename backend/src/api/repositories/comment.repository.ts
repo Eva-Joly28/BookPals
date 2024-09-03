@@ -50,18 +50,18 @@ export class CommentRepository extends EntityRepository<Comment> implements Comm
         const newComment = new Comment();
         wrap(newComment).assign(comment,{em:this.em});
         await this.em.persistAndFlush(newComment);
-        if(!newComment.book.comments.find((comment)=>comment.id===newComment.id)){
-            wrap(newComment.book).assign({
-                comments : [...newComment.book.comments, newComment]
-            })
-            this.em.persistAndFlush(newComment.book);
-        }
-        if(!newComment.user.comments.find((comment)=>comment.id===newComment.id)){
-            wrap(newComment.user).assign({
-                comments : [...newComment.user.comments, newComment]
-            })
-            this.em.persistAndFlush(newComment.user);
-        }
+        // if(!newComment.book.comments.find((comment)=>comment.id===newComment.id)){
+        //     wrap(newComment.book).assign({
+        //         comments : [...newComment.book.comments, newComment]
+        //     })
+        //     this.em.persistAndFlush(newComment.book);
+        // }
+        // if(!newComment.user.comments.find((comment)=>comment.id===newComment.id)){
+        //     wrap(newComment.user).assign({
+        //         comments : [...newComment.user.comments, newComment]
+        //     })
+        //     this.em.persistAndFlush(newComment.user);
+        // }
         return newComment;
     }
     async deleteComment(id: string): Promise<void> {

@@ -6,8 +6,9 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "NODE_ENV=dev node dist/src/index.js",
-    "prestart:prod": "npm run build",
+    "prestart:prod": "pnpm run build",
     "start:prod": "NODE_ENV=production node dist/src/index.js",
+    "migrate:prod": "NODE_ENV=production mikro-orm migration:up",
     "prestart:debug": "npm run build",
     "start:debug": "NODE_ENV=development node --inspect-brk dist/src/index.js",
     "build": "tsc",

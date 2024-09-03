@@ -87,6 +87,14 @@ body::before{
   z-index: 0;
 }
 
+.cancel_button {
+  @apply py-2.5 px-5 ms-3 text-sm font-medium text-[#d6c1a3] focus:outline-none bg-[#601a13] rounded-lg border border-gray-200 hover:bg-red-900 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700;
+}
+
+.confirm_button {
+  @apply hover:text-white text-[#d6c1a3] bg-[#2d512b] hover:bg-[#274625] focus:ring-4 focus:outline-none focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center;
+}
+
 h1 {
   @apply text-3xl font-medium;
 }
@@ -124,11 +132,11 @@ hr {
 }
 
 .user-nav:hover .user-options {
-  @apply  absolute block bg-background/80 w-32 top-[70px];
+  @apply  absolute block bg-background/80 w-36 top-[70px];
 }
 
 .user-nav:hover .user-image{
-  @apply bg-background/80 w-32
+  @apply bg-background/80 w-36
 }
 
 .book{

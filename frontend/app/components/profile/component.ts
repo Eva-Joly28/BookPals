@@ -23,6 +23,15 @@ export default class ProfileComponent extends Component<ProfileSignature>{
         return this.currentUser.user!.following.find((u)=>u.id===this.args.user.id) ? true : false;
     }
 
+    get blockedUser(){
+        return this.currentUser.user!.blockedUsers.find((u)=>u.id===this.args.user.id) ? true : false;
+    }
+
+    @action
+    sendMessage(){
+        this.router.transitionTo('profile.messages.new', this.currentUser.user?.username, this.args.user.username);
+    }
+
     @action
     goToUser(){
         this.router.transitionTo('profile',this.args.user.username);

@@ -5,10 +5,10 @@ import { Comment } from "./Comment";
 
 @Entity()
 export class CommentLike extends BaseEntity{
-  @ManyToOne(() => User, { primary: true})
+  @ManyToOne(() => User)
   user: User;
 
-  @ManyToOne(() => Comment, { primary: true})
+  @ManyToOne(() => Comment)
   comment: Comment;
 
   @Property()

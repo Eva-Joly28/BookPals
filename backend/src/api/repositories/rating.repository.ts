@@ -24,7 +24,9 @@ export class RatingRepository extends EntityRepository<Rating> implements Rating
         const qb = this.em.qb(Rating,'r').select('*')
         .leftJoinAndSelect('r.book','b')
         .leftJoinAndSelect('r.user','u');
-        
+
+        qb.orderBy( {createdAt:'DESC', value:'DESC'})
+
         if(filters){
             this.setupFilters(filters, qb);
 

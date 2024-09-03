@@ -8,13 +8,14 @@ export default class ProfileIndex extends Route{
     @service declare store : Store;
     @service declare router : Router;
 
-    async model(params: any){
+    async model(){
         try{
             const parentParams = this.paramsFor('profile');
             const username = parentParams['username'] as string;
-            let user = await this.store.findRecord('user',username) as unknown as userModel;
+            let user = await this.store.findRecord('user',username, {include:'sentMessages,receivedMessages,conversations'}) as unknown as userModel;
             let comments = await user.comments.reload();
             let ratings = await user.ratings.reload();
+            let conv = await user.conversations.reload();
             return {
                 user,
                 comments,

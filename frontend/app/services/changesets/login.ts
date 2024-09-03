@@ -28,15 +28,13 @@ export default class LoginChangesetService extends Service{
 
         try{
             await this.session.authenticate('authenticator:jwt', username, password);
-            if(this.router.currentURL === null){
-                this.session.handleAuthentication('index');
-            }
+            // if(this.router.currentURL === null){
+            //     this.session.handleAuthentication('index');
+            // }
+            this.session.handleAuthentication('index');
             window.location.reload();
         }catch(error) {
-            console.log(this.flashMessages.arrangedQueue);
             this.flashMessages.alert('les identifiants sont incorrects')
-            console.log(this.flashMessages.arrangedQueue);
-            console.log(error);
         }
         
     }

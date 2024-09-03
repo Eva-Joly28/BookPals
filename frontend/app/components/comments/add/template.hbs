@@ -2,7 +2,7 @@
   <div class="relative w-full min-w-[200px]">
     {{!-- template-lint-disable require-input-label --}}
     <textarea rows="8"
-      class="peer h-full min-h-[100px] w-full {{this.isDisabled}} resize-none rounded-[7px] border border-amber-600 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-[#d4ab9b] outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-amber-600 placeholder-shown:border-t-amber-600 focus:border-3"
+      class=" peer h-full min-h-[100px] w-full {{this.isDisabled}} resize-none rounded-[7px] border border-amber-600 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-[#d4ab9b] outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-amber-600 placeholder-shown:border-t-amber-600 focus:border-3"
       placeholder=" "
       {{on 'input' this.updateCharCount}}></textarea>
     <label
@@ -10,7 +10,7 @@
       Commentez ici
     </label>
   </div>
-  <span class="right-0 text-sm text-white font-bold">{{this.charCount}}/1400</span>
+  <span class="right-0 text-sm text-white font-bold">{{this.charCount}}/2300</span>
   <div class="flex w-full justify-between py-1.5">
     <div class="flex gap-2">
       {{!-- <button
@@ -19,8 +19,8 @@
         Close
       </button> --}}
       <button
-        class="select-none rounded-md bg-yellow-100/80 text-yellow-900 py-2 px-4 text-center align-middle text-sm shadow-md shadow-gray-900/10 transition-all hover:shadow-lg font-[glenn] hover:bg-yellow-900 hover:text-yellow-100/80 hov focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
-        type="button">
+        class="select-none rounded-md bg-yellow-100/80 text-yellow-900 py-2 px-4 text-center align-middle text-sm shadow-md shadow-gray-900/10 transition-all hover:shadow-lg font-[glenn] {{if this.commentText 'hover:bg-yellow-900 hover:text-yellow-100/80'}} focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+        type="button" disabled={{not this.commentText}} {{on 'click' this.postComment}}>
         Ajouter un commentaire
       </button>
     </div>

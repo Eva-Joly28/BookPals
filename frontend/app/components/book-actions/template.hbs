@@ -1,5 +1,5 @@
 <div
-class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70 border border-[#614032]/70 rounded"
+class="flex flex-1 flex-col max-w-60 max-h-[23em] m-10 text-gray-400 bg-[#664436]/70 border border-[#614032]/70 rounded"
 >
 <div class="flex flex-row justify-between p-4">
     <div class="p-1 flex-1 m-auto">
@@ -67,8 +67,10 @@ class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70
     <span class="text-center text-sm pl-1 hover:text-white cursor-pointer">PAL</span>
     </div>
     <div class="p-1 flex-1">
+    {{!-- template-lint-disable no-invalid-interactive --}}
     <svg
-        class="fill-white/85 p-1 h-9 w-11"
+        {{on 'click' this.toggleProgress}}
+        class="{{if this.isInProgress "fill-green-500" "fill-white/85"}} focus:fill-green-500 p-1 h-9 w-11"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -88,9 +90,12 @@ class="flex flex-1 flex-col max-w-60 h-[23em] m-10 text-gray-400 bg-[#664436]/70
     </div>
 </div>
 <hr class="bg-white/70" />
-<div class="m-3 text-center box-text"><Stars @rating={{@rating}} @book={{@book}}/></div>
+<div class="m-3 text-center box-text">
+   {{yield}}
+</div>
 <hr class="bg-white/70" />
-<div class="m-3 text-center box-text">ajouter à la wishlist</div>
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div class="m-3 text-center box-text {{if this.isInWishlist " text-green-400 hover:text-red-400"}} " {{on 'click' this.toggleWishlist}}>{{if this.isInWishlist 'retirer de la wishlist' 'ajouter à la wishlist'}}</div>
 <hr class="bg-white/70" />
 <div class="m-3 text-center box-text">ajouter à une liste</div>
 <hr class="bg-white/70" />
