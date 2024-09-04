@@ -52,15 +52,15 @@ export default class FormsLoginComponent extends Component<FormsRegisterSignatur
 
     @action
     async submit(){
-        console.log(this.changeset.isValid);
+        // console.log(this.changeset.isValid);
         this.changeset.execute();
         const{email,password} = this.changeset.data;
         console.log(this.changeset.data);
-        if(this.changeset.isInvalid){
-            console.log(this.changeset.errors)
-            this.setAlert('Veuillez remplir correctement les identifiants')
-        }  
-        else{
+        // if(this.changeset.isInvalid){
+        //     console.log(this.changeset.errors)
+        //     this.setAlert('Veuillez remplir correctement les identifiants')
+        // }  
+        // else{
             try{
                 let res = await this.register(this.inputValue, email, password);
                 if(res.ok){
@@ -72,7 +72,7 @@ export default class FormsLoginComponent extends Component<FormsRegisterSignatur
             }
             catch(e){
                 this.setAlert('Veuillez remplir correctement les identifiants');
-            }
+            // }
         }
     }
 

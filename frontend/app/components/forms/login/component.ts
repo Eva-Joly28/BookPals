@@ -31,13 +31,12 @@ export default class FormsLoginComponent extends Component<FormsLoginSignature> 
     @action
     async submit(){
         try{
-           if(this.changeset.isValid){
             await this.session.authenticate('authenticator:jwt',this.changeset.get('username'),this.changeset.get('password'));
             this.session.handleAuthentication(this.router.currentURL!)
-           }
-           else{
-            this.args.setAlert('Les identifiants sont incorrects');
-           }
+           
+        //    else{
+        //     this.args.setAlert('Les identifiants sont incorrects');
+        //    }
                     
         }
         catch(e){
