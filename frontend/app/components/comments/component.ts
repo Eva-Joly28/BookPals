@@ -96,7 +96,7 @@ export default class CommentsComponent extends Component<CommentsSignature>{
 
     @action
     goToUser(user: any){
-        this.router.transitionTo('profile',user.id);
+        this.router.transitionTo('profile',user.username);
     
     }
 } 

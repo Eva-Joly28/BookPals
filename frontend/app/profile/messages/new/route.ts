@@ -33,11 +33,13 @@ export default class ProfileNewMessages extends Route{
             }
             let convs = await this.store.query('conversation',{user:user.id}) as unknown as conversationModel[] || [];
             let conversations = convs ? convs : [];
-            let otherUsername = ''
+            let otherUsername = '';
+            let otherUser : userModel ;
             if(params.receiver){
                 otherUsername = params.receiver;
+                otherUser = await this.store.findRecord('user',otherUsername) as unknown as userModel;
                 let conversation = conversations.find((c)=>{
-                    hasManyToArray(c.participants).some(u=>u.username===otherUsername)
+                c.participants.includes(otherUser)
                 })
                 if(conversation){
                     this.router.transitionTo('profile.messages.conv', conversation.id);
@@ -46,9 +48,9 @@ export default class ProfileNewMessages extends Route{
             else{
                 this.router.transitionTo('profile',username);
             }
+            otherUser = await this.store.findRecord('user',otherUsername) as unknown as userModel;
             // let actualConversation = conversations.find((c)=>c.id === otherUsername);
             // let otherId =  actualConversation!.participants.find(u=>u.id !== user.id)!.id
-            let otherUser = await this.store.findRecord('user',otherUsername) as unknown as userModel;
             let messages : messageModel[] = [];
             
             return {conversations,messages,otherUser};

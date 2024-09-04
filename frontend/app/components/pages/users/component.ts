@@ -29,7 +29,6 @@ export default class PagesUsersComponent extends Component<PagesUsersSignature>{
     }
 
     get others(){
-        console.log(this.args.model)
         return this.args.model.slice(3,-1);
     }
 

@@ -23,6 +23,12 @@ export default class CommentsAddComponent extends Component<CommentsAddSignature
     @tracked isDisabled = '';
     @tracked disableButton: boolean = false;
 
+    constructor(owner: unknown, args: CommentsAddSignature['Args']){
+        super(owner,args);
+        this.commentText = '';
+
+    }
+
 
     get charCount(){
         return Array.from(this.commentText).length;
