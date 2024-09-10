@@ -1,5 +1,5 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
-import type userModel from "./user";
+import type UserModel from "./user";
 import type BookModel from "./book";
 
 export default class RatingModel extends Model {
@@ -7,7 +7,7 @@ export default class RatingModel extends Model {
     @belongsTo('user',{
         async:false,
         inverse:'ratings'
-    }) declare user : userModel;
+    }) declare user : UserModel;
 
     @belongsTo('book',{
         async:false,

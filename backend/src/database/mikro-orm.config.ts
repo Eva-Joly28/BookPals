@@ -12,9 +12,9 @@ const options: Options = {
   driver: PostgreSqlDriver,
   extensions: [Migrator, SeedManager],
   dbName: process.env.PG_DB_NAME,
-  driverOptions:{
-    connection : {ssl : {rejectUnauthorized: false }},
-  },
+  // driverOptions:{
+  //   connection : {ssl : {rejectUnauthorized: false }},
+  // },
   password: process.env.PG_PASSWORD,
   user: process.env.PG_USER,
   host: process.env.PG_HOST,

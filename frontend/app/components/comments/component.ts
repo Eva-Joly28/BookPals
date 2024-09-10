@@ -7,10 +7,10 @@ import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
 import type SessionService from "ember-simple-auth/services/session";
 import { format, isThisSecond } from 'date-fns';
-import type commentModel from "ember-boilerplate/models/comment";
+import type CommentModel from "ember-boilerplate/models/comment";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
-import type commentLikeModel from "ember-boilerplate/models/comment-like";
-import type userModel from "ember-boilerplate/models/user";
+import type CommentLikeModel from "ember-boilerplate/models/comment-like";
+import type UserModel from "ember-boilerplate/models/user";
 import type { Invoke } from "@glint/template/-private/integration";
 import type RatingModel from "ember-boilerplate/models/rating";
 
@@ -26,10 +26,10 @@ export default class CommentsComponent extends Component<CommentsSignature>{
     @service declare session : SessionService;
     @service declare router : Router;
     @service declare store : Store;
-    @tracked declare actualComment : commentModel;
+    @tracked declare actualComment : CommentModel;
     @service declare currentUser : CurrentUserService;
     @tracked declare likeNumber : number;
-    @tracked declare userLike? : commentLikeModel;
+    @tracked declare userLike? : CommentLikeModel;
 
     constructor(owner: unknown, args: CommentsSignature['Args']){
         super(owner,args);
@@ -58,7 +58,7 @@ export default class CommentsComponent extends Component<CommentsSignature>{
             if(this.session.isAuthenticated){
                 this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
                     this.actualComment = comment;
-                    this.userLike = this.currentUser.user!.likedComments.find((like : commentLikeModel) => (like.comment.id==this.actualComment.id));
+                    this.userLike = this.currentUser.user!.likedComments.find((like : CommentLikeModel) => (like.comment.id==this.actualComment.id));
                     if(this.userLike){
                         this.likeState = true;
                     }

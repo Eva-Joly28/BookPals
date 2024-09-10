@@ -2,9 +2,9 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import type conversationModel from "ember-boilerplate/models/conversation";
-import type messageModel from "ember-boilerplate/models/message";
-import type userModel from "ember-boilerplate/models/user";
+import type ConversationModel from "ember-boilerplate/models/conversation";
+import type MessageModel from "ember-boilerplate/models/message";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
@@ -13,9 +13,9 @@ import type SessionService from "ember-simple-auth/services/session";
 
 export interface MessagesSignature {
     Args : {
-        messages : messageModel[];
-        conversation? : conversationModel;
-        otherUser: userModel;
+        messages : MessageModel[];
+        conversation? : ConversationModel;
+        otherUser: UserModel;
     }
 }
 
@@ -30,7 +30,7 @@ export default class MessageComponent extends Component<MessagesSignature>{
     @tracked messageTodelete = '';
     @tracked messageToUpdate = '';
     @tracked mode = 'create';
-    @tracked messages : messageModel[] = [];
+    @tracked messages : MessageModel[] = [];
 
     constructor(owner: unknown, args: MessagesSignature['Args']){
         super(owner,args);

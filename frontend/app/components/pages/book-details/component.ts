@@ -5,8 +5,8 @@ import Component from "@glimmer/component"
 import { tracked } from "@glimmer/tracking";
 import { later } from "@ember/runloop";
 import type BookModel from "ember-boilerplate/models/book";
-import type commentModel from "ember-boilerplate/models/comment";
-import type userModel from "ember-boilerplate/models/user";
+import type CommentModel from "ember-boilerplate/models/comment";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
@@ -17,7 +17,7 @@ import type RatingModel from "ember-boilerplate/models/rating";
 
 export interface PagesBookDetailsSignature {
     Args : {
-        model : {book : any, authorsBooks: BookModel[], genreBooks: BookModel[], users: userModel[]};
+        model : {book : any, authorsBooks: BookModel[], genreBooks: BookModel[], users: UserModel[]};
     }
 }
 
@@ -38,6 +38,7 @@ export default class PagesBookDetailsComponent extends Component<PagesBookDetail
     constructor(owner: unknown, args: PagesBookDetailsSignature['Args']){
       console.log
         super(owner,args);
+        this.args.model.book.comments.reload();
 
     }
 

@@ -3,14 +3,14 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import type BookModel from "ember-boilerplate/models/book";
-import type commentModel from "ember-boilerplate/models/comment";
+import type CommentModel from "ember-boilerplate/models/comment";
 import type RatingModel from "ember-boilerplate/models/rating";
 import type Router from "ember-boilerplate/router";
 import type SessionService from "ember-simple-auth/services/session";
 
 interface PagesHomeSignature {
     Args: {
-        model : {top: BookModel[], choices: BookModel[], recentRatings: RatingModel[], comments: commentModel[]};
+        model : {top: BookModel[], choices: BookModel[], recentRatings: RatingModel[], comments: CommentModel[]};
     }
 }
 

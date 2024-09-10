@@ -5,7 +5,7 @@ import Route from '@ember/routing/route';
 import type Transition from '@ember/routing/transition';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import type userModel from 'ember-boilerplate/models/user';
+import type UserModel from 'ember-boilerplate/models/user';
 import type Router from 'ember-boilerplate/router';
 import type CurrentUserService from 'ember-boilerplate/services/current-user';
 import type LoadingService from 'ember-boilerplate/services/load';

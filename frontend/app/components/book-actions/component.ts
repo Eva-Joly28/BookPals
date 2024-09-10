@@ -5,7 +5,7 @@ import { tracked } from "@glimmer/tracking";
 import type { Invoke } from "@glint/template/-private/integration";
 import type BookModel from "ember-boilerplate/models/book";
 import type RatingModel from "ember-boilerplate/models/rating";
-import userModel from "ember-boilerplate/models/user";
+import UserModel from "ember-boilerplate/models/user";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
@@ -32,7 +32,7 @@ export default class BookActionsComponent extends Component<BookActionsSignature
     @tracked isInWishlist = false;
     @tracked isInProgress = false;
     @tracked isRead = false;
-    @tracked declare actualUser: userModel;
+    @tracked declare actualUser: UserModel;
     @tracked declare actualBook: BookModel;
 
     constructor(owner: unknown, args: BookActionsSignature['Args']){

@@ -3,12 +3,12 @@ import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import type BookModel from "ember-boilerplate/models/book";
-import type userModel from "ember-boilerplate/models/user";
+import type UserModel from "ember-boilerplate/models/user";
 import type SessionService from "ember-simple-auth/services/session";
 
 export interface ProfileToReadSignature {
     Args : {
-        user : userModel;
+        user : UserModel;
     }
 }
 

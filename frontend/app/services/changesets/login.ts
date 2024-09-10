@@ -31,8 +31,8 @@ export default class LoginChangesetService extends Service{
             // if(this.router.currentURL === null){
             //     this.session.handleAuthentication('index');
             // }
-            this.session.handleAuthentication('index');
-            window.location.reload();
+            this.session.handleAuthentication(this.router.currentURL!);
+            // window.location.reload();
         }catch(error) {
             this.flashMessages.alert('les identifiants sont incorrects')
         }

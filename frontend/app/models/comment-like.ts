@@ -1,19 +1,19 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
-import type userModel from "./user";
-import type commentModel from "./comment";
+import type UserModel from "./user";
+import type CommentModel from "./comment";
 
-export default class commentLikeModel extends Model {
+export default class CommentLikeModel extends Model {
     @attr() declare likedAt : string;
     @belongsTo('user',{
         async:false,
         inverse:'likedComments'
     }) 
-    declare user : userModel;
+    declare user : UserModel;
 
     @belongsTo('comment',{
         async:false,
         inverse:'likedBy'
     }) 
-    declare comment : commentModel;
+    declare comment : CommentModel;
 
 }

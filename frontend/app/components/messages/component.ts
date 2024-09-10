@@ -2,14 +2,14 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import type messageModel from "ember-boilerplate/models/message";
+import type MessageModel from "ember-boilerplate/models/message";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type SessionService from "ember-simple-auth/services/session";
 
 export interface MessagesSignature {
     Args : {
-        message : messageModel;
+        message : MessageModel;
     }
 }
 

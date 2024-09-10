@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import config from 'ember-boilerplate/config/environment';
 import type BookModel from 'ember-boilerplate/models/book';
-import type userModel from 'ember-boilerplate/models/user';
+import type UserModel from 'ember-boilerplate/models/user';
 import type Router from 'ember-boilerplate/router';
 import type Store from 'ember-boilerplate/services/store';
 import type emberData__store from '@ember-data/store';
@@ -32,7 +32,7 @@ export default class BookDetails extends Route {
             let toRead = book.usersToRead;
             console.log(toRead);
 
-            const users = await this.store.findAll('user') as unknown as userModel[];
+            const users = await this.store.findAll('user') as unknown as UserModel[];
             let authorsBooks : BookModel[] = [];
             let genreBooks : BookModel[] = [];
             if(book!.authors.length){

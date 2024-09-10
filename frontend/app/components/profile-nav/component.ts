@@ -1,15 +1,15 @@
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
-import type messageModel from "ember-boilerplate/models/message";
-import type userModel from "ember-boilerplate/models/user";
+import type MessageModel from "ember-boilerplate/models/message";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type SessionService from "ember-simple-auth/services/session";
 
 export interface ProfileNavSignature {
     Args: {
-        user : userModel
+        user : UserModel
     }
 }
 
@@ -70,12 +70,14 @@ export default class ProfileNavComponent extends Component<ProfileNavSignature>{
       }
 
       get unreadMessages(){
-        let unreadTab : messageModel[] = [];
+        let unreadTab : MessageModel[] = [];
         this.args.user.conversations.forEach(c => {
           c.messages.forEach(m=>{
-            if((m.sender.id!==this.args.user.id)&&(!m.isRead)){
-              unreadTab = [...unreadTab, m];
-            }
+            m.reload().then((m)=>{
+              if((m.sender.id!==this.args.user.id)&&(!m.isRead)){
+                unreadTab = [...unreadTab, m];
+              }
+            })
           })
         });
         return unreadTab;

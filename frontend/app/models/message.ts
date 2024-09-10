@@ -1,8 +1,8 @@
 import Model, { attr, belongsTo } from "@ember-data/model";
-import type userModel from "./user";
-import type conversationModel from "./conversation";
+import type UserModel from "./user";
+import type ConversationModel from "./conversation";
 
-export default class messageModel extends Model{
+export default class MessageModel extends Model{
     @attr() declare content :string;
     @attr() declare isRead :boolean;
 
@@ -10,15 +10,15 @@ export default class messageModel extends Model{
     @belongsTo('user',{
         async:false,
         inverse:'sentMessages'
-    }) declare sender : userModel;
+    }) declare sender : UserModel;
 
     @belongsTo('user',{
         async:false,
         inverse:'receivedMessages'
-    }) declare receiver : userModel;
+    }) declare receiver : UserModel;
 
     @belongsTo('conversation',{
         async:false,
         inverse:'messages'
-    }) declare conversation : conversationModel;
+    }) declare conversation : ConversationModel;
 }

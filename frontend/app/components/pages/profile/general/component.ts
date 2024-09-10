@@ -12,7 +12,7 @@ import type SessionService from "ember-simple-auth/services/session";
 
 export interface ProfileGeneralSignature {
     Args : {
-        model : {user:userModel,comments:SyncHasMany<commentModel>,ratings:SyncHasMany<RatingModel>};
+        model : {user:userModel,};
     }
 }
 
@@ -21,16 +21,16 @@ export default class ProfileGeneralComponent extends Component<ProfileGeneralSig
     @service declare store : Store;
 
     get bestRatings(){
-        let sortedTab = hasManyToArray(this.args.model.ratings).sort((a,b)=> a.value - b.value)
+        let sortedTab = hasManyToArray(this.args.model.user.ratings).sort((a,b)=> a.value - b.value)
         return sortedTab.slice(0,4);
     }
 
     get recentRatings(){
-        return hasManyToArray(this.args.model.ratings).slice(0,4);
+        return hasManyToArray(this.args.model.user.ratings).slice(0,4);
     } 
 
     get userComments(){
-        return hasManyToArray(this.args.model.comments).slice(0,2);
+        return hasManyToArray(this.args.model.user.comments).slice(0,2);
     }
 
 

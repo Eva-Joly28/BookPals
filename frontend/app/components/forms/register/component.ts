@@ -4,7 +4,7 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { RegisterChangeset } from "ember-boilerplate/changesets/register";
 import config from "ember-boilerplate/config/environment";
-import type userModel from "ember-boilerplate/models/user";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type Store from "ember-boilerplate/services/store";
 import registerSchema from "ember-boilerplate/validations/register";
@@ -14,7 +14,7 @@ import type SessionService from "ember-simple-auth/services/session";
 export interface FormsRegisterSignature{
     Args : {
         setAlert : Function;
-        users : userModel[];
+        users : UserModel[];
         onClose : Function;
     }
 }
@@ -52,10 +52,11 @@ export default class FormsLoginComponent extends Component<FormsRegisterSignatur
 
     @action
     async submit(){
-        // console.log(this.changeset.isValid);
+        this.changeset.set('username', this.inputValue);
         this.changeset.execute();
+        console.log(this.changeset.isValid);
         const{email,password} = this.changeset.data;
-        console.log(this.changeset.data);
+        // console.log(this.changeset.data);
         // if(this.changeset.isInvalid){
         //     console.log(this.changeset.errors)
         //     this.setAlert('Veuillez remplir correctement les identifiants')
@@ -84,13 +85,13 @@ export default class FormsLoginComponent extends Component<FormsRegisterSignatur
     @action
     onChangeUsername(e : string){
         this.inputValue = e;
-        this.visible = 'visible'
-        if(this.users.some((user)=> user.username.toLowerCase() == e.toLowerCase())){
-            this.availability = "indisponible";
-        }
-        else{
-            this.availability = "disponible";
-        }
+        // this.visible = 'visible'
+        // if(this.users.some((user)=> user.username.toLowerCase() == e.toLowerCase())){
+        //     this.availability = "indisponible";
+        // }
+        // else{
+        //     this.availability = "disponible";
+        // }
     }
 
     async register(username:string, email:string, password:string){

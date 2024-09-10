@@ -1,12 +1,13 @@
-import Model, { attr, hasMany, type SyncHasMany } from "@ember-data/model";
+import Model, { attr, belongsTo, hasMany, type SyncHasMany } from "@ember-data/model";
 import type BookModel from "./book";
-import type commentLikeModel from "./comment-like";
+import type CommentLikeModel from "./comment-like";
 import type RatingModel from "./rating";
-import type commentModel from "./comment";
-import type conversationModel from "./conversation";
-import type messageModel from "./message";
+import type CommentModel from "./comment";
+import type ConversationModel from "./conversation";
+import type MessageModel from "./message";
+import type listModel from "./list";
 
-export default class userModel extends Model {
+export default class UserModel extends Model {
     @attr() declare username : string;
     @attr() declare password : string;
     @attr() declare email : string;
@@ -36,25 +37,25 @@ export default class userModel extends Model {
         async:false,
         inverse: 'followers',
     })
-    declare following: SyncHasMany<userModel>
+    declare following: SyncHasMany<UserModel>
 
     @hasMany('user', {
         async:false,
         inverse: 'following',
     })
-    declare followers: SyncHasMany<userModel>
+    declare followers: SyncHasMany<UserModel>
 
     @hasMany('user', {
         async:false,
         inverse: 'blockedBy',
     })
-    declare blockedUsers: SyncHasMany<userModel>
+    declare blockedUsers: SyncHasMany<UserModel>
 
     @hasMany('user', {
         async:false,
         inverse: 'blockedUsers',
     })
-    declare blockedBy: SyncHasMany<userModel>
+    declare blockedBy: SyncHasMany<UserModel>
 
     @hasMany('book', {
         async:false,
@@ -66,35 +67,45 @@ export default class userModel extends Model {
         async:false,
         inverse: 'participants',
     })
-    declare conversations: SyncHasMany<conversationModel>
+    declare conversations: SyncHasMany<ConversationModel>
 
     @hasMany('message', {
         async:false,
         inverse: 'sender',
     })
-    declare sentMessages: SyncHasMany<messageModel>
+    declare sentMessages: SyncHasMany<MessageModel>
 
     @hasMany('message', {
         async:false,
         inverse: 'receiver',
     })
-    declare receivedMessages: SyncHasMany<messageModel>
+    declare receivedMessages: SyncHasMany<MessageModel>
 
     @hasMany('comment', {
         async:false,
         inverse: 'user',
     })
-    declare comments: SyncHasMany<commentModel>
+    declare comments: SyncHasMany<CommentModel>
 
     @hasMany('comment-like', {
         async:false,
         inverse: 'user',
     })
-    declare likedComments: SyncHasMany<commentLikeModel>
+    declare likedComments: SyncHasMany<CommentLikeModel>
 
     @hasMany('rating', {
         async:false,
         inverse: 'user',
     })
     declare ratings: SyncHasMany<RatingModel>;
+
+    @hasMany('list',{
+        async:false,
+        inverse:'creator'
+    }) declare usersLists : SyncHasMany<listModel>;
+
+    @hasMany('list',{
+        async:false,
+        inverse:'likedBy'
+    }) declare favoritesLists : SyncHasMany<listModel>;
 }

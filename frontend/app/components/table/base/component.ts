@@ -2,7 +2,7 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import type userModel from "ember-boilerplate/models/user";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import { updateFollowing } from "ember-boilerplate/utils/updating-collections";
@@ -10,7 +10,7 @@ import type SessionService from "ember-simple-auth/services/session";
 
 export interface TableBaseSignature {
     Args:{
-        users: userModel[]
+        users: UserModel[]
     }
 }
 

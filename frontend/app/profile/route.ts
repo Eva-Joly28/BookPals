@@ -1,7 +1,7 @@
 import Route from "@ember/routing/route";
 import { service } from "@ember/service";
 import { tracked } from "@glimmer/tracking";
-import userModel from "ember-boilerplate/models/user";
+import UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
@@ -33,16 +33,19 @@ export default class Profile extends Route {
 
           const username = params.username as string;
           let isBlocked = false;
-          let user = await this.store.findRecord('user',username,{include:'sentMessages,receivedMessages,conversations'}) as unknown as userModel;
-          await user.reload();
-          // await user.ratings.reload();
-          // await user.comments.reload();
+          let user = await this.store.findRecord('user',username) as unknown as UserModel;
+          // await user.reload();
+          // // await user.ratings.reload();
+          // // await user.comments.reload();
           if(this.session.isAuthenticated){
             if(user.blockedUsers.includes(this.currentUser.user!)){
               this.router.transitionTo('index');
             }
+            // this.router.transitionTo('profile.index', user.username);
+
           }
-          return {user, isBlocked};
+          // this.router.transitionTo('profile.index', user.username);
+          // return {user, isBlocked};
         }
       catch(e){
           console.log(e);

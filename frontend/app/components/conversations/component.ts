@@ -2,9 +2,9 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import type conversationModel from "ember-boilerplate/models/conversation";
-import type messageModel from "ember-boilerplate/models/message";
-import type userModel from "ember-boilerplate/models/user";
+import type ConversationModel from "ember-boilerplate/models/conversation";
+import type MessageModel from "ember-boilerplate/models/message";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
@@ -12,8 +12,8 @@ import type SessionService from "ember-simple-auth/services/session";
 
 export interface ConversationsSignature {
     Args : {
-        conversation : conversationModel;
-        otherUser : userModel;
+        conversation : ConversationModel;
+        otherUser : UserModel;
         // lastMessage : messageModel;
     }
 }

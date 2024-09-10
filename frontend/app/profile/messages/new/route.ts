@@ -1,9 +1,9 @@
 import { action } from "@ember/object";
 import Route from "@ember/routing/route";
 import { service } from "@ember/service";
-import type conversationModel from "ember-boilerplate/models/conversation";
-import type messageModel from "ember-boilerplate/models/message";
-import type userModel from "ember-boilerplate/models/user";
+import type ConversationModel from "ember-boilerplate/models/conversation";
+import type MessageModel from "ember-boilerplate/models/message";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
@@ -20,7 +20,7 @@ export default class ProfileNewMessages extends Route{
         try{
             const parentParams = this.paramsFor('profile');
             const username = parentParams['username'] as string;
-            let user = await this.store.findRecord('user',username) as unknown as userModel;
+            let user = await this.store.findRecord('user',username) as unknown as UserModel;
             await user.conversations.reload();
             if(!this.session.isAuthenticated ){
                 this.router.transitionTo('index')
@@ -31,13 +31,13 @@ export default class ProfileNewMessages extends Route{
                     this.router.transitionTo('profile.index', username);
                 }
             }
-            let convs = await this.store.query('conversation',{user:user.id}) as unknown as conversationModel[] || [];
+            let convs = await this.store.query('conversation',{user:user.id}) as unknown as ConversationModel[] || [];
             let conversations = convs ? convs : [];
             let otherUsername = '';
-            let otherUser : userModel ;
+            let otherUser : UserModel ;
             if(params.receiver){
                 otherUsername = params.receiver;
-                otherUser = await this.store.findRecord('user',otherUsername) as unknown as userModel;
+                otherUser = await this.store.findRecord('user',otherUsername) as unknown as UserModel;
                 let conversation = conversations.find((c)=>{
                 c.participants.includes(otherUser)
                 })
@@ -48,10 +48,10 @@ export default class ProfileNewMessages extends Route{
             else{
                 this.router.transitionTo('profile',username);
             }
-            otherUser = await this.store.findRecord('user',otherUsername) as unknown as userModel;
+            otherUser = await this.store.findRecord('user',otherUsername) as unknown as UserModel;
             // let actualConversation = conversations.find((c)=>c.id === otherUsername);
             // let otherId =  actualConversation!.participants.find(u=>u.id !== user.id)!.id
-            let messages : messageModel[] = [];
+            let messages : MessageModel[] = [];
             
             return {conversations,messages,otherUser};
         }

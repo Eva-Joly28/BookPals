@@ -28,17 +28,18 @@ class="flex m-3 "
         @onChange={{this.onChangeUsername}}
         class="my-5"
         as |I|>
-            <div class="flex flex-row justify-between">
+            <I.Label/>
+            <I.Input placeholder="min. 2 lettres" class=" placeholder:text-sm"/>
+            {{!-- <div class="flex flex-row justify-between">
                 <div>
-                    <I.Label/>
-                    <I.Input placeholder="min. 2 lettres" class=" placeholder:text-sm"/>
+                    
                 </div>
                 <div class="flex mt-5 ml-10 flex-row duration-100 {{this.visible}}">
                     <img class=" h-4 w-4 mt-2" src="/assets/icons/{{this.availability}}.svg" alt="username availibity">
                     <span class="mt-1 text-center px-3 text-amber-700 font-extrabold">{{this.availability}}</span>
                 </div>
 
-            </div>
+            </div> --}}
 
         </TpkValidationInput>
 

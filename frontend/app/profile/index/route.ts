@@ -1,8 +1,9 @@
 import Route from "@ember/routing/route";
 import { service } from "@ember/service";
-import type userModel from "ember-boilerplate/models/user";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type Store from "ember-boilerplate/services/store";
+import { array } from "yup";
 
 export default class ProfileIndex extends Route{
     @service declare store : Store;
@@ -12,14 +13,14 @@ export default class ProfileIndex extends Route{
         try{
             const parentParams = this.paramsFor('profile');
             const username = parentParams['username'] as string;
-            let user = await this.store.findRecord('user',username, {include:'sentMessages,receivedMessages,conversations'}) as unknown as userModel;
-            let comments = await user.comments.reload();
-            let ratings = await user.ratings.reload();
-            let conv = await user.conversations.reload();
+            let user = await this.store.findRecord('user',username) as unknown as UserModel;
+            // await user.comments.reload();
+            // let comments = await user.comments.reload();
+            // let ratings = await user.ratings.reload();
+            // let conv = await user.conversations.reload();
             return {
                 user,
-                comments,
-                ratings
+                
             }
         }
         catch(e){

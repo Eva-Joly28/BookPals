@@ -2,9 +2,9 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import type conversationModel from "ember-boilerplate/models/conversation";
-import messageModel from "ember-boilerplate/models/message";
-import type userModel from "ember-boilerplate/models/user";
+import type ConversationModel from "ember-boilerplate/models/conversation";
+import MessageModel from "ember-boilerplate/models/message";
+import type UserModel from "ember-boilerplate/models/user";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
@@ -14,7 +14,7 @@ import type SessionService from "ember-simple-auth/services/session";
 
 export interface ProfileMessagesSignature {
     Args : {
-        model : {conversations : conversationModel[], messages: any, otherUser:userModel, actualConversation:conversationModel};
+        model : {conversations : ConversationModel[], messages: any, otherUser:UserModel, actualConversation:ConversationModel};
     }
 }
 
@@ -25,7 +25,7 @@ export default class ProfileMessagesComponent extends Component<ProfileMessagesS
     @service declare currentUser : CurrentUserService;
     @tracked newMessageContent = '';
     // eslint-disable-next-line ember/no-tracked-properties-from-args
-    @tracked selectedConversation? : conversationModel;
+    @tracked selectedConversation? : ConversationModel;
 
     constructor(owner: unknown, args: ProfileMessagesSignature['Args']){
         super(owner,args);

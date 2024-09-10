@@ -32,8 +32,14 @@ export class AuthController{
         const email = user.email;
         const verificationToken = await Encrypt.generateToken({email});
         try{
+            // let existedUser = await this.userService.getUser(user.username);
+            // if(existedUser !== null){
+            //     return {
+            //         id : existedUser.id,
+            //         username : existedUser.username,
+            //     }
+            // }
             user.password = hashedPassword; 
-            console.log(user)
             const newUser = await this.userService.createUser(user);
             const token = await Encrypt.generateToken({userId: newUser.id})
             newUser.verificationToken = token;

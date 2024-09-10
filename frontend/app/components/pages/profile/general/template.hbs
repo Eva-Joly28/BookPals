@@ -33,7 +33,7 @@
             {{#if this.userComments.length}}
                 <div class="flex flex-col justify-between">
                     {{#each this.userComments as |c|}}
-                    <Comments::Profile @comment={{c}}/>
+                    <Comments::Profile @comment={{c}} @user={{@model.user}}/>
                     <hr class="text-amber-900 bg-amber-950 h-[0.1em]">
                     {{/each}}
                 </div>

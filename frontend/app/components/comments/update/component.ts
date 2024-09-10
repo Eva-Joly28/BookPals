@@ -2,7 +2,7 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import type commentModel from "ember-boilerplate/models/comment";
+import type CommentModel from "ember-boilerplate/models/comment";
 import type Router from "ember-boilerplate/router";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
@@ -18,7 +18,7 @@ export default class CommentsUpdateComponent extends Component<CommentsUpdateSig
     @service declare session : SessionService;
     @service declare router : Router;
     @service declare store : Store;
-    @tracked declare actualComment : commentModel;
+    @tracked declare actualComment : CommentModel;
     @service declare currentUser : CurrentUserService;
     @tracked optionsVisible = false;
 

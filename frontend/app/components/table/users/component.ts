@@ -1,12 +1,12 @@
 import { tracked } from "@ember/-internals/metal/lib/tracked";
 import { service } from "@ember/service";
 import Component from "@glimmer/component";
-import type userModel from "ember-boilerplate/models/user";
+import type UserModel from "ember-boilerplate/models/user";
 import type CurrentUserService from "ember-boilerplate/services/current-user";
 
 export interface TableUsersSignature {
     Args:{
-        users: userModel[]
+        users: UserModel[]
     }
 }
 

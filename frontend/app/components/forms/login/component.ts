@@ -31,8 +31,9 @@ export default class FormsLoginComponent extends Component<FormsLoginSignature> 
     @action
     async submit(){
         try{
-            await this.session.authenticate('authenticator:jwt',this.changeset.get('username'),this.changeset.get('password'));
-            this.session.handleAuthentication(this.router.currentURL!)
+            this.loginService.save(this.changeset);
+            // await this.session.authenticate('authenticator:jwt',this.changeset.get('username'),this.changeset.get('password'));
+            // this.session.handleAuthentication(this.router.currentURL!)
            
         //    else{
         //     this.args.setAlert('Les identifiants sont incorrects');

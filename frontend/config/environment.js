@@ -3,10 +3,10 @@
 module.exports = function (environment) {
   let host;
   if(environment == 'production'){
-    host = 'http://localhost:3001';
+    host = 'http://localhost:3000';
   }
   else{
-    host = 'http://localhost:3001';
+    host = 'http://localhost:3000';
   }
   const namespace = 'api/v1';
 

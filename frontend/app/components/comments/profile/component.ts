@@ -7,17 +7,18 @@ import type CurrentUserService from "ember-boilerplate/services/current-user";
 import type Store from "ember-boilerplate/services/store";
 import type SessionService from "ember-simple-auth/services/session";
 import { format } from 'date-fns';
-import commentModel from "ember-boilerplate/models/comment";
+import CommentModel from "ember-boilerplate/models/comment";
 import { hasManyToArray } from "ember-boilerplate/utils/has-many-to-array";
-import commentLikeModel from "ember-boilerplate/models/comment-like";
+import CommentLikeModel from "ember-boilerplate/models/comment-like";
 import type RatingModel from "ember-boilerplate/models/rating";
 import type { Invoke } from "@glint/template/-private/integration";
 import type BookModel from "ember-boilerplate/models/book";
-import type userModel from "ember-boilerplate/models/user";
+import type UserModel from "ember-boilerplate/models/user";
 
 export interface CommentsProfileSignature{
     Args: {
         comment: any;
+        user: any;
     }
 }
 
@@ -27,24 +28,15 @@ export default class CommentsProfileComponent extends Component<CommentsProfileS
     @service declare session : SessionService;
     @service declare router : Router;
     @service declare store : Store;
-    @tracked declare actualComment : commentModel;
+    @tracked declare actualComment : CommentModel;
     @service declare currentUser : CurrentUserService;
     @tracked declare likeNumber : number;
     @tracked declare commentBook : BookModel;
-    @tracked declare commentUser : userModel;
-    @tracked declare userLike? : commentLikeModel;
+    @tracked declare commentUser : UserModel;
+    @tracked declare userLike? : CommentLikeModel;
 
     constructor(owner: unknown, args: CommentsProfileSignature['Args']){
         super(owner,args);
-        let bookRate = this.args.comment.user.ratings.find((rate:RatingModel)=> rate.book.id === this.args.comment.book.id);
-        if(bookRate){
-            let tab = [];
-            for (let i = 1; i <=bookRate.value ; i++) {
-                this.array.push(i);  
-            }
-        }
-        this.likeNumber = this.args.comment.likedBy.length;
-    
         if(this.session.isAuthenticated){
             this.store.findRecord('comment',this.args.comment.id).then((comment)=>{
                 this.actualComment = comment;
@@ -57,6 +49,19 @@ export default class CommentsProfileComponent extends Component<CommentsProfileS
                 }
             });
         }
+        // let bookRate = this.args.user.ratings.reload().then((rates:RatingModel[])=>{
+        //     rates.find((rate:RatingModel)=> rate.book.id === this.args.comment.book.id);
+        //     if(bookRate){
+        //         let tab = [];
+        //         for (let i = 1; i <=bookRate.value ; i++) {
+        //             this.array.push(i);  
+        //         }
+        //     }
+        // })
+        // this.likeNumber = this.args.comment.reload().then((c:any)=>{
+        //     return c.likedBy.length;
+        // })
+    
 
     }
 

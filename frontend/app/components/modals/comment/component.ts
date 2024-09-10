@@ -1,11 +1,11 @@
 import { action } from "@ember/object";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import type commentModel from "ember-boilerplate/models/comment";
+import type CommentModel from "ember-boilerplate/models/comment";
 
 export interface ModalsCommentInterface{
     Args:{
-        comment : commentModel;
+        comment : CommentModel;
     }
 }
 
